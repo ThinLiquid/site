@@ -1,0 +1,247 @@
+@import './styles/fonts';
+@import './styles/mocha';
+
+body, html {
+  margin: 0;
+  padding: 0;
+
+  body {
+    background: url(/bg.png);
+    background-size: 100px;
+    background-attachment: fixed;
+    animation: moveBg 5s infinite linear;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  image-rendering: pixelated;
+  color: $text;
+  font-family: 'IosevkaTerm', JetBrains Mono, Menlo, monospace;
+}
+
+.letter {
+  transition: scale 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.9), padding 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.9);
+  cursor: zoom-in;
+  display: inline-block;
+  box-shadow: 0 2.5px $blue;
+  transform: translateY(2.5px);
+  user-select: none;
+
+  &:hover {
+    scale: 1.4;
+    padding: 0 3px;
+  }
+}
+
+input, textarea, button, select {
+  transition: scale 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.9), border-color 0.2s;
+
+  font-size: 16px;
+
+  border: 2px solid $base;
+  background: $surface0;
+  border-radius: 5px;
+  padding: 2.5px;
+
+  &:hover {
+    border-color: $overlay1;
+    scale: 1.03;
+  }
+
+  &:active {
+    scale: 0.99 1;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $blue;
+  }
+}
+
+.button {
+  cursor: pointer;
+  transition: scale 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.9);
+
+  &:hover {
+    scale: 1.03;
+  }
+
+  &:active {
+    scale: 0.99 0.95;
+  }
+}
+
+
+button {
+  cursor: pointer;
+  padding: 2.5px 7.5px;
+
+  &:hover {
+    scale: 1.07;
+  }
+
+  &:active {
+    scale: 0.98 0.93;
+  }
+}
+
+textarea {
+  background: $surface0;
+  border: 2px solid $base;
+  border-radius: 5px;
+  padding: 2.5px 7.5px;
+  resize: none;
+}
+
+#app {
+  --height: 10px;
+
+  position: relative;
+
+  background: $base;
+  
+  width: 100%;
+  max-width: 700px;
+
+  margin: 0 auto;
+  margin-bottom: calc(16px + var(--height));
+  padding: 16px;
+  padding-bottom: calc(16px + var(--height));
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: var(--height);
+    background-image: repeating-linear-gradient(
+    45deg,
+    $yellow,
+    $yellow 25px,
+    $base 25px,
+    $base 50px
+  );
+  background-size: 71px var(--height);
+    animation: slideBg .5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+
+h2, h3, h4, h5, h6 {
+  margin: 0.5em 0;
+  padding: 0;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+// ANIMATIONS
+*/
+
+@keyframes moveBg {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100px 100px;
+  }
+}
+
+@keyframes slideBg {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 71px 0px;
+  }
+}
+
+@keyframes sine {
+  0% {
+      transform: translateY(2.5px);
+      box-shadow: 0 2.5px $blue;
+  }
+
+  50% {
+      transform: translateY(-2.5px);
+      box-shadow: 0 2.5px $sky;
+  }
+
+  to {
+      transform: translateY(2.5px);
+      box-shadow: 0 2.5px $green;
+  }
+}
+
+@keyframes hover {
+  from {
+    transform: translateY(2.5px) scale(1.01);
+    filter:grayscale(25%);
+  }
+
+  to {
+    transform: translateY(-2.5px);
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 24px;
+  width: 100%;
+  max-width: 300px;
+  padding-top: 55px;
+
+  transition: left 0.5s;
+
+  background: $base + aa;
+  backdrop-filter: blur(10px);
+
+  button {
+    text-align: left;
+    padding: 5px 10px;
+  }
+
+  br {
+    margin: 5px 0;
+  }
+
+  &.open {
+    left: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.toggle-sidebar {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 999;
+
+  @media (max-width: 898px) {
+    left: unset;
+    right: 24px;
+  }
+}
+
+@for $i from 1 through 10 {
+  .card:nth-child(#{$i}) {
+    animation: hover #{calc(random(10) / 10) + 2}s infinite alternate;
+
+    &:hover {
+      z-index: 998;
+    }
+  }
+}
