@@ -200,6 +200,8 @@ h1 {
   width: 100%;
   max-width: 300px;
   padding-top: 55px;
+  overflow-y:scroll;
+    overflow-x:hidden;
 
   transition: left 0.5s;
 
