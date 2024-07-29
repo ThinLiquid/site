@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { renameSync } from 'fs';
+import { renameSync, rmSync } from 'fs';
 import { resolve } from 'path';
 import { execSync } from 'child_process';
 

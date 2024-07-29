@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const API_BASE_URL = 'https://nekoweb.org/api';
 const API_KEY = process.env.NEKOWEB_API_KEY;
-const FILE_PATH = 'site.zip';
+const FILE_PATH = './site.zip';
 const MAX_CHUNK_SIZE = 100 * 1024 * 1024; // 100MB max chunk size
 const MIN_CHUNK_SIZE = 10 * 1024 * 1024; // 10MB min chunk size
 const MIN_CHUNKS = 15;
@@ -75,7 +75,19 @@ async function uploadLargeFile() {
 
     console.log(colors.green('(✓) File chunks uploaded successfully.'));
 
-    // Step 3: Import the zip file
+    // Step 3: Delete the contents of /site
+    console.log(colors.cyan('\n(i) Deleting contents of /site...'));
+    await axios.post(`${API_BASE_URL}/files/delete`, {
+      pathname: '/site'
+    }, {
+      headers: { 
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': API_KEY
+      }
+    });
+    console.log(colors.green('(✓) /site contents deleted successfully.'));
+
+    // Step 4: Import the zip file
     console.log(colors.cyan(`\n(i) Extracting ${colors.cyan(FILE_PATH)}...`));
     await axios.post(`${API_BASE_URL}/files/import/${uploadId}`, null, {
       headers: {
@@ -86,6 +98,7 @@ async function uploadLargeFile() {
     console.log(colors.green(`(✓) Successfully extracted ${colors.cyan(FILE_PATH)}.`));
 
     console.log(colors.bgCyan.black('\n(✓) Upload process completed successfully!'));
+    fs.rmSync(FILE_PATH);
 
   } catch (error) {
     console.error(colors.red('Error uploading file:'), error.message);
