@@ -20,7 +20,7 @@
     "vite-plugin-rewrite": "^0.0.8"
   },
   "dependencies": {
-    "@thnlqd/kitty": "^1.0.4-beta",
+    "@thnlqd/kitty": "^1.0.5-beta",
     "sass": "^1.77.8"
   }
 }
