@@ -8,7 +8,7 @@ export default class ProjectCard extends Kitty {
 
     this.style({
       background: `linear-gradient(45deg, #11111b, #11111baa), url(
-        https://api.screenshotone.com/take?access_key=WlIvVX3v-TJddw&url=${encodeURIComponent(url)}&full_page=false&viewport_width=1920&viewport_height=1080&device_scale_factor=1&format=webp&image_quality=80&block_ads=true&block_cookie_banners=true&block_banners_by_heuristics=false&block_trackers=true&cache=true&cache_ttl=14400&delay=5&timeout=60
+        https://api.apiflash.com/v1/urltoimage?access_key=a5ace5d8d4a64ff98876cbee5a99cb32&url=${encodeURIComponent(url)}&format=webp
       )`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
