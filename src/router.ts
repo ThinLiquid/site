@@ -51,6 +51,9 @@ Div.render()
       .text('thinliquid\'s catppuccin heaven v2'),
     Kitty.create('small')
       .text('the most ultimate site ever!!1!!11!1!'),
+    Kitty.create('small')
+      .style({ display: 'block', marginTop: '10px' })
+      .md(`~> [${import.meta.env.VITE_COMMIT_HASH.slice(0, 7)}](https://github.com/ThinLiquid/site/commit/${import.meta.env.VITE_COMMIT_HASH}) (${import.meta.env.VITE_COMMIT_DATE})`),
     Break.render(),
 
     Kitty.create('h3')
