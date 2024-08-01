@@ -21,7 +21,7 @@ const quotes = [
   'triple baka (yes this is a miku, teto, and neru reference)'
 ]
 
-export const onRender = () => {
+export const onRender = (): void => {
   document.title = 'thinliquid\'s catppuccin heaven v2'
 }
 

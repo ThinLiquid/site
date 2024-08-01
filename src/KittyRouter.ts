@@ -5,8 +5,10 @@ export default class KittyRouter {
     default: Container
     onRender?: () => any
   }>>, public element: HTMLElement) {
-    window.addEventListener('popstate', () => this.render())
-    this.render()
+    window.addEventListener('popstate', () => {
+      this.render().catch(e => console.error(e))
+    })
+    this.render().catch(e => console.error(e))
   }
 
   async render (): Promise<void> {
@@ -21,7 +23,7 @@ export default class KittyRouter {
 
   navigate (path: string): void {
     window.history.pushState(null, '', path)
-    this.render()
+    this.render().catch(e => console.error(e))
   }
 }
 

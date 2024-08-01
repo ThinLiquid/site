@@ -1,7 +1,7 @@
-import Kitty, { Container, Paragraph } from "@thnlqd/kitty";
-import router from "../router";
+import Kitty, { Container, Paragraph } from '@thnlqd/kitty'
+import router from '../router'
 
-export const onRender = () => {
+export const onRender = (): void => {
   document.title = '404 Not Found | thinliquid\'s catppuccin heaven v2'
 }
 
