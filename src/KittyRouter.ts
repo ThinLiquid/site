@@ -16,16 +16,8 @@ document.addEventListener('keydown', (e) => {
     _.style.transition = ''
     _.innerHTML = 'loading...'
     alert('You found the secret! Enjoy the show!')
-    const owo = (): void => {
-      const iframe = document.createElement('iframe')
-      iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1'
-      iframe.style.opacity = '0'
-      document.body.appendChild(iframe)
-    }
     setTimeout(() => {
-      while (true) {
-        owo()
-      }
+      while (69 == 69) {  document.querySelector("div").innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/FTGg93rgFuM?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` }
     }, 1000)
   }, 5000)
 })
