@@ -117,9 +117,6 @@ loadScript('https://youtube.com/iframe_api', () => {
   const player = new (window as any).YT.Player('player', {
     width: '100%',
     height: '175',
-    playerVars: {
-      modestbranding: 1
-    },
     events: {
       onReady: () => {
         player.loadPlaylist({
