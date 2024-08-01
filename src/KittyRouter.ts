@@ -1,5 +1,35 @@
 import Kitty, { Container } from '@thnlqd/kitty'
 
+let cursor = 0
+const KONAMI_CODE = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]
+document.addEventListener('keydown', (e) => {
+  cursor = (e.keyCode === KONAMI_CODE[cursor]) ? cursor + 1 : 0
+  if (cursor !== KONAMI_CODE.length) {
+    return
+  }
+  const _ = document.querySelector('html')
+  if (_ == null) return
+  _.style.filter = 'contrast(200%) brightness(0%)'
+  _.style.transition = 'filter 5s'
+  setTimeout(() => {
+    _.style.filter = ''
+    _.style.transition = ''
+    _.innerHTML = 'loading...'
+    alert('You found the secret! Enjoy the show!')
+    const owo = (): void => {
+      const iframe = document.createElement('iframe')
+      iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1'
+      iframe.style.opacity = '0'
+      document.body.appendChild(iframe)
+    }
+    setTimeout(() => {
+      while (true) {
+        owo()
+      }
+    }, 1000)
+  }, 5000)
+})
+
 export default class KittyRouter {
   constructor (public routes: Record<string, () => Promise<{
     default: Container
