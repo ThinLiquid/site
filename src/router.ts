@@ -119,7 +119,7 @@ loadScript('https://youtube.com/iframe_api', () => {
     height: '175',
     events: {
       onReady: () => {
-        player.loadPlaylist({
+        player.cuePlaylist({
           listType: 'playlist',
           list: 'PL-16WUz-giDvrLJDNEw8Zcq9QGTmeQgAM'
         })
