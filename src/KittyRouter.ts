@@ -17,7 +17,7 @@ document.addEventListener('keydown', (e) => {
     _.innerHTML = 'loading...'
     alert('You found the secret! Enjoy the show!')
     setTimeout(() => {
-      while (69 == 69) {  document.querySelector("div").innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/FTGg93rgFuM?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` }
+      while (true) { document.body.innerHTML = '<iframe width="560" height="315" src="https://www.youtube.com/embed/FTGg93rgFuM?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' }
     }, 1000)
   }, 5000)
 })

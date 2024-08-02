@@ -7,10 +7,11 @@ require('dotenv').config()
 
 const API_BASE_URL = 'https://nekoweb.org/api'
 const API_KEY = process.env.NEKOWEB_API_KEY
+const TOKEN = process.env.NEKOWEB_TOKEN
 const FILE_PATH = './site.zip'
 const MAX_CHUNK_SIZE = 100 * 1024 * 1024 // 100MB max chunk size
 const MIN_CHUNK_SIZE = 10 * 1024 * 1024 // 10MB min chunk size
-const MIN_CHUNKS = 15
+const MIN_CHUNKS = 10
 
 async function uploadLargeFile () {
   try {
@@ -108,7 +109,8 @@ async function uploadLargeFile () {
     }, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: API_KEY
+        Referer: `https://nekoweb.org/?${encodeURIComponent('thinliquid\'s build script (please don\'t ban me)')}`,
+        Cookie: `token=${TOKEN}`
       }
     })
     console.log(colors.green('(✓) index.html updated successfully.'))
