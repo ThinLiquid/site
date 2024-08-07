@@ -108,6 +108,7 @@ async function uploadLargeFile () {
       content: `<!-- ${Date.now()} --><script>window.location.replace('https://thinliquid.dev')</script>`
     }, {
       headers: {
+        'User-Agent': 'thinliquid\'s build script (please don\'t ban me)',
         'Content-Type': 'multipart/form-data',
         Referer: `https://nekoweb.org/?${encodeURIComponent('thinliquid\'s build script (please don\'t ban me)')}`,
         Cookie: `token=${TOKEN}`
