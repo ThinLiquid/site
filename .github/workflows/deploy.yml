@@ -5,6 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          
       
       - name: setting up .env file
         run: |
