@@ -4,6 +4,8 @@ jobs:
   deployer:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-node@v4
+      
       - name: setting up .env file
         run: |
           echo "NEKOWEB_API_KEY={{ secrets.NEKOWEB_API_KEY }}" >> .env
