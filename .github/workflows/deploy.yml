@@ -1,0 +1,17 @@
+name: deploy 2 nekoweb
+run-name: ${{ github.actor }} is rolling yarnballs 2 nekoweb
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: setting up .env file
+      - run: |
+          echo "NEKOWEB_API_KEY={{ secrets.NEKOWEB_API_KEY }}" >> .env
+          echo "NEKOWEB_TOKEN={{ secrets.NEKOWEB_TOKEN }}" >> .env
+
+      - name: installing dependencies
+      - run: npm ci
+
+      - name: deploying to nekoweb
+      - run: node scripts/neko.cjs
