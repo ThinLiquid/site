@@ -6,12 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: setting up .env file
-      - run: |
+        run: |
           echo "NEKOWEB_API_KEY={{ secrets.NEKOWEB_API_KEY }}" >> .env
           echo "NEKOWEB_TOKEN={{ secrets.NEKOWEB_TOKEN }}" >> .env
 
       - name: installing dependencies
-      - run: npm ci
+        run: npm ci
 
       - name: deploying to nekoweb
-      - run: node scripts/neko.cjs
+        run: node scripts/neko.cjs
