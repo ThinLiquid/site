@@ -1,5 +1,5 @@
-import '../styles/pages/buttons-galore.scss'
 import Kitty, { Break, Container, Div, Image, Input, Select } from '@thnlqd/kitty'
+import '../styles/pages/buttons-galore.scss'
 
 interface IButton {
   categories: string[]
@@ -13,6 +13,8 @@ let buttonsData: Array<IButton | null> = []
 let categoriesData = []
 const buttonsPerPage = 100
 let currentPage = 1
+
+let authors: string[] = []
 
 const fetchCategories = async (): Promise<void> => {
   try {
@@ -45,9 +47,12 @@ const fetchButtons = async (): Promise<void> => {
         .split('\n')
         .map((entry, index) => {
           const data = entry.split(' | ')
-          const author = data[4] === '' ? 'N/A' : data[4]
+          const author = data[4] || 'N/A'
 
           if (data.length >= 4) {
+            if (!authors.includes(author)) {
+              authors.push(author)
+            }
             return {
               categories: data[0].split(','),
               tags: data[1].split(' '),
@@ -61,6 +66,11 @@ const fetchButtons = async (): Promise<void> => {
           }
         })
         .filter(button => button !== null)
+
+      for (const author of authors) {
+        authorElement.option(author, author)
+      }
+
       sortAndDisplayButtons(buttonsData as IButton[])
     } else {
       console.error('Failed to fetch buttons:', response.statusText)
@@ -147,13 +157,15 @@ const renderPagination = (buttons: IButton[]): void => {
 
 const filterAndSortButtons = (): void => {
   const selectedCategory = categorizeElement.getValue() === '' ? '' : categorizeElement.getValue()
+  const selectedAuthor = authorElement.getValue() === '' ? '' : authorElement.getValue()
   const searchQuery = searchElement.getValue().toLowerCase()
   const searchTags = searchQuery.split(' ').filter(tag => tag !== '')
 
   const filteredButtons = buttonsData.filter(button => {
     const matchesCategory = selectedCategory === '' || button?.categories.includes(selectedCategory)
+    const matchesAuthor = selectedAuthor === '' || button?.author === selectedAuthor
     const matchesSearch = searchTags.every(query => button?.tags.some(tag => tag.toLowerCase().includes(query)))
-    return matchesCategory as boolean && matchesSearch
+    return matchesCategory as boolean && matchesSearch as boolean && matchesAuthor as boolean
   }) as IButton[]
 
   sortAndDisplayButtons(filteredButtons)
@@ -178,15 +190,22 @@ const searchElement = Input.render()
   .on('input', filterAndSortButtons)
 
 const categorizeElement = Select.render()
+  .style({ flex: '1', minWidth: '0' })
   .option('All Categories', '')
   .on('change', filterAndSortButtons)
 
 const sortElement = Select.render()
+  .style({ flex: '1', minWidth: '0' })
   .option('Alphabetical', 'alphabetical')
   .option('Alphabetical (Reversed)', 'alphabetical-reversed')
   .on('change', () => {
     sortAndDisplayButtons(buttonsData as IButton[])
   })
+
+const authorElement = Select.render()
+  .style({ flex: '1', minWidth: '0' })
+  .option('All Authors', '')
+  .on('change', filterAndSortButtons)
 
 const buttonsContainer = Div.render()
   .class('buttons-container')
@@ -207,11 +226,16 @@ export default Container.render()
     Kitty.create('p')
       .md(' add buttons or make a change by making a pull request ---> [here](https://github.com/ThinLiquid/buttons)'),
     Div.render()
-      .style({ display: 'flex', gap: '5px' })
+      .style({ display: 'flex', gap: '5px', flexDirection: 'column' })
       .append(
         searchElement,
-        categorizeElement,
-        sortElement
+        Div.render()
+          .style({ display: 'flex', gap: '5px', width: '100%' })
+          .append(
+            categorizeElement,
+            sortElement,
+            authorElement
+          )
       ),
 
     Break.render(),
