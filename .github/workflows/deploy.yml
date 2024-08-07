@@ -1,8 +1,7 @@
 name: deploy 2 nekoweb
-run-name: ${{ github.actor }} is rolling yarnballs 2 nekoweb
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  deployer:
     runs-on: ubuntu-latest
     steps:
       - name: setting up .env file
