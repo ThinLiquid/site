@@ -18,5 +18,8 @@ jobs:
       - name: installing dependencies
         run: npm ci
 
+      - name: building code
+        run: npm run build
+
       - name: deploying to nekoweb
         run: node scripts/neko.cjs
