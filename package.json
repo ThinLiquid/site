@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --outDir site && zip -r site.zip site && rm -rf site && node ./scripts/neko.cjs",
+    "build": "tsc && vite build --outDir site && zip -r site.zip site && rm -rf site",
     "preview": "vite preview"
   },
   "devDependencies": {
