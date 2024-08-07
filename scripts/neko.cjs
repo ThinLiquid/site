@@ -117,7 +117,7 @@ async function uploadLargeFile() {
       `${API_BASE_URL}/files/edit`,
       {
         pathname: "/index.html",
-        content: `<title>thinliquid's catppuccin heaven</title><!-- ${Date.now()} --><script>window.location.replace('https://thinliquid.dev')</script>`,
+        content: `<!DOCUTYPE html><html><head><title>thinliquid's catppuccin heaven</title></head><!-- ${Date.now()} --><body><script>window.location.replace('https://thinliquid.dev')</script></body></html>`,
       },
       {
         headers: {
