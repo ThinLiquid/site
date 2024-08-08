@@ -179,8 +179,8 @@ export const renderPagination = (buttons: IButton[]): void => {
 }
 
 export const filterAndSortButtons = (): void => {
-  const selectedCategory = (categorizeElement.element as HTMLSelectElement).value === '' ? '' : categorizeElement.getValue()
-  const selectedAuthor = (authorElement.element as HTMLSelectElement).value === '' ? '' : authorElement.getValue()
+  const selectedCategory = (categorizeElement.element as HTMLSelectElement).value === '' ? '' : (categorizeElement.element as HTMLSelectElement).value
+  const selectedAuthor = (authorElement.element as HTMLSelectElement).value === '' ? '' : (categorizeElement.element as HTMLSelectElement).value
   const searchQuery = (searchElement.element as HTMLSelectElement).value.toLowerCase()
   const searchTags = searchQuery.split(' ').filter(tag => tag !== '')
 
