@@ -13,6 +13,36 @@ body, html {
   }
 }
 
+.lcd::before, .lcd::after  {
+    --color: rgba(0,0,0,0.2);
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    pointer-events: none;
+    z-index:9999999999999999999;
+    background-image:
+        repeating-linear-gradient(0deg, var(--color), var(--color) 1px, transparent 1px, transparent 2px),
+        repeating-linear-gradient(90deg, var(--color), var(--color) 1px, transparent 1px, transparent 2px);
+    backdrop-filter: brightness(1.2) saturate(1.01);
+}
+
+.pixelate::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    pointer-events: none;
+    z-index:9999999999999999999;
+    backdrop-filter:url(#pixelate);
+}
+
 * {
   box-sizing: border-box;
   image-rendering: pixelated;

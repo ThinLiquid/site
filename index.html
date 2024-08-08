@@ -51,6 +51,10 @@
         </script>
         <script>{{ scripts }}</script>
         <script type="module">
+
+        if (window.localStorage.getItem('lcd') === "true" || window.localStorage.getItem('lcd') === null) document.body.classList.add('lcd')
+        if (window.localStorage.getItem('pixelate') === "true") document.body.classList.add('pixelate')
+
         const loadStyle = (url) => {
           Kitty.create('link')
             .attr('rel', 'stylesheet')
@@ -95,6 +99,42 @@
               .style({ display: 'block', marginTop: '10px' })
               .html(`~> <a href="https://github.com/ThinLiquid/site/commit/${window.env.COMMIT_HASH}">${(window.env.COMMIT_HASH).slice(0, 7)}</a> (${window.env.COMMIT_DATE})`),
             Break.render(),
+            Div.render()
+              .style({ display: 'flex', justifyContent: 'space-between' })
+              .append(
+                Kitty.create('input')
+                  .on('change', (e) => {
+                    if (e.target.checked) {
+                      document.body.classList.add('pixelate')
+                      window.localStorage.setItem('pixelate', 'true')
+                    } else {
+                      document.body.classList.remove('pixelate')
+                      window.localStorage.setItem('pixelate', 'false')
+                    }
+                  })
+                  .attr('checked',  document.body.classList.contains('pixelate') === false ? null : '')
+                  .attr('type', 'checkbox'),
+                Kitty.create('label')
+                  .text('pixelate?'),
+              ),
+            Div.render()
+              .style({ display: 'flex', justifyContent: 'space-between' })
+              .append(
+                Kitty.create('input')
+                  .on('change', (e) => {
+                    if (e.target.checked) {
+                      document.body.classList.add('lcd')
+                      window.localStorage.setItem('lcd', 'true')
+                    } else {
+                      document.body.classList.remove('lcd')
+                      window.localStorage.setItem('lcd', 'false')
+                    }
+                  })
+                  .attr('checked', document.body.classList.contains('lcd') === false ? null : '')
+                  .attr('type', 'checkbox'),
+                Kitty.create('label')
+                  .text('lcd?'),
+              ),
 
             Kitty.create('h3')
               .text('follow me!'),
@@ -172,4 +212,13 @@
         })
         </script>
     </body>
+    <svg>
+      <filter id="pixelate" x="0" y="0">
+        <feFlood x="4" y="4" height="0.25" width="0.25"/>
+        <feComposite width="1.25" height="1.25"/>
+        <feTile result="a"/>
+        <feComposite in="SourceGraphic" in2="a" operator="in"/>
+        <feMorphology operator="dilate" radius="0.625"/>
+      </filter>
+    </svg>
 </html>

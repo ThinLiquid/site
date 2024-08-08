@@ -53,7 +53,11 @@ class Kitty {
     return this
   }
 
-  attr (name: string, value: string): this {
+  attr (name: string, value: string | null): this {
+    if (value === null) {
+      this.element.removeAttribute(name)
+      return this
+    }
     this.element.setAttribute(name, value)
     return this
   }
