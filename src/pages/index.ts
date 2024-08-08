@@ -1,7 +1,10 @@
-import Kitty, { Paragraph, Break, Container, Div, TextArea } from '@thnlqd/kitty'
+import Kitty, { Break, Container, Div, Paragraph, TextArea } from '../../kitty-ssg'
 import ProjectCard from '../components/ProjectCard'
 
-const quotes = [
+export const quote = Paragraph.render()
+  .style({ margin: '0' })
+
+export const quotes = [
   'how to exit vim?!?!?!??!?!??!',
   'how to exit neovim?!?!?!??!?!??!',
   'neko neko neko neko neko neko',
@@ -23,6 +26,7 @@ const quotes = [
 
 export const onRender = (): void => {
   document.title = 'thinliquid\'s catppuccin heaven v2'
+  quote.text(quotes[Math.floor(Math.random() * quotes.length)])
 }
 
 export default Container.render()
@@ -43,9 +47,7 @@ export default Container.render()
     Paragraph.render()
       .style({ margin: '0' })
       .text('he/him | web developer | GMT Timezone'),
-    Paragraph.render()
-      .style({ margin: '0' })
-      .text(quotes[Math.floor(Math.random() * quotes.length)]),
+    quote,
     Break.render(),
 
     // ABOUT ME

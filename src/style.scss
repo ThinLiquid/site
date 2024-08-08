@@ -34,7 +34,7 @@ body, html {
   }
 }
 
-input, textarea, button, select {
+input, textarea, button, select, .btn {
   transition: scale 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.9), border-color 0.2s;
 
   font-size: 16px;
@@ -73,7 +73,7 @@ input, textarea, button, select {
 }
 
 
-button {
+button, .btn {
   cursor: pointer;
   padding: 2.5px 7.5px;
 
@@ -100,7 +100,7 @@ textarea {
   position: relative;
 
   background: $base;
-  
+
   width: 100%;
   max-width: 700px;
 
@@ -208,7 +208,7 @@ h1 {
   background: $base + aa;
   backdrop-filter: blur(10px);
 
-  button {
+  button, .btn {
     text-align: left;
     padding: 5px 10px;
   }
@@ -246,4 +246,13 @@ h1 {
       z-index: 998;
     }
   }
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

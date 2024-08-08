@@ -1,5 +1,4 @@
-import Kitty, { Container, Paragraph } from '@thnlqd/kitty'
-import router from '../router'
+import Kitty, { Container, Paragraph } from '../../kitty-ssg'
 
 export const onRender = (): void => {
   document.title = '404 Not Found | thinliquid\'s catppuccin heaven v2'
@@ -15,6 +14,6 @@ export default Container.render()
       .style({ textAlign: 'center', margin: '0' }),
     Kitty.create('button')
       .text('Go Home')
-      .on('click', () => router.navigate('/'))
+      .on('click', () => window.location.href = '/')
       .style({ display: 'block', margin: '0 auto', marginTop: '10px' })
   )

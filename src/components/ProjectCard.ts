@@ -1,4 +1,4 @@
-import Kitty from '@thnlqd/kitty'
+import Kitty from '../../kitty-ssg'
 
 export default class ProjectCard extends Kitty {
   constructor (title: string, content: string, url: string) {

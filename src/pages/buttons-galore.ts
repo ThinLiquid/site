@@ -1,5 +1,4 @@
-import Kitty, { Break, Container, Div, Image, Input, Select } from '@thnlqd/kitty'
-import '../styles/pages/buttons-galore.scss'
+import Kitty, { Break, Container, Div, Image, Input, Select } from '../../kitty-ssg'
 
 interface IButton {
   categories: string[]
@@ -9,14 +8,35 @@ interface IButton {
   author: string
 }
 
-let buttonsData: Array<IButton | null> = []
-let categoriesData = []
-const buttonsPerPage = 100
-let currentPage = 1
+export let buttonsData: Array<IButton | null> = []
+export let categoriesData = []
+export const buttonsPerPage = 100
+export let currentPage = 1
 
-let authors: string[] = []
+export let authors: string[] = []
 
-const fetchCategories = async (): Promise<void> => {
+export const searchElement = Input.render()
+  .style({ flex: '1' })
+  .placeholder('Search by tags')
+
+export const categorizeElement = Select.render()
+  .style({ flex: '1', minWidth: '0' })
+  .option('All Categories', '')
+
+export const sortElement = Select.render()
+  .style({ flex: '1', minWidth: '0' })
+  .option('Alphabetical', 'alphabetical')
+  .option('Alphabetical (Reversed)', 'alphabetical-reversed')
+
+export const authorElement = Select.render()
+  .style({ flex: '1', minWidth: '0' })
+  .option('All Authors', '')
+
+export const buttonsContainer = Div.render()
+  .class('buttons-container')
+export const paginationContainer = Div.render()
+
+export const fetchCategories = async (): Promise<void> => {
   try {
     const response = await fetch(`https://raw.githubusercontent.com/ThinLiquid/buttons/main/categories.categoryfile?t=${Date.now()}`)
     if (response.ok) {
@@ -37,7 +57,7 @@ const fetchCategories = async (): Promise<void> => {
   }
 }
 
-const fetchButtons = async (): Promise<void> => {
+export const fetchButtons = async (): Promise<void> => {
   try {
     const response = await fetch(`https://raw.githubusercontent.com/ThinLiquid/buttons/main/index.buttonfile?t=${Date.now()}`)
     if (response.ok) {
@@ -68,7 +88,10 @@ const fetchButtons = async (): Promise<void> => {
         .filter(button => button !== null)
 
       for (const author of authors) {
-        authorElement.option(author, author)
+        Kitty.create('option')
+          .text(author)
+          .attr('value', author)
+          .to(authorElement)
       }
 
       sortAndDisplayButtons(buttonsData as IButton[])
@@ -80,7 +103,7 @@ const fetchButtons = async (): Promise<void> => {
   }
 }
 
-const displayButtons = (buttons: IButton[]): void => {
+export const displayButtons = (buttons: IButton[]): void => {
   buttonsContainer.text('')
 
   const startIndex = (currentPage - 1) * buttonsPerPage
@@ -132,7 +155,7 @@ const displayButtons = (buttons: IButton[]): void => {
   renderPagination(buttons)
 }
 
-const renderPagination = (buttons: IButton[]): void => {
+export const renderPagination = (buttons: IButton[]): void => {
   const totalPages = Math.ceil(buttons.length / buttonsPerPage)
 
   paginationContainer.text('')
@@ -155,13 +178,14 @@ const renderPagination = (buttons: IButton[]): void => {
   }
 }
 
-const filterAndSortButtons = (): void => {
-  const selectedCategory = categorizeElement.getValue() === '' ? '' : categorizeElement.getValue()
-  const selectedAuthor = authorElement.getValue() === '' ? '' : authorElement.getValue()
-  const searchQuery = searchElement.getValue().toLowerCase()
+export const filterAndSortButtons = (): void => {
+  const selectedCategory = categorizeElement.element.value === '' ? '' : categorizeElement.getValue()
+  const selectedAuthor = authorElement.element.value === '' ? '' : authorElement.getValue()
+  const searchQuery = searchElement.element.value.toLowerCase()
   const searchTags = searchQuery.split(' ').filter(tag => tag !== '')
 
   const filteredButtons = buttonsData.filter(button => {
+    console.log(buttonsData)
     const matchesCategory = selectedCategory === '' || button?.categories.includes(selectedCategory)
     const matchesAuthor = selectedAuthor === '' || button?.author === selectedAuthor
     const matchesSearch = searchTags.every(query => button?.tags.some(tag => tag.toLowerCase().includes(query)))
@@ -171,8 +195,8 @@ const filterAndSortButtons = (): void => {
   sortAndDisplayButtons(filteredButtons)
 }
 
-const sortAndDisplayButtons = (buttons: IButton[]): void => {
-  const sortOrder = sortElement.getValue() === '' ? 'alphabetical' : sortElement.getValue()
+export const sortAndDisplayButtons = (buttons: IButton[]): void => {
+  const sortOrder = sortElement.element.value === '' ? 'alphabetical' : sortElement.element.value
 
   buttons.sort((a: IButton, b: IButton) => {
     const tooltipA = a.tooltip.toLowerCase()
@@ -184,39 +208,20 @@ const sortAndDisplayButtons = (buttons: IButton[]): void => {
   displayButtons(buttons)
 }
 
-const searchElement = Input.render()
-  .style({ flex: '1' })
-  .placeholder('Search by tags')
-  .on('input', filterAndSortButtons)
-
-const categorizeElement = Select.render()
-  .style({ flex: '1', minWidth: '0' })
-  .option('All Categories', '')
-  .on('change', filterAndSortButtons)
-
-const sortElement = Select.render()
-  .style({ flex: '1', minWidth: '0' })
-  .option('Alphabetical', 'alphabetical')
-  .option('Alphabetical (Reversed)', 'alphabetical-reversed')
-  .on('change', () => {
-    sortAndDisplayButtons(buttonsData as IButton[])
-  })
-
-const authorElement = Select.render()
-  .style({ flex: '1', minWidth: '0' })
-  .option('All Authors', '')
-  .on('change', filterAndSortButtons)
-
-const buttonsContainer = Div.render()
-  .class('buttons-container')
-const paginationContainer = Div.render()
-
-fetchButtons().catch(e => console.error(e))
-fetchCategories().catch(e => console.error(e))
-
 export const onRender = (): void => {
   document.title = 'buttons galore | thinliquid\'s catppuccin heaven v2'
+
+  categorizeElement.on('change', filterAndSortButtons)
+  sortElement.on('change', () => {
+    sortAndDisplayButtons(buttonsData as IButton[])
+  })
+  authorElement.on('change', filterAndSortButtons)
+
+  fetchButtons().catch(e => console.error(e))
+  fetchCategories().catch(e => console.error(e))
 }
+
+export const styles = ['../styles/pages/buttons-galore.scss']
 
 export default Container.render()
   .append(
