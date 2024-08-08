@@ -214,6 +214,7 @@ export const onRender = (): void => {
   sortElement.on('change', () => {
     sortAndDisplayButtons(buttonsData as IButton[])
   })
+  searchElement.on('input', filterAndSortButtons)
   authorElement.on('change', filterAndSortButtons)
 
   fetchButtons().catch(e => console.error(e))
