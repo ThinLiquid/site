@@ -179,13 +179,12 @@ export const renderPagination = (buttons: IButton[]): void => {
 }
 
 export const filterAndSortButtons = (): void => {
-  const selectedCategory = (categorizeElement.element as HTMLSelectElement).value === '' ? '' : (categorizeElement.element as HTMLSelectElement).value
-  const selectedAuthor = (authorElement.element as HTMLSelectElement).value === '' ? '' : (categorizeElement.element as HTMLSelectElement).value
+  const selectedCategory = (categorizeElement.element as HTMLSelectElement).value
+  const selectedAuthor = (authorElement.element as HTMLSelectElement).value
   const searchQuery = (searchElement.element as HTMLSelectElement).value.toLowerCase()
   const searchTags = searchQuery.split(' ').filter(tag => tag !== '')
 
   const filteredButtons = buttonsData.filter(button => {
-    console.log(buttonsData)
     const matchesCategory = selectedCategory === '' || button?.categories.includes(selectedCategory)
     const matchesAuthor = selectedAuthor === '' || button?.author === selectedAuthor
     const matchesSearch = searchTags.every(query => button?.tags.some(tag => tag.toLowerCase().includes(query)))
