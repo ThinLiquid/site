@@ -9,7 +9,7 @@ interface IButton {
 }
 
 export let buttonsData: Array<IButton | null> = []
-export let categoriesData = []
+export let categoriesData: string[] = []
 export const buttonsPerPage = 100
 export let currentPage = 1
 
@@ -179,9 +179,9 @@ export const renderPagination = (buttons: IButton[]): void => {
 }
 
 export const filterAndSortButtons = (): void => {
-  const selectedCategory = categorizeElement.element.value === '' ? '' : categorizeElement.getValue()
-  const selectedAuthor = authorElement.element.value === '' ? '' : authorElement.getValue()
-  const searchQuery = searchElement.element.value.toLowerCase()
+  const selectedCategory = (categorizeElement.element as HTMLSelectElement).value === '' ? '' : categorizeElement.getValue()
+  const selectedAuthor = (authorElement.element as HTMLSelectElement).value === '' ? '' : authorElement.getValue()
+  const searchQuery = (searchElement.element as HTMLSelectElement).value.toLowerCase()
   const searchTags = searchQuery.split(' ').filter(tag => tag !== '')
 
   const filteredButtons = buttonsData.filter(button => {
@@ -196,7 +196,7 @@ export const filterAndSortButtons = (): void => {
 }
 
 export const sortAndDisplayButtons = (buttons: IButton[]): void => {
-  const sortOrder = sortElement.element.value === '' ? 'alphabetical' : sortElement.element.value
+  const sortOrder = (sortElement.element as HTMLSelectElement).value === '' ? 'alphabetical' : (sortElement.element as HTMLSelectElement).value
 
   buttons.sort((a: IButton, b: IButton) => {
     const tooltipA = a.tooltip.toLowerCase()

@@ -89,17 +89,17 @@ class BaseInput extends Kitty {
   }
 
   readonly (bool: boolean): this {
-    this.element.setAttribute('readonly', bool ? '' : null)
+    this.element.setAttribute('readonly', bool.toString())
     return this
   }
 
   required (bool: boolean): this {
-    this.element.setAttribute('required', bool ? '' : null)
+    this.element.setAttribute('required', bool.toString())
     return this
   }
 
   disabled (bool: boolean): this {
-    this.element.setAttribute('disabled', bool ? '' : null)
+    this.element.setAttribute('disabled', bool.toString())
     return this
   }
 

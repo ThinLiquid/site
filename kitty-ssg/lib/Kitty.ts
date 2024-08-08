@@ -3,7 +3,7 @@ import { marked } from 'marked';
 
 class Kitty {
   element: HTMLElement
-  uuid: string;
+  uuid: string | null = null
 
   constructor (tagName: string, attrs: Record<string, string> = {}, uuid?: string) {
     this.element = uuid != null ? document.querySelector(`[data-kitty-id="${uuid}"]`)! : document.createElement(tagName);
@@ -12,6 +12,7 @@ class Kitty {
         const uuid = window.crypto.getRandomValues(new Uint32Array(4)).join('-');
 
         this.uuid = uuid;
+        // @ts-ignore
         this.element.setAttribute('data-kitty-id', this.uuid);
       })()
     } else {
