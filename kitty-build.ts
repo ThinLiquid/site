@@ -159,7 +159,6 @@ fs.readdirSync("./src/pages").forEach(async (file) => {
 
     // Write the modified HTML content to the dist directory
     fs.writeFileSync(`./site/${modifiedFilename}`, minifier.minify(fileContent, {
-      removeAttributeQuotes: true,
       collapseWhitespace: true,
       removeComments: true,
       minifyCSS: true,
