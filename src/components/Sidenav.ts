@@ -45,7 +45,7 @@ export const commit = Kitty.create('small')
   .style({ display: 'block', marginTop: '10px' })
 
 export const lcd = Kitty.create('input')
-  .on('change', (e) => {
+  .on('click', (e) => {
     if (e.target.checked) {
       document.body.classList.add('lcd')
       window.localStorage.setItem('lcd', 'true')
@@ -62,7 +62,7 @@ export const lcd = Kitty.create('input')
   .attr('type', 'checkbox')
 
 export const pixelate = Kitty.create('input')
-  .on('change', (e) => {
+  .on('click', (e) => {
     if (e.target.checked) {
       document.body.classList.add('pixelate')
       window.localStorage.setItem('pixelate', 'true')

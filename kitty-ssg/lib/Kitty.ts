@@ -93,8 +93,8 @@ class Kitty {
   }
 
   on (event: string, listener: (e: any) => any | EventListenerObject): this {
-    this.element.setAttribute(`on${event}`, listener.toString().replace(/\(\) => / , ''))
-    this.element.addEventListener(event, listener)
+    this.element.setAttribute(`on${event}`, `(${listener.toString()})(event)`)
+    // this.element.addEventListener(event, listener)
     return this
   }
 
