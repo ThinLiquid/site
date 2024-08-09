@@ -6,6 +6,16 @@ import { importFromString } from 'module-from-string';
 import path from "path";
 import * as sass from "sass";
 
+const banners = [
+  'lucky_star.png',
+  'minecraft.png',
+  'windows_xp.png',
+  'miku.png',
+  'tux_bsod.png',
+  'cirno.png',
+  'tetris.png'
+]
+
 // Read the base HTML template
 const containerHTML = fs.readFileSync("./index.html", "utf8");
 
@@ -50,6 +60,42 @@ const getAllExports = (module: any) => {
     }
   }
   return exports;
+}
+
+const getSidebar = async () => {
+  const moduleCode = await js2dataUrl('./src/components/Sidenav.ts');
+  const module = await importFromString(moduleCode, {
+    dirname: __dirname + '/src/components',
+  });
+
+  const { default: n, onRender, styles } = module;
+  const otherExports = getAllExports(module);
+
+  const onRenderString = 'const __________onRender = ' + onRender.toString();
+  const otherExportsString = Object.entries(otherExports)
+    .map(([key, value]) => {
+      if (Array.isArray(value)) {
+        return `let ${key} = ${JSON.stringify(value)};`;
+      } else if (typeof value === 'function') {
+        return `let ${key} = ${value.toString()};`;
+      } else if (value && typeof value === 'object' && value.element) {
+        // This is likely a Kitty component
+        return `let ${key} = new Kitty('${value.element.tagName.toLowerCase()}', {}, '${value.uuid}');`;
+      } else {
+        return `let ${key} = ${JSON.stringify(value)};`;
+      }
+    })
+    .join('\n');
+
+  const sidebarHTML = `
+    <style>${styles}</style>
+    ${n.element.outerHTML}
+    <script>${otherExportsString.replace(/import_kitty_ssg.default/g, 'Kitty').replace(/import_kitty_ssg\./g, '')}</script>
+    <script>${onRenderString.replace(/import_kitty_ssg.default/g, 'Kitty').replace(/import_kitty_ssg\./g, '')}</script>
+    <script>__________onRender();</script>
+  `
+
+  return sidebarHTML;
 }
 
 // Process TypeScript files in the src/pages directory
@@ -97,6 +143,7 @@ fs.readdirSync("./src/pages").forEach(async (file) => {
     // Replace placeholders in the HTML template
     const fileContent = containerHTML
       .replace('{{ site }}', n.element.outerHTML)
+      .replace('{{ sidebar }}', await getSidebar())
       .replace('{{ scripts }}', `
         window.env = {
           COMMIT_HASH: ${JSON.stringify(commitHash)},

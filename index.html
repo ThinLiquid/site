@@ -5,6 +5,7 @@
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>thinliquid's catppuccin heaven</title>
+        <meta name="description" content="the most ultimate site ever!!1!!11!1!" />
 
         <style>{{ styles }}</style>
 
@@ -17,200 +18,31 @@
     </head>
     <body>
         <div id="app">
-            <div class="banner"></div>
+            <div class="banner" style="border-top: 8px solid rgb(137, 180, 250); border-image: linear-gradient(45deg, rgb(137, 180, 250), rgb(116, 199, 236), rgb(137, 220, 235), rgb(166, 227, 161)) 1 / 1 / 0 stretch; height: 200px; width: calc(100% + 32px); display: flex; align-items: center; justify-content: center; top: 0px; margin-left: -16px; margin-top: -16px; margin-bottom: 16px; z-index: 6969696;"></div>
             {{ site }}
         </div>
         <script>
-          const banners = [
-            'lucky_star.png',
-            'minecraft.png',
-            'windows_xp.png',
-            'miku.png',
-            'tux_bsod.png',
-            'cirno.png',
-            'tetris.png'
-          ]
+            const banners = [
+              'lucky_star',
+              'minecraft',
+              'windows_xp',
+              'miku',
+              'tux_bsod',
+              'cirno',
+              'tetris'
+            ]
+            const randomBanner = banners[Math.floor(Math.random() * banners.length)];
 
-          Object.assign(document.querySelector('.banner').style, {
-                  borderTop: '8px solid #89b4fa',
-                  borderImage: 'linear-gradient(45deg, #89b4fa, #74c7ec, #89dceb, #a6e3a1) 1',
-                  background: `linear-gradient(to bottom, #1e1e2e90, #1e1e2e), url(/banners/${banners[Math.floor(Math.random() * banners.length)]}) no-repeat`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center 50%',
-                  height: '200px',
-                  width: 'calc(100% + 32px)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  top: '0',
-                  marginLeft: '-16px',
-                  marginTop: '-16px',
-                  marginBottom: '16px',
-                  zIndex: '6969696'
-                })
+            const preload = new Image();
+            preload.src = `/banners/${randomBanner}.webp`;
+            preload.onload = () => {
+              Object.assign(document.querySelector('.banner').style, {
+                  background: `linear-gradient(rgba(30, 30, 46, 0.565), rgb(30, 30, 46)) center 50% / cover, url(/banners/${randomBanner}.webp) no-repeat center 50% / cover`
+              })
+            }
         </script>
         <script>{{ scripts }}</script>
-        <script type="module">
-
-        if (window.localStorage.getItem('lcd') === "true" || window.localStorage.getItem('lcd') === null) document.body.classList.add('lcd')
-        if (window.localStorage.getItem('pixelate') === "true") document.body.classList.add('pixelate')
-
-        const loadStyle = (url) => {
-          Kitty.create('link')
-            .attr('rel', 'stylesheet')
-            .attr('href', url)
-            .to(document.head)
-        }
-
-        const loadScript = (url, onload) => {
-          Kitty.create('script')
-            .attr('defer', '')
-            .attr('src', url)
-            .on('load', () => {
-              setTimeout(onload, 1000)
-            })
-            .to(document.head)
-        }
-
-        loadStyle('https://webring.nekoweb.org/onionring.css')
-
-        const toggleSidebar = Button.render()
-          .text('<- close')
-          .class('toggle-sidebar')
-          .on('click', (e) => {
-            document.querySelector('.sidebar')?.classList.toggle('open')
-            if (document.querySelector('.sidebar')?.classList.contains('open') === true) {
-              e.target.innerText = '<- close'
-            } else {
-              e.target.innerText = '-> open'
-            }
-          })
-          .to(document.body)
-
-        Div.render()
-          .class('sidebar')
-          .class('open')
-          .append(
-            Kitty.create('h2')
-              .text('thinliquid\'s catppuccin heaven v2'),
-            Kitty.create('small')
-              .text('the most ultimate site ever!!1!!11!1!'),
-            Kitty.create('small')
-              .style({ display: 'block', marginTop: '10px' })
-              .html(`~> <a href="https://github.com/ThinLiquid/site/commit/${window.env.COMMIT_HASH}">${(window.env.COMMIT_HASH).slice(0, 7)}</a> (${window.env.COMMIT_DATE})`),
-            Break.render(),
-            Div.render()
-              .style({ display: 'flex', justifyContent: 'space-between' })
-              .append(
-                Kitty.create('input')
-                  .on('change', (e) => {
-                    if (e.target.checked) {
-                      document.body.classList.add('pixelate')
-                      window.localStorage.setItem('pixelate', 'true')
-                    } else {
-                      document.body.classList.remove('pixelate')
-                      window.localStorage.setItem('pixelate', 'false')
-                    }
-                  })
-                  .attr('checked',  document.body.classList.contains('pixelate') === false ? null : '')
-                  .attr('type', 'checkbox'),
-                Kitty.create('label')
-                  .text('pixelate?'),
-              ),
-            Div.render()
-              .style({ display: 'flex', justifyContent: 'space-between' })
-              .append(
-                Kitty.create('input')
-                  .on('change', (e) => {
-                    if (e.target.checked) {
-                      document.body.classList.add('lcd')
-                      window.localStorage.setItem('lcd', 'true')
-                    } else {
-                      document.body.classList.remove('lcd')
-                      window.localStorage.setItem('lcd', 'false')
-                    }
-                  })
-                  .attr('checked', document.body.classList.contains('lcd') === false ? null : '')
-                  .attr('type', 'checkbox'),
-                Kitty.create('label')
-                  .text('lcd?'),
-              ),
-
-            Kitty.create('h3')
-              .text('follow me!'),
-            Anchor.render({ href: 'https://nekoweb.org/follow/thnlqd' })
-              .class('btn')
-              .style({ textAlign: 'center' })
-              .text('click me, click me!'),
-
-            Kitty.create('h3')
-              .text('navigation'),
-            Anchor.render({ href: '/' })
-              .class('btn')
-              .text('home'),
-            Anchor.render({ href: '/buttons-galore' })
-              .class('btn')
-              .text('buttons galore'),
-            Anchor.render({ href: 'https://thnlqd.atabook.org' })
-              .class('btn')
-              .text('guestbook'),
-
-            Kitty.create('h3')
-              .text('listen 2 music!'),
-            Kitty.create('div')
-              .attr('id', 'player'),
-
-            Kitty.create('h3')
-              .text('webrings'),
-            Kitty.create('webring-container')
-              .attr('id', 'nekowebring')
-              .append(
-                Kitty.create('script')
-                  .attr('src', 'https://webring.nekoweb.org/onionring-variables.js'),
-                Kitty.create('script')
-                  .attr('data-nekowebring-widget', '')
-                  .attr('src', 'https://webring.nekoweb.org/onionring-widget.js')
-                  .attr('color', 'blue')
-              ),
-            Kitty.create('webring-container')
-              .append(
-                Kitty.create('config').attr('key', 'type').attr('value', 'catppuccin'),
-                Kitty.create('config').attr('key', 'font').attr('value', '\'IosevkaTerm\', JetBrains Mono, Menlo, monospace'),
-                Kitty.create('config').attr('key', 'fill').attr('value', 'true'),
-                Kitty.create('script')
-                  .attr('src', 'https://palette.nekoweb.org/webring.js')
-              ),
-
-            Div.render()
-              .style({ flex: '1' }),
-            Paragraph.render()
-              .style({ textAlign: 'center' })
-              .text('(c) 2024 ThinLiquid, all rights reserved.')
-          )
-          .to(document.body)
-
-        loadScript('https://youtube.com/iframe_api', () => {
-          console.log('youtube api loaded')
-
-          const player = new YT.Player('player', {
-            width: '100%',
-            height: '175',
-            events: {
-              onReady: () => {
-                player.cuePlaylist({
-                  listType: 'playlist',
-                  list: 'PL-16WUz-giDvrLJDNEw8Zcq9QGTmeQgAM'
-                })
-              },
-              onStateChange: (event) => {
-                if (event.data === -1) {
-                  player.setShuffle(true)
-                }
-              }
-            }
-          })
-        })
-        </script>
+        {{ sidebar }}
     </body>
     <svg>
       <filter id="pixelate" x="0" y="0">

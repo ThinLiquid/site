@@ -32,11 +32,12 @@ export const onRender = (): void => {
 export default Container.render()
   .append(
     Kitty.create('img')
-      .attr('src', '/liquid_alpha.png')
+      .attr('src', '/liquid_alpha.webp')
+      .attr('width', '75px')
+      .attr('height', '75px')
       .attr('alt', 'thinliquid')
       .class('button')
       .style({
-        width: '75px',
         display: 'block'
       }),
     Kitty.create('h1')
@@ -88,18 +89,25 @@ export default Container.render()
     Break.render(),
 
     Kitty.create('img')
+      .attr('width', '100%')
+      .attr('height', 'auto')
       .style({
-        width: '100%'
+        aspectRatio: '88/31',
       })
       .class('button')
       .attr('src', '/thnlqd.png')
       .attr('alt', 'thinliquid\'s site'),
+
+    Kitty.create('label')
+      .attr('for', 'button-code')
+      .text('copy the code below and paste it into your site!'),
     TextArea.render()
       .style({
         width: '100%',
         height: '60px',
         margin: '10px 0'
       })
+      .attr('id', 'button-code')
       .attr('readonly', '')
       .style({ resize: 'none' })
       .text('<a href="https://thinliquid.dev" target="_blank"><img src="https://thinliquid.dev/thnlqd.png" alt="thinliquid\'s site"></a>')

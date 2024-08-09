@@ -6,7 +6,7 @@ body, html {
   padding: 0;
 
   body {
-    background: url(/bg.png);
+    background: url(/bg.webp);
     background-size: 100px;
     background-attachment: fixed;
     animation: moveBg 5s infinite linear;
@@ -147,13 +147,13 @@ textarea {
     width: 100%;
     height: var(--height);
     background-image: repeating-linear-gradient(
-    45deg,
-    $yellow,
-    $yellow 25px,
-    $base 25px,
-    $base 50px
-  );
-  background-size: 71px var(--height);
+        45deg,
+        $yellow,
+        $yellow 25px,
+        $base 25px,
+        $base 50px
+    );
+    background-size: 71px var(--height);
     animation: slideBg .5s infinite cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
