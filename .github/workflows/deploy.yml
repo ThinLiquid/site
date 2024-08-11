@@ -1,0 +1,25 @@
+name: deploy 2 nekoweb
+on: [push]
+jobs:
+  deployer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-bun@v2
+        with:
+          bun-version: 'latest'
+      
+      - name: setting up .env file
+        run: |
+          echo -e "NEKOWEB_API_KEY=${{ secrets.NEKOWEB_API_KEY }}\n" >> .env
+          echo -e "NEKOWEB_TOKEN=${{ secrets.NEKOWEB_TOKEN }}\n" >> .env
+
+      - name: installing dependencies
+        run: bun install --frozen-lockfile
+
+      - name: building code
+        run: bun run build
+
+      - name: deploying to nekoweb
+        run: bun run ./scripts/neko.cjs

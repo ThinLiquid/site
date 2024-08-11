@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ title }}thinliquid's catppuccin heaven</title>
+    <meta name="description" content="{{ description }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    {{ external-styles }}
+
+    <!-- prettier-ignore -->
+    <style>/* styles */</style>
+  </head>
+  <body>
+    <div id="container">
+      <folders>
+        <a href="javascript:void(0)" onclick="window.open('https://thnlqd.atabook.org')">
+          <img src="/contacts.png" width="64" height="auto" />
+          <folder-name>Guestbook</folder-name>
+        </a>
+        <a href="/">
+          <img src="/Folder.png" width="64" height="auto" />
+          <folder-name>Home</folder-name>
+        </a>
+        <a href="/buttons-galore">
+          <img src="/Folder.png" width="64" height="auto" />
+          <folder-name>Buttons Galore</folder-name>
+        </a>
+      </folders>
+
+      <script>
+        document.querySelectorAll('folders a').forEach((folder) => {
+          folder.ondblclick = folder.onclick
+          folder.onclick = (e) => {
+            e.preventDefault();
+          }
+
+          if (folder.ondblclick == null) {
+            folder.ondblclick = (e) => {
+              window.location.href = folder.href;
+            }
+          }
+        });
+      </script>
+      
+      <window>
+        <window-titlebar>
+          <window-controls>
+            <window-control type="close"></window-control>
+            <window-control type="minimize"></window-control>
+            <window-control type="maximize"></window-control>
+          </window-controls>
+          <window-title>
+            {{ page-title }}
+          </window-title>
+        </window-titlebar>
+        <window-content>
+          {{ content }}
+        </window-content>
+      </window>
+    </div>
+
+    <script>
+      window.confirm = (_title, _description) => {
+        const container = document.createElement('alert');
+        
+        const title = document.createElement('alert-title');
+        const description = document.createElement('alert-description');
+    
+        const image = document.createElement('img');
+    
+        const buttons = document.createElement('alert-buttons');
+        const button1 = document.createElement('alert-button');
+        const button2 = document.createElement('alert-button');
+    
+        title.innerText = _title
+        description.innerText = _description
+    
+        button1.innerText = 'Cancel';
+        button2.innerText = 'Confirm';
+    
+        image.src = '/safari.webp';
+        image.width = '64';
+        image.height = '64';
+    
+        buttons.appendChild(button1);
+        buttons.appendChild(button2);
+    
+        container.appendChild(image);
+        container.appendChild(title);
+        container.appendChild(description);
+        container.appendChild(buttons);
+    
+        document.body.appendChild(container);
+    
+        return new Promise((resolve, reject) => {
+          button1.onclick = () => {
+            resolve(false);
+            container.classList.add('remove');
+            setTimeout(() => container.remove(), 250);
+          }
+    
+          button2.onclick = () => {
+            resolve(true);
+            container.classList.add('remove');
+            setTimeout(() => container.remove(), 250);
+          }
+        });
+      }
+    
+      _open = window.open;
+      window.open = (url) => {
+        window.confirm(window.location.hostname, `Do you want to open ${url}?`).then((result) => {
+          if (result) {
+            // call 
+            _open(url);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

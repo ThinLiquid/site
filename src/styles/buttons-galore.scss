@@ -1,0 +1,66 @@
+input {
+  width: 100%;
+}
+
+.options {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+
+  select {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px;
+  margin-top: 10px;
+  justify-content: center;
+
+  img {
+    animation: appear .15s;
+    opacity: 0.1;
+
+    &:hover {
+      scale: 1.5;
+
+      &:nth-child(even) {
+        rotate: 2deg;
+      }
+
+      &:nth-child(odd) {
+        rotate: -2deg;
+      }
+    }
+  }
+}
+
+window:hover .tooltip {
+  opacity: 1;
+}
+
+
+.tooltip {
+  position: fixed;
+  border-radius: 3px;
+  padding: 3px 6px;
+  background: rgba(246, 246, 246, 0.72);
+  backdrop-filter: blur(20px);
+  z-index: 99999999999999999999999999999999999999999999;
+  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2), 0 0 0 0.5px rgba(0,0,0,0.12);
+  font-size: 11px;
+  line-height: 13px;
+  font-weight: 400;
+  color: #4d4d4d;
+  transition: opacity 0.25s;
+  opacity: 0;
+}
+
+@keyframes appear {
+  0% { opacity: 0.1; transform: scale(0.5); }
+  50% { transform: scale(1, 1.25); }
+  100% { opacity: 1; }
+}
