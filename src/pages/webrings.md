@@ -1,5 +1,5 @@
 <meta>
-  <title>webrings</title>
+  <title>Webrings</title>
   <description>some webrings im in (probably not much)</description>
 
   <use-style>/style.scss</use-style>
