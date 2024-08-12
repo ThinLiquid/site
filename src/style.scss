@@ -356,9 +356,9 @@ folders {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 5px;
+    gap: 2px;
     cursor: pointer;
-    width: 75px;
+    width: 100px;
     text-align: center;
     color: white;
     text-shadow: 0 1.5px 3px rgba(0,0,0,1);
@@ -370,7 +370,7 @@ folders {
     }
 
     img {
-      padding: 7.5px 5px;
+      padding: 5px;
       border-radius: 5px;
       width: 64px;
       border: 2px solid transparent;
@@ -399,4 +399,5 @@ folders {
   justify-content: center;
   margin: auto;
   gap: 20px;
+  padding: 0 10px;
 }

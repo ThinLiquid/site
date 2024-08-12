@@ -42,30 +42,34 @@ const createExternalStyles = (files: string | string[]): string => {
 
 const format = async (filename: string, data: string) => {
   const parser = new XMLParser();
-  const json = parser.parse(data.split('---')[0]);
+  const [frontMatter, ...contentParts] = data.split('---');
+  const json = parser.parse(frontMatter);
+  const mdContent = contentParts.join('---');
 
-  const md = await marked.parse(
-    data.split('---')
-      .slice(1)
-      .join('---')
-  );
+  const [html, md] = await Promise.all([
+    rootTemplate,
+    marked.parse(mdContent)
+  ]);
 
-  const html = await rootTemplate;
+  const styles = await compileSCSSFiles(json.meta['use-style'] ?? []);
+  const externalStyles = createExternalStyles(json.meta['use-external-style'] ?? []);
+
   const page = html
-    .replace("/* styles */", await compileSCSSFiles(json.meta['use-style'] ?? []))
-    .replace("{{ external-styles }}", createExternalStyles(json.meta['use-external-style'] ?? []))
+    .replace("/* styles */", styles)
+    .replace("{{ external-styles }}", externalStyles)
     .replaceAll("{{ title }}", filename.endsWith("index.html") ? '' : `${json.meta.title} | `)
     .replaceAll("{{ page-title }}", json.meta.title)
     .replaceAll("{{ description }}", json.meta.description)
     .replace("{{ content }}", md);
 
-  const beautified = await prettier.format(page, { parser: "html", htmlWhitespaceSensitivity: "ignore" })
+  const beautified = await prettier.format(page, { parser: "html", htmlWhitespaceSensitivity: "ignore" });
+
   const comment = `<!--
 ${figlet.textSync("thinliquid.dev", { font: "Small Slant" })}
 
 ${dedent`
-  this file was generated from "${path.basename(filename)}" using a custom script!
-  the source XML file can be found in the "src/pages" directory.
+  this file was generated from "${path.basename(filename)}" using my own SSG!
+  the source file can be found in the "src/pages" directory.
 
   check out the source code at: https://github.com/ThinLiquid/site
 `}
@@ -74,35 +78,30 @@ ${dedent`
   return comment + beautified;
 }
 
-const initializeOutput = () => {
-  fs.readdirSync(OUTPUT_FOLDER).forEach((file) => {
-    fs.unlinkSync(path.join(OUTPUT_FOLDER, file));
-  })
-  fs.mkdirSync(OUTPUT_FOLDER, { recursive: true });
-}
-
 const build = async () => {
-  initializeOutput();
+  fs.rmSync(OUTPUT_FOLDER, { recursive: true, force: true });
+  fs.mkdirSync(OUTPUT_FOLDER);
+
   const files = fs.readdirSync("./src/pages/");
 
-  try {
-    for (const file of files) {
-      if (file.endsWith(".html")) {
-        const data = fs.readFileSync(`./src/pages/${file}`, "utf-8");
-    
+  files.forEach(async (file) => {
+    if (file.endsWith(".html")) {
+      try {
+        const data = await fs.promises.readFile(`./src/pages/${file}`, "utf-8");
 
-        fs.writeFileSync(path.join(OUTPUT_FOLDER, `${file}.br`), await zlib.brotliCompressSync(await format(file, data)));
-        fs.writeFileSync(path.join(OUTPUT_FOLDER, file), await format(file, data));
+        const formattedData = await format(file, data);
+        const brotliCompressedData = zlib.brotliCompressSync(formattedData);
+
+        const outputFilePath = path.join(OUTPUT_FOLDER, file);
+        await fs.promises.writeFile(`${outputFilePath}.br`, brotliCompressedData);
+        await fs.promises.writeFile(outputFilePath, formattedData);
+      } catch (e) {
+        console.error(e);
       }
     }
-  } catch (e) {
-    console.error(e);
-  }
+  });
 
-  const publicFiles = fs.readdirSync("./src/public");
-  for (const file of publicFiles) {
-    fs.copyFileSync(`./src/public/${file}`, path.join(OUTPUT_FOLDER, file));
-  }
+  fs.cpSync('./src/public', OUTPUT_FOLDER, { recursive: true });
 }
 
 let rootTemplate = fs.readFileSync(TEMPLATE_FILE, "utf-8");
