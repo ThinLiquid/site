@@ -170,6 +170,7 @@ window {
   box-shadow: 0 0 3px 0 rgba(0,0,0,0.25), 0 36px 100px 0 rgba(0,0,0,0.4), inset 0 0 3px 0 rgba(255,255,255,0.1);
 
   max-width: 500px;
+  height: max-content;
   width: 100%;
   margin: 10px 0;
 
@@ -246,6 +247,7 @@ alert {
   flex-direction: column;
   gap: 16px;
   z-index: 9999999999999999999999;
+  overflow: hidden;
 
   padding: 20px 16px 16px 16px;
   border-radius: 10px;
@@ -264,6 +266,7 @@ alert {
   * {
     color: rgba(0,0,0,0.85);
     user-select: none;
+    line-break:anywhere;
   }
 
   img {
@@ -277,12 +280,14 @@ alert {
     font-weight: 700;
     margin: 0;
     text-align: center;
+    display: block;
   }
 
   alert-description {
     font-size: 11px;
     line-height: 14px;
     text-align: center;
+    display: block;
   }
 
   alert-buttons {
@@ -400,4 +405,29 @@ folders {
   margin: auto;
   gap: 20px;
   padding: 0 10px;
+}
+
+a:not(folders > a) {
+  background: var(--blue);
+  color: var(--base);
+}
+
+#commit {
+  text-align: center;
+  margin-top: 10px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+
+  &, * {
+    font-family: Menlo, monospace;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+
+  small {
+    opacity: 0.5;
+    font-size: 0.75em;
+  }
 }

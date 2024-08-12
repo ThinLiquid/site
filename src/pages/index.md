@@ -1,6 +1,6 @@
 <meta>
   <title>Home</title>
-  <description>Home page</description>
+  <description>super cool home page</description>
 
   <use-style>/style.scss</use-style>
 </meta>

@@ -35,6 +35,14 @@
           <img src="/icons/Folder.svg" width="64" height="64" alt="Folder" />
           <folder-name>Buttons Galore</folder-name>
         </a>
+        <a href="/hall-of-fame">
+          <img src="/icons/Folder.svg" width="64" height="64" alt="Folder" />
+          <folder-name>Hall of Fame</folder-name>
+        </a>
+        <a href="/webrings">
+          <img src="/icons/Folder.svg" width="64" height="64" alt="Folder" />
+          <folder-name>Webrings</folder-name>
+        </a>
       </folders>
 
       <script>
@@ -65,6 +73,14 @@
         </window-titlebar>
         <window-content>
           {{ content }}
+
+          <div id="commit">
+            🏷
+            <a href="#" onclick="window.open('https://github.com/ThinLiquid/site/commit/{{ commit-hash }}')">
+              {{ commit-hash-short }}
+            </a>
+            <small style="margin-top:5px;display:block;">{{ commit-message }}</small>
+          </div>
         </window-content>
       </window>
     </div>
