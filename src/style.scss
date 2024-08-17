@@ -430,3 +430,7 @@ a:not(folders > a) {
     font-size: 0.75em;
   }
 }
+
+.bounce {
+  transform: scale(1.1);
+}

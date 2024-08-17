@@ -85,62 +85,36 @@
       </window>
     </div>
 
-    <script>
-      window.confirm = (_title, _description) => {
-        const container = document.createElement('alert');
+    <script type="module">
+      import { ModPlayer } from 'https://atornblad.se/files/js-mod-player/player.js';
+      const audio = new AudioContext();
+      const player = new ModPlayer(audio);
+
+      const songs = [
+        'gemini-bleeps.mod',
+        'tempest-acidjazz.mod',
+        'unsuspected_h.mod'
+      ]
+      await player.load('/audio/' + songs[Math.floor(Math.random() * songs.length)]);
+
+      new Audio().play().catch(error => {
+        if (error.message.includes('interact')) {
+          window.addEventListener('click', async () => {
+            player.play();
+          });
+        }
+      });
+
+      player.play()
+
+      player.watchRows((pos, row) => {
+        if ((row % 8) === 0) {
+          flash()
+        }
+      });
+
+      const flash = () => {
         
-        const title = document.createElement('alert-title');
-        const description = document.createElement('alert-description');
-    
-        const image = document.createElement('img');
-    
-        const buttons = document.createElement('alert-buttons');
-        const button1 = document.createElement('alert-button');
-        const button2 = document.createElement('alert-button');
-    
-        title.innerText = _title
-        description.innerText = _description
-    
-        button1.innerText = 'Cancel';
-        button2.innerText = 'Confirm';
-    
-        image.src = '/safari.webp';
-        image.width = '64';
-        image.height = '64';
-    
-        buttons.appendChild(button1);
-        buttons.appendChild(button2);
-    
-        container.appendChild(image);
-        container.appendChild(title);
-        container.appendChild(description);
-        container.appendChild(buttons);
-    
-        document.body.appendChild(container);
-    
-        return new Promise((resolve, reject) => {
-          button1.onclick = () => {
-            resolve(false);
-            container.classList.add('remove');
-            setTimeout(() => container.remove(), 250);
-          }
-    
-          button2.onclick = () => {
-            resolve(true);
-            container.classList.add('remove');
-            setTimeout(() => container.remove(), 250);
-          }
-        });
-      }
-    
-      _open = window.open;
-      window.open = (url) => {
-        window.confirm(window.location.hostname, `Do you want to open ${url}?`).then((result) => {
-          if (result) {
-            // call 
-            _open(url);
-          }
-        });
       }
     </script>
   </body>
