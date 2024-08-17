@@ -94,20 +94,21 @@
 
       const songs = [
         'gemini-bleeps.mod',
-        'tempest-acidjazz.mod',
         'unsuspected_h.mod'
       ]
       await player.load('/audio/' + songs[Math.floor(Math.random() * songs.length)]);
 
-      new Audio().play().catch(error => {
+      const _ = new Audio('https://file-examples.com/wp-content/storage/2017/11/file_example_MP3_1MG.mp3')
+      player.play()
+      _.play()
+      .catch(error => {
         if (error.message.includes('interact')) {
           window.addEventListener('click', async () => {
-            player.play();
+            player.stop()
+            player.play()
           });
         }
       });
-
-      player.play()
 
       player.watchRows((pos, row) => {
         if ((row % 8) === 0) {
