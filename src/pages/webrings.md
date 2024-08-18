@@ -5,6 +5,8 @@
   <use-style>/style.scss</use-style>
 
   <use-external-style>https://webring.nekoweb.org/onionring.css</use-external-style>
+
+  <modfile>1am.mod</modfile>
 </meta>
 ---
 # webrings

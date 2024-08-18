@@ -4,6 +4,8 @@
 
   <use-style>/style.scss</use-style>
   <use-style>/styles/buttons-galore.scss</use-style>
+
+  <modfile>04-808rmx.xm</modfile>
 </meta>
 ---
 
