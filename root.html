@@ -1,124 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>{{ title }}thinliquid's catppuccin heaven</title>
-    <meta name="description" content="{{ description }}">
+    <meta name="description" content="{{ description }}" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
 
-    <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <script
+      async
+      defer
+      src="https://scripts.simpleanalyticscdn.com/latest.js"
+    ></script>
 
-    {{ external-styles }}
+    {{
+      external - styles
+    }}
 
     <!-- prettier-ignore -->
     <style>/* styles */</style>
   </head>
   <body>
-    <div id="container">
-      <folders>
-        <a href="#" onclick="window.open('https://thnlqd.atabook.org')">
-          <img src="/icons/Contacts.svg" width="64" height="64" alt="Guestbook" />
-          <folder-name>Guestbook</folder-name>
-        </a>
-        <a href="#" onclick="window.open('https://nekoweb.org/follow/thnlqd')">
-          <img src="/icons/Grapher.svg" width="64" height="64" alt="Guestbook" />
-          <folder-name>Follow my Nekoweb</folder-name>
-        </a>
-        <a href="/">
-          <img src="/icons/Folder.svg" width="64" height="64" alt="Folder" />
-          <folder-name>Home</folder-name>
-        </a>
-        <a href="/buttons-galore">
-          <img src="/icons/Folder.svg" width="64" height="64" alt="Folder" />
-          <folder-name>Buttons Galore</folder-name>
-        </a>
-        <a href="/hall-of-fame">
-          <img src="/icons/Folder.svg" width="64" height="64" alt="Folder" />
-          <folder-name>Hall of Fame</folder-name>
-        </a>
-        <a href="/webrings">
-          <img src="/icons/Folder.svg" width="64" height="64" alt="Folder" />
-          <folder-name>Webrings</folder-name>
-        </a>
-      </folders>
+    <div class="tooltip">This is the tooltip text.</div>
+    <div id="outskirts">
+      <div id="container" style="position: absolute; top: 0; width: 100%">
+        <window
+          class="no-bg"
+          style="
+            max-width: 390px;
+            width: 100%;
+            position: absolute;
+            left: calc(50% + 105px);
+            top: 274px;
+            z-index: 11;
+          "
+        >
+          <window-titlebar>
+            <window-controls>
+              <window-control type="close"></window-control>
+              <window-control type="minimize"></window-control>
+              <window-control type="maximize"></window-control>
+            </window-controls>
+            <window-title> Finder </window-title>
+          </window-titlebar>
+          <window-content>
+            <folders>
+              <a href="https://thnlqd.atabook.org" target="_blank">
+                <img
+                  src="/icons/Contacts.svg"
+                  width="64"
+                  height="64"
+                  alt="Guestbook"
+                />
+                <folder-name>Guestbook</folder-name>
+              </a>
+              <a href="https://nekoweb.org/follow/thnlqd" target="_blank">
+                <img
+                  src="/icons/Grapher.svg"
+                  width="64"
+                  height="64"
+                  alt="Guestbook"
+                />
+                <folder-name>Follow my Nekoweb</folder-name>
+              </a>
+              <a href="/">
+                <img
+                  src="/icons/Folder.svg"
+                  width="64"
+                  height="64"
+                  alt="Folder"
+                />
+                <folder-name>Home</folder-name>
+              </a>
+              <a href="/buttons-galore">
+                <img
+                  src="/icons/Folder.svg"
+                  width="64"
+                  height="64"
+                  alt="Folder"
+                />
+                <folder-name>Buttons Galore</folder-name>
+              </a>
+              <a href="/hall-of-fame">
+                <img
+                  src="/icons/Folder.svg"
+                  width="64"
+                  height="64"
+                  alt="Folder"
+                />
+                <folder-name>Hall of Fame</folder-name>
+              </a>
+              <a href="/webrings">
+                <img
+                  src="/icons/Folder.svg"
+                  width="64"
+                  height="64"
+                  alt="Folder"
+                />
+                <folder-name>Webrings</folder-name>
+              </a>
+            </folders>
+          </window-content>
+        </window>
 
-      <script>
-        document.querySelectorAll('folders a').forEach((folder) => {
-          folder.ondblclick = folder.onclick
-          folder.onclick = (e) => {
-            e.preventDefault();
-          }
+        <window>
+          <window-titlebar>
+            <window-controls>
+              <window-control type="close"></window-control>
+              <window-control type="minimize"></window-control>
+              <window-control type="maximize"></window-control>
+            </window-controls>
+            <window-title> generic_vtuberlogo.png </window-title>
+          </window-titlebar>
+          <window-content>
+            <img src="/vtuberlogo.png" width="100%" />
+          </window-content>
+        </window>
 
-          if (folder.ondblclick == null) {
-            folder.ondblclick = (e) => {
-              window.location.href = folder.href;
-            }
-          }
-        });
-      </script>
-      
-      <window>
-        <window-titlebar>
-          <window-controls>
-            <window-control type="close"></window-control>
-            <window-control type="minimize"></window-control>
-            <window-control type="maximize"></window-control>
-          </window-controls>
-          <window-title>
-            {{ page-title }}
-          </window-title>
-        </window-titlebar>
-        <window-content>
-          {{ content }}
+        <window>
+          <window-titlebar>
+            <window-controls>
+              <window-control type="close"></window-control>
+              <window-control type="minimize"></window-control>
+              <window-control type="maximize"></window-control>
+            </window-controls>
+            <window-title>
+              {{ page - title }}
+            </window-title>
+          </window-titlebar>
+          <window-content>
+            {{ content }}
+          </window-content>
+        </window>
 
-          <div id="commit">
-            🏷
-            <a href="#" onclick="window.open('https://github.com/ThinLiquid/site/commit/{{ commit-hash }}')">
-              {{ commit-hash-short }}
-            </a>
-            <small style="margin-top:5px;display:block;">{{ commit-message }}</small>
-          </div>
-        </window-content>
-      </window>
+        <window
+          style="
+            max-width: 300px;
+            width: 100%;
+            position: absolute;
+            left: calc(50% + 125px);
+            top: 80px;
+            z-index: 10;
+          "
+        >
+          <window-titlebar>
+            <window-controls>
+              <window-control type="close"></window-control>
+              <window-control type="minimize"></window-control>
+              <window-control type="maximize"></window-control>
+            </window-controls>
+            <window-title> Music Player </window-title>
+          </window-titlebar>
+          <window-content>
+            <div id="subsongs"></div>
+
+            <div style="margin-bottom: 10px">
+              <span id="title" style="font-size: 22px; font-weight: 500"
+                ><span id="modfilename"></span
+              ></span>
+              <small id="duration"></small>
+            </div>
+
+            <input
+              type="range"
+              id="seekbar"
+              value="0"
+              oninput="player.seek(this.value)"
+              style="width: 100%"
+            />
+            <br />
+
+            <button
+              style="width: 100%; margin-top: 10px"
+              onclick="pauseButton()"
+              id="play"
+            ></button>
+
+            <div
+              id="library-version"
+              style="
+                font-size: 10px;
+                text-align: center;
+                opacity: 0.5;
+                margin-top: 10px;
+              "
+            ></div>
+          </window-content>
+        </window>
+
+        <window
+          style="
+            max-width: 300px;
+            width: 100%;
+            position: absolute;
+            left: calc(50% - 555px);
+            top: 200px;
+            z-index: 10;
+          "
+        >
+          <window-titlebar>
+            <window-controls>
+              <window-control type="close"></window-control>
+              <window-control type="minimize"></window-control>
+              <window-control type="maximize"></window-control>
+            </window-controls>
+            <window-title> current commit </window-title>
+          </window-titlebar>
+          <window-content>
+            <div style="text-align: center">
+              🏷
+              <a
+                href="https://github.com/ThinLiquid/site/commit/{{
+                  commit - hash
+                }}"
+              >
+                {{ commit - hash - short }}
+              </a>
+              <small style="margin-top: 5px; display: block">{{
+                commit - message
+              }}</small>
+            </div>
+          </window-content>
+        </window>
+      </div>
     </div>
 
-    <script type="module">
-      import { ModPlayer } from 'https://atornblad.se/files/js-mod-player/player.js';
-      const audio = new AudioContext();
-      const player = new ModPlayer(audio);
-
-      const songs = [
-        'gemini-bleeps.mod',
-        'unsuspected_h.mod'
-      ]
-      await player.load('/audio/' + songs[Math.floor(Math.random() * songs.length)]);
-
-      const _ = new Audio('https://file-examples.com/wp-content/storage/2017/11/file_example_MP3_1MG.mp3')
-      player.play()
-      _.play()
-      .catch(error => {
-        if (error.message.includes('interact')) {
-          window.addEventListener('click', async () => {
-            player.stop()
-            player.play()
-          });
-        }
-      });
-
-      player.watchRows((pos, row) => {
-        if ((row % 8) === 0) {
-          flash()
-        }
-      });
-
-      const flash = () => {
-        
+    <script src="/scripts/chiptune2.js"></script>
+    <script>
+      var player
+      function pauseButton() {
+        button = document.getElementById('play')
+        if (player.togglePause()) button.innerHTML = 'Pause'
+        else button.innerHTML = 'Play'
       }
+
+      function setMetadata(filename) {
+        var metadata = player.metadata()
+        if (metadata['title'] != '') {
+          document.getElementById('title').innerHTML = metadata['title']
+        } else {
+          document.getElementById('title').innerHTML = filename
+        }
+
+        var subsongs = player.subsongs()
+        document.getElementById('subsongs').style.display =
+          subsongs.length > 1 ? 'block' : 'none'
+        if (subsongs.length > 1) {
+          var select = document.getElementById('subsong')
+          var elt = document.createElement('option')
+          elt.textContent = 'Play all subsongs'
+          elt.value = -1
+          select.appendChild(elt)
+          for (var i = 0; i < subsongs.length; i++) {
+            var elt = document.createElement('option')
+            elt.textContent = subsongs[i]
+            elt.value = i
+            select.appendChild(elt)
+          }
+          select.selectedIndex = 0
+          player.selectSubsong(-1)
+        }
+
+        updateDuration()
+
+        var stack = stackSave()
+        document.getElementById('library-version').innerHTML =
+          'Library version: libopenmpt ' +
+          UTF8ToString(
+            libopenmpt._openmpt_get_string(asciiToStack('library_version'))
+          ) +
+          ' (' +
+          UTF8ToString(libopenmpt._openmpt_get_string(asciiToStack('build'))) +
+          ')'
+        stackRestore(stack)
+      }
+
+      function selectSubsong() {
+        var select = document.getElementById('subsong')
+        var subsong = select.options[select.selectedIndex].value
+        player.selectSubsong(subsong)
+        updateDuration()
+      }
+
+      function updateDuration() {
+        var sec_num = player.duration()
+        var minutes = Math.floor(sec_num / 60)
+        var seconds = Math.floor(sec_num % 60)
+        if (seconds < 10) {
+          seconds = '0' + seconds
+        }
+        document.getElementById('duration').innerHTML = minutes + ':' + seconds
+        document.getElementById('seekbar').max = sec_num
+      }
+
+      if (typeof ChiptuneAudioContext == 'undefined') {
+        document.getElementById('play').innerHTML =
+          'The player requires a recent web browser with HTML5 audio context support.'
+      }
+      function initPlayer() {
+        libopenmpt.onRuntimeInitialized = _ => {
+          player = new ChiptuneJsPlayer(new ChiptuneJsConfig(-1))
+
+          path = '/audio/{{ modfile }}'
+          player.load(path, function (buffer) {
+            if (player.play(buffer)) {
+              document.getElementById('play').innerHTML = 'Pause'
+            } else {
+              document.getElementById('play').innerHTML = 'Play'
+            }
+            setMetadata(document.getElementById('modfilename').innerHTML)
+            setInterval(progress, 500)
+          })
+        }
+      }
+
+      function progress() {
+        document.getElementById('seekbar').value = player.getPosition()
+      }
+    </script>
+    <script src="/scripts/libopenmpt.js" async onload="initPlayer()"></script>
+
+    <script>
+      document.querySelectorAll('folders a').forEach(e => {
+        e.ondblclick = () => {
+          if (e.target === '_blank') {
+            window.open(e.href)
+          } else {
+            window.location = e.href
+          }
+        }
+        e.onclick = evt => {
+          evt.preventDefault()
+        }
+      })
     </script>
   </body>
 </html>

@@ -42,23 +42,6 @@ window:hover .tooltip {
   opacity: 1;
 }
 
-
-.tooltip {
-  position: fixed;
-  border-radius: 3px;
-  padding: 3px 6px;
-  background: rgba(246, 246, 246, 0.72);
-  backdrop-filter: blur(20px);
-  z-index: 99999999999999999999999999999999999999999999;
-  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2), 0 0 0 0.5px rgba(0,0,0,0.12);
-  font-size: 11px;
-  line-height: 13px;
-  font-weight: 400;
-  color: #4d4d4d;
-  transition: opacity 0.25s;
-  opacity: 0;
-}
-
 @keyframes appear {
   0% { opacity: 0.1; transform: scale(0.5); }
   50% { transform: scale(1, 1.25); }

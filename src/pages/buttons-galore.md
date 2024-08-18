@@ -7,8 +7,6 @@
 </meta>
 ---
 
-<div class="tooltip">This is the tooltip text.</div>
-
 # buttons galore!!!
 my personal collection of 88x31 buttons (that you can contribute to), all in one place!
 

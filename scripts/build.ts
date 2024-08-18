@@ -56,20 +56,14 @@ const createExternalStyles = (files: string | string[]): string => {
 }
 
 const parseEmojis = (markdown: string) => {
-  const emojify = (match: string) => {
-    return `<span className="emoji">${emoji.emojify(match)}</span>`;
-  };
+  const emojify = (match: string) => `<span className="emoji">${emoji.emojify(match)}</span>`;
 
-  markdown = markdown.replace(
-      /<(pre|template|code)[^>]*?>[\s\S]+?<\/(pre|template|code)>/g,
-      function (m) {
-        return m.replace(/:/g, '__colon__');
-      }
-    )
-    .replace(/:(\w+?):/gi, emojify)
-    .replace(/__colon__/g, ':');
-
-  return markdown;
+  return markdown.replace(
+    /<(pre|template|code)[^>]*?>[\s\S]+?<\/(pre|template|code)>/g,
+    (m) => m.replace(/:/g, '__colon__')
+  )
+  .replace(/:(\w+?):/gi, emojify)
+  .replace(/__colon__/g, ':');
 };
 
 const format = async (filename: string, data: string) => {
@@ -97,7 +91,8 @@ const format = async (filename: string, data: string) => {
     .replaceAll("{{ commit-hash }}", commitHash)
     .replaceAll("{{ commit-hash-short }}", commitHash.slice(0, 7))
     .replaceAll("{{ commit-branch }}", commitBranch)
-    .replaceAll("{{ commit-message }}", commitMessage);
+    .replaceAll("{{ commit-message }}", commitMessage)
+    .replace("{{ modfile }}", json.meta.modfile ?? 'gemini-bleeps.mod')
 
   const beautified = await prettier.format(page, { parser: "html", htmlWhitespaceSensitivity: "ignore", printWidth: Infinity });
 
