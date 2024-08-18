@@ -132,7 +132,7 @@
               <window-control type="maximize"></window-control>
             </window-controls>
             <window-title>
-              {{ page - title }}
+              {{ page-title }}
             </window-title>
           </window-titlebar>
           <window-content>
@@ -221,11 +221,9 @@
                   commit - hash
                 }}"
               >
-                {{ commit - hash - short }}
+                {{ commit-hash-short }}
               </a>
-              <small style="margin-top: 5px; display: block">{{
-                commit - message
-              }}</small>
+              <small style="margin-top: 5px; display: block">{{ commit-message }}</small>
             </div>
           </window-content>
         </window>
@@ -237,16 +235,16 @@
       var player
       function pauseButton() {
         button = document.getElementById('play')
-        if (player.togglePause()) button.innerHTML = 'Pause'
-        else button.innerHTML = 'Play'
+        if (player.togglePause()) button.innerText = 'Pause'
+        else button.innerText = 'Play'
       }
 
       function setMetadata(filename) {
         var metadata = player.metadata()
         if (metadata['title'] != '') {
-          document.getElementById('title').innerHTML = metadata['title']
+          document.getElementById('title').innerText = metadata['title']
         } else {
-          document.getElementById('title').innerHTML = filename
+          document.getElementById('title').innerText = filename
         }
 
         var subsongs = player.subsongs()
@@ -271,7 +269,7 @@
         updateDuration()
 
         var stack = stackSave()
-        document.getElementById('library-version').innerHTML =
+        document.getElementById('library-version').innerText =
           'Library version: libopenmpt ' +
           UTF8ToString(
             libopenmpt._openmpt_get_string(asciiToStack('library_version'))
@@ -296,12 +294,12 @@
         if (seconds < 10) {
           seconds = '0' + seconds
         }
-        document.getElementById('duration').innerHTML = minutes + ':' + seconds
+        document.getElementById('duration').innerText = minutes + ':' + seconds
         document.getElementById('seekbar').max = sec_num
       }
 
       if (typeof ChiptuneAudioContext == 'undefined') {
-        document.getElementById('play').innerHTML =
+        document.getElementById('play').innerText =
           'The player requires a recent web browser with HTML5 audio context support.'
       }
       function initPlayer() {
@@ -311,9 +309,9 @@
           path = '/audio/{{ modfile }}'
           player.load(path, function (buffer) {
             if (player.play(buffer)) {
-              document.getElementById('play').innerHTML = 'Pause'
+              document.getElementById('play').innerText = 'Pause'
             } else {
-              document.getElementById('play').innerHTML = 'Play'
+              document.getElementById('play').innerText = 'Play'
             }
             setMetadata(document.getElementById('modfilename').innerHTML)
             setInterval(progress, 500)

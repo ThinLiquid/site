@@ -87,12 +87,13 @@ const format = async (filename: string, data: string) => {
     .replaceAll("{{ title }}", filename.endsWith("index.md") ? '' : `${json.meta.title} | `)
     .replaceAll("{{ page-title }}", json.meta.title)
     .replaceAll("{{ description }}", json.meta.description)
-    .replace("{{ content }}", md)
     .replaceAll("{{ commit-hash }}", commitHash)
     .replaceAll("{{ commit-hash-short }}", commitHash.slice(0, 7))
     .replaceAll("{{ commit-branch }}", commitBranch)
     .replaceAll("{{ commit-message }}", commitMessage)
     .replace("{{ modfile }}", json.meta.modfile ?? 'gemini-bleeps.mod')
+    .replace("{{ content }}", md)
+    
 
   const beautified = await prettier.format(page, { parser: "html", htmlWhitespaceSensitivity: "ignore", printWidth: Infinity });
 

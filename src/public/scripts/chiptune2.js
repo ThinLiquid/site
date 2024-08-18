@@ -123,7 +123,7 @@ ChiptuneJsPlayer.prototype.load = function(input, callback) {
   xhr.responseType = 'arraybuffer';
   xhr.onprogress = (e) => {
     if (e.lengthComputable) {
-      document.getElementById("play").innerHTML = `Loading... ${Math.floor((e.loaded / e.total) * 100)}%`;
+      document.getElementById("play").innerText = `Loading... ${Math.floor((e.loaded / e.total) * 100)}%`;
     }
   };
   xhr.onload = (e) => {
@@ -133,7 +133,7 @@ ChiptuneJsPlayer.prototype.load = function(input, callback) {
     this.fireEvent('onError', {type: 'onxhr'});
   };
   xhr.onerror = () => {
-    document.getElementById("play").innerHTML = "Error while downloading file for playback :-(";
+    document.getElementById("play").innerText = "Error while downloading file for playback :-(";
     this.fireEvent('onError', {type: 'onxhr'});
   };
   xhr.onabort = () => {
