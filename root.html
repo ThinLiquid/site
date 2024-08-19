@@ -120,7 +120,7 @@
             <window-title> generic_vtuberlogo.png </window-title>
           </window-titlebar>
           <window-content>
-            <img src="/vtuberlogo.png" width="100%" />
+            <img src="/vtuberlogo.png" width="100%" style="aspect-ratio:1280/720;" />
           </window-content>
         </window>
 
@@ -216,11 +216,7 @@
           <window-content>
             <div style="text-align: center">
               🏷
-              <a
-                href="https://github.com/ThinLiquid/site/commit/{{
-                  commit - hash
-                }}"
-              >
+              <a href="https://github.com/ThinLiquid/site/commit/{{ commit-hash }}">
                 {{ commit-hash-short }}
               </a>
               <small style="margin-top: 5px; display: block">{{ commit-message }}</small>
