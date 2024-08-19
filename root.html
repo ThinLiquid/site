@@ -9,16 +9,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
 
-    <script
-      async
-      defer
-      src="https://scripts.simpleanalyticscdn.com/latest.js"
-    ></script>
+    <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
     <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 
     {{ external-styles }}
@@ -27,7 +20,7 @@
     <style>/* styles */</style>
   </head>
   <body>
-    <div class="tooltip">This is the tooltip text.</div>
+    <div class="tooltip"></div>
     <div id="outskirts">
       <div id="container" style="position: absolute; top: 0; width: 100%">
         <window
@@ -37,7 +30,7 @@
             width: 100%;
             position: absolute;
             left: calc(50% + 105px);
-            top: 274px;
+            top: 234px;
             z-index: 11;
           "
         >
@@ -47,62 +40,32 @@
               <window-control type="minimize"></window-control>
               <window-control type="maximize"></window-control>
             </window-controls>
-            <window-title> Finder </window-title>
+            <window-title>Finder</window-title>
           </window-titlebar>
           <window-content>
             <folders>
               <a href="https://thnlqd.atabook.org" target="_blank">
-                <img
-                  src="/icons/Contacts.svg"
-                  width="64"
-                  height="64"
-                  alt=""
-                />
+                <img src="/icons/Contacts.svg" width="64" height="64" alt="" />
                 <folder-name>Guestbook</folder-name>
               </a>
               <a href="https://nekoweb.org/follow/thnlqd" target="_blank">
-                <img
-                  src="/icons/Grapher.svg"
-                  width="64"
-                  height="64"
-                  alt=""
-                />
+                <img src="/icons/Grapher.svg" width="64" height="64" alt="" />
                 <folder-name>Follow my Nekoweb</folder-name>
               </a>
               <a href="/">
-                <img
-                  src="/icons/Folder.svg"
-                  width="64"
-                  height="64"
-                  alt=""
-                />
+                <img src="/icons/Folder.svg" width="64" height="64" alt="" />
                 <folder-name>Home</folder-name>
               </a>
               <a href="/buttons-galore">
-                <img
-                  src="/icons/Folder.svg"
-                  width="64"
-                  height="64"
-                  alt=""
-                />
+                <img src="/icons/Folder.svg" width="64" height="64" alt="" />
                 <folder-name>Buttons Galore</folder-name>
               </a>
               <a href="/hall-of-fame">
-                <img
-                  src="/icons/Folder.svg"
-                  width="64"
-                  height="64"
-                  alt="Folder"
-                />
+                <img src="/icons/Folder.svg" width="64" height="64" alt="" />
                 <folder-name>Hall of Fame</folder-name>
               </a>
               <a href="/webrings">
-                <img
-                  src="/icons/Folder.svg"
-                  width="64"
-                  height="64"
-                  alt="Folder"
-                />
+                <img src="/icons/Folder.svg" width="64" height="64" alt="" />
                 <folder-name>Webrings</folder-name>
               </a>
             </folders>
@@ -116,7 +79,7 @@
               <window-control type="minimize"></window-control>
               <window-control type="maximize"></window-control>
             </window-controls>
-            <window-title> generic_vtuberlogo.webp </window-title>
+            <window-title>generic_vtuberlogo.webp</window-title>
           </window-titlebar>
           <window-content>
             <img src="/vtuberlogo_mini.webp" width="100%" style="aspect-ratio:1280/720;" alt="my super cool logo" />
@@ -130,69 +93,9 @@
               <window-control type="minimize"></window-control>
               <window-control type="maximize"></window-control>
             </window-controls>
-            <window-title>
-              {{ page-title }}
-            </window-title>
+            <window-title>{{ page-title }}</window-title>
           </window-titlebar>
-          <window-content>
-            {{ content }}
-          </window-content>
-        </window>
-
-        <window
-          style="
-            max-width: 300px;
-            width: 100%;
-            position: absolute;
-            left: calc(50% + 125px);
-            top: 80px;
-            z-index: 10;
-          "
-        >
-          <window-titlebar>
-            <window-controls>
-              <window-control type="close"></window-control>
-              <window-control type="minimize"></window-control>
-              <window-control type="maximize"></window-control>
-            </window-controls>
-            <window-title> Music Player </window-title>
-          </window-titlebar>
-          <window-content>
-            <div id="subsongs"></div>
-
-            <div style="margin-bottom: 10px">
-              <span id="title" style="font-size: 22px; font-weight: 500"
-                ><span id="modfilename"></span
-              ></span>
-              <small id="duration"></small>
-            </div>
-
-            <label for="seekbar" style="opacity: 0.75; font-style: italic;">seekbar</label>
-            <input
-              type="range"
-              id="seekbar"
-              value="0"
-              oninput="player.seek(this.value)"
-              style="width: 100%"
-            />
-            <br />
-
-            <button
-              style="width: 100%; margin-top: 10px"
-              onclick="pauseButton()"
-              id="play"
-            ></button>
-
-            <div
-              id="library-version"
-              style="
-                font-size: 10px;
-                text-align: center;
-                opacity: 0.75;
-                margin-top: 10px;
-              "
-            ></div>
-          </window-content>
+          <window-content>{{ content }}</window-content>
         </window>
 
         <window
@@ -215,111 +118,13 @@
           </window-titlebar>
           <window-content>
             <div style="text-align: center">
-              🏷
-              <a href="https://github.com/ThinLiquid/site/commit/{{ commit-hash }}">
-                {{ commit-hash-short }}
-              </a>
+              🏷 <a href="https://github.com/ThinLiquid/site/commit/{{ commit-hash }}">{{ commit-hash-short }}</a>
               <small style="margin-top: 5px; display: block">{{ commit-message }}</small>
             </div>
           </window-content>
         </window>
       </div>
     </div>
-
-    <script src="/scripts/chiptune2.js"></script>
-    <script>
-      var player
-      function pauseButton() {
-        button = document.getElementById('play')
-        if (player.togglePause()) button.innerText = 'Pause'
-        else button.innerText = 'Play'
-      }
-
-      function setMetadata(filename) {
-        var metadata = player.metadata()
-        if (metadata['title'] != '') {
-          document.getElementById('title').innerText = metadata['title']
-        } else {
-          document.getElementById('title').innerText = filename
-        }
-
-        var subsongs = player.subsongs()
-        document.getElementById('subsongs').style.display =
-          subsongs.length > 1 ? 'block' : 'none'
-        if (subsongs.length > 1) {
-          var select = document.getElementById('subsong')
-          var elt = document.createElement('option')
-          elt.textContent = 'Play all subsongs'
-          elt.value = -1
-          select.appendChild(elt)
-          for (var i = 0; i < subsongs.length; i++) {
-            var elt = document.createElement('option')
-            elt.textContent = subsongs[i]
-            elt.value = i
-            select.appendChild(elt)
-          }
-          select.selectedIndex = 0
-          player.selectSubsong(-1)
-        }
-
-        updateDuration()
-
-        var stack = stackSave()
-        document.getElementById('library-version').innerText =
-          'Library version: libopenmpt ' +
-          UTF8ToString(
-            libopenmpt._openmpt_get_string(asciiToStack('library_version'))
-          ) +
-          ' (' +
-          UTF8ToString(libopenmpt._openmpt_get_string(asciiToStack('build'))) +
-          ')'
-        stackRestore(stack)
-      }
-
-      function selectSubsong() {
-        var select = document.getElementById('subsong')
-        var subsong = select.options[select.selectedIndex].value
-        player.selectSubsong(subsong)
-        updateDuration()
-      }
-
-      function updateDuration() {
-        var sec_num = player.duration()
-        var minutes = Math.floor(sec_num / 60)
-        var seconds = Math.floor(sec_num % 60)
-        if (seconds < 10) {
-          seconds = '0' + seconds
-        }
-        document.getElementById('duration').innerText = minutes + ':' + seconds
-        document.getElementById('seekbar').max = sec_num
-      }
-
-      if (typeof ChiptuneAudioContext == 'undefined') {
-        document.getElementById('play').innerText =
-          'The player requires a recent web browser with HTML5 audio context support.'
-      }
-      function initPlayer() {
-        libopenmpt.onRuntimeInitialized = _ => {
-          player = new ChiptuneJsPlayer(new ChiptuneJsConfig(-1))
-
-          path = '/audio/{{ modfile }}'
-          player.load(path, function (buffer) {
-            if (player.play(buffer)) {
-              document.getElementById('play').innerText = 'Pause'
-            } else {
-              document.getElementById('play').innerText = 'Play'
-            }
-            setMetadata(document.getElementById('modfilename').innerHTML)
-            setInterval(progress, 500)
-          })
-        }
-      }
-
-      function progress() {
-        document.getElementById('seekbar').value = player.getPosition()
-      }
-    </script>
-    <script src="/scripts/libopenmpt.js" async onload="initPlayer()"></script>
 
     <script>
       document.querySelectorAll('folders a').forEach(e => {
