@@ -1,5 +1,5 @@
 <meta>
-  <title>blog</title>
+  <title>Blog</title>
   <description>my ultra super-duper-uber cool blog!!</description>
 
   <use-style>/style.scss</use-style>
