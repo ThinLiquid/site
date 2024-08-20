@@ -4,7 +4,7 @@ import chokidar from "chokidar";
 import zlib from "zlib";
 import { execSync } from "child_process";
 import { debounce } from 'lodash';
-import { XMLParser } from "fast-xml-parser";
+import { XMLParser, XMLBuilder } from "fast-xml-parser";
 import { marked } from "marked";
 import * as emoji from 'node-emoji';
 import * as prettier from "prettier";
@@ -39,6 +39,52 @@ const getGitInfo = () => {
     console.error(error);
     return { commitHash: "", commitMessage: "", commitBranch: "" };
   }
+};
+
+import { XMLBuilder } from "fast-xml-parser";
+
+const generateRSSFeed = async () => {
+  const siteURL = "https://thinliquid.dev";
+  const blogPosts = await fs.readdir(BLOG_FOLDER);
+  const parser = new XMLParser();
+  
+  const items = await Promise.all(blogPosts.map(async (file) => {
+    const [frontMatter, ...contentParts] = (await fs.readFile(path.join(BLOG_FOLDER, file), 'utf-8')).split('---');
+    const json = parser.parse(frontMatter);
+    
+    return {
+      title: json.meta.title,
+      description: json.meta.description,
+      link: `${siteURL}/blog/${parseFilename(file)}`,
+      pubDate: new Date(json.meta.date).toUTCString(),
+      guid: `${siteURL}/blog/${parseFilename(file)}`,
+      content: marked.parse(contentParts.join('---')),
+    };
+  }));
+
+  const rssFeed = {
+    rss: {
+      "@version": "2.0",
+      channel: {
+        title: "thinliquid's catppuccin heaven",
+        link: siteURL,
+        description: "yuh i have an rss feed!!",
+        lastBuildDate: new Date().toUTCString(),
+        items: items.map(item => ({
+          title: item.title,
+          description: item.description,
+          link: item.link,
+          pubDate: item.pubDate,
+          guid: item.guid,
+        }))
+      }
+    }
+  };
+
+  const builder = new XMLBuilder({ format: true });
+  const xmlContent = builder.build(rssFeed);
+  await fs.writeFile(path.join(OUTPUT_FOLDER, "blog.xml"), xmlContent);
+  successLog("RSS feed generated successfully!");
 };
 
 const compileSCSSFiles = async (files: string | string[]): Promise<string> => {
@@ -170,6 +216,8 @@ const build = async () => {
     const files = await readFilesRecursively(PAGES_FOLDER);
     const parser = new XMLParser();
     const rootTemplate = await fs.readFile(TEMPLATE_FILE, "utf-8");
+
+    generateRSSFeed()
 
     await Promise.all(files.map(file => file.endsWith(".md") ? processFile(file, rootTemplate, parser) : Promise.resolve()));
 
