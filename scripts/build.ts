@@ -4,7 +4,7 @@ import chokidar from "chokidar";
 import zlib from "zlib";
 import { execSync } from "child_process";
 import { debounce } from 'lodash';
-import { XMLParser } from "fast-xml-parser";
+import { XMLParser, XMLBuilder } from "fast-xml-parser";
 import { marked } from "marked";
 import * as emoji from 'node-emoji';
 import * as prettier from "prettier";
@@ -16,11 +16,20 @@ import chalk from "chalk";
 
 const OUTPUT_FOLDER = "./site";
 const TEMPLATE_FILE = "./root.html";
+const SRC_FOLDER = "./src";
+const PAGES_FOLDER = path.join(SRC_FOLDER, "pages");
+const PUBLIC_FOLDER = path.join(SRC_FOLDER, "public");
+const BLOG_FOLDER = path.join(PAGES_FOLDER, "blog");
 
 const { log } = console;
 const errorLog = (msg: string) => log(chalk.red(msg));
 const successLog = (msg: string) => log(chalk.green(msg));
 const infoLog = (msg: string) => log(chalk.blue(msg));
+
+const parseDateString = (dateString: string): Date => {
+  const [day, month, year] = dateString.split('/').map(Number);
+  return new Date(year, month - 1, day); // month is 0-indexed
+};
 
 const getGitInfo = () => {
   try {
@@ -28,7 +37,7 @@ const getGitInfo = () => {
     return {
       commitHash: exec(`git rev-parse HEAD`),
       commitBranch: exec(`git rev-parse --abbrev-ref HEAD`),
-      commitMessage: exec(`git log -1 --pretty=%B`)
+      commitMessage: exec(`git log -1 --pretty=%B`),
     };
   } catch (error) {
     errorLog("Error getting Git info:");
@@ -37,8 +46,51 @@ const getGitInfo = () => {
   }
 };
 
+const generateRSSFeed = async () => {
+  const siteURL = "https://thinliquid.dev";
+  const blogPosts = await fs.readdir(BLOG_FOLDER);
+  const parser = new XMLParser();
+
+  const items = await Promise.all(blogPosts.map(async (file) => {
+    const [frontMatter, ...contentParts] = (await fs.readFile(path.join(BLOG_FOLDER, file), 'utf-8')).split('---');
+    const json = parser.parse(frontMatter);
+
+    return {
+      title: json.meta.title,
+      description: json.meta.description,
+      link: `${siteURL}/blog/${parseFilename(file)}`,
+      pubDate: parseDateString(json.meta.date).toUTCString(),
+      guid: `${siteURL}/blog/${parseFilename(file)}`,
+    };
+  }));
+
+  const rssFeed = {
+    rss: {
+      "@@version": "2.0",
+      channel: {
+        title: "thinliquid's catppuccin heaven",
+        link: siteURL,
+        description: "yuh i have an rss feed!!",
+        lastBuildDate: new Date().toUTCString(),
+        item: items.map(item => ({
+          title: item.title,
+          description: item.description,
+          link: item.link,
+          pubDate: item.pubDate !== "Invalid Date" ? item.pubDate : 'failed to get date',
+          guid: item.guid,
+        })),
+      }
+    }
+  };
+
+  const builder = new XMLBuilder({ format: true, ignoreAttributes: false, attributeNamePrefix: '@@' });
+  const xmlContent = builder.build(rssFeed);
+  await fs.writeFile(path.join(OUTPUT_FOLDER, "blog.xml"), xmlContent);
+  successLog("RSS feed generated successfully!");
+};
+
 const compileSCSSFiles = async (files: string | string[]): Promise<string> => {
-  const compileFile = (file: string) => sass.compile(path.join('./src', file)).css.toString();
+  const compileFile = (file: string) => sass.compile(path.join(SRC_FOLDER, file)).css.toString();
   const result = Array.isArray(files) ? files.map(compileFile).join('') : compileFile(files);
   return minify(result).css;
 };
@@ -49,23 +101,44 @@ const createExternalStyles = (files: string | string[]): string => {
     : `<link rel="stylesheet" href="${files}">`;
 };
 
-const parseEmojis = (markdown: string) => {
+const parseEmojis = (markdown: string): string => {
   const emojify = (match: string) => `<span className="emoji">${emoji.emojify(match)}</span>`;
-  return markdown.replace(/<(pre|template|code)[^>]*?>[\s\S]+?<\/(pre|template|code)>/g, m => m.replace(/:/g, '__colon__'))
+  return markdown
+    .replace(/<(pre|template|code)[^>]*?>[\s\S]+?<\/(pre|template|code)>/g, m => m.replace(/:/g, '__colon__'))
     .replace(/:(\w+?):/gi, emojify)
     .replace(/__colon__/g, ':');
 };
 
-const format = async (filename: string, data: string) => {
-  const parser = new XMLParser();
+const parseFilename = (filename: string): string =>
+  filename.replace(/\[.*\] /g, '').replaceAll(" ", "-").replace(".md", ".html");
+
+const getBlogPosts = async (parser: XMLParser) => {
+  const files = await fs.readdir(BLOG_FOLDER);
+  return await Promise.all(files.map(async (file) => {
+    const [frontMatter] = (await fs.readFile(path.join(BLOG_FOLDER, file), 'utf-8')).split('---');
+    const json = parser.parse(frontMatter);
+    return `
+      <button onclick="window.location.href = '/blog/${parseFilename(file)}'" style="width:100%;padding:10px;text-align:left;">
+        <h2>${json.meta.title}</h2>
+        <p style="margin:0;padding-bottom:5px;">${json.meta.description}</p>
+        <small>${json.meta.date}</small>
+      </button>`;
+  }));
+};
+
+const formatPage = async (
+  filename: string,
+  data: string,
+  rootTemplate: string,
+  parser: XMLParser
+): Promise<string> => {
   const [frontMatter, ...contentParts] = data.split('---');
   const json = parser.parse(frontMatter);
   let mdContent = parseEmojis(contentParts.join('---'));
+
   const { commitHash, commitMessage } = getGitInfo();
 
-  const pageType = json.meta.type ?? 'page';
-
-  if (pageType === 'blog post') {
+  if (json.meta.type === 'blog post') {
     mdContent = dedent`
       # ${json.meta.title}
       <small>${json.meta.date} | ${json.meta.description}</small>
@@ -73,17 +146,16 @@ const format = async (filename: string, data: string) => {
       ${mdContent}`;
   }
 
-  const [html, md] = await Promise.all([
+  const [html, md, styles, externalStyles, blogPosts] = await Promise.all([
     rootTemplate,
-    marked.parse(mdContent)
+    marked.parse(mdContent),
+    compileSCSSFiles(json.meta['use-style'] ?? []),
+    createExternalStyles(json.meta['use-external-style'] ?? []),
+    getBlogPosts(parser)
   ]);
 
-  const styles = await compileSCSSFiles(json.meta['use-style'] ?? []);
-  const externalStyles = createExternalStyles(json.meta['use-external-style'] ?? []);
-
   const page = html
-    .replaceAll("{{ modfile }}", json.meta.modfile ?? 'gemini-bleeps.mod')
-    .replaceAll("{{ title }}", filename.endsWith("index.md") ? '' : `${json.meta.title} | `)
+    .replaceAll("{{ title }}", filename.endsWith("index.md") ? '' : `${json.meta.title.toLowerCase()} | `)
     .replaceAll("{{ page-title }}", json.meta.title)
     .replaceAll("{{ description }}", json.meta.description)
     .replace("{{ commit-hash }}", commitHash)
@@ -92,27 +164,18 @@ const format = async (filename: string, data: string) => {
     .replace("/* styles */", styles)
     .replace("{{ external-styles }}", externalStyles)
     .replace("{{ content }}", md)
-    .replace("{{ blog-posts }}", await (await fs.readdir('./src/pages/blog')
-      .then(async (files) => await Promise.all(files.map(async (file) => {
-        const [frontMatter] = (await fs.readFile(`./src/pages/blog/${file}`, 'utf-8')).split('---');
-        const json = parser.parse(frontMatter);
-        return `
-        <button onclick="window.location.href = '/blog/${parseFilename(file)}'" style="width:100%;padding:10px;text-align:left;">
-          <h2>${json.meta.title}</h2>
-          <p style="margin:0;padding-bottom:5px;">${json.meta.description}</p>
-          <small>${json.meta.date}</small>
-        </button>`;
-      })))).join(''));
+    .replace("{{ blog-posts }}", blogPosts.join(''));
 
-  const beautified = await prettier.format(page, { parser: "html", htmlWhitespaceSensitivity: "ignore", printWidth: Infinity });
+  const beautified = await prettier.format(page, {
+    parser: "html",
+    htmlWhitespaceSensitivity: "ignore",
+    printWidth: Infinity,
+  });
 
   const comment = `<!--
 ${figlet.textSync("thinliquid.dev", { font: "Small Slant" })}
-
 ${dedent`
-  this file was generated from "${path.basename(filename)}" using my own SSG!
-  the source file can be found in the "src/pages" directory.
-
+  this HTML file was generated from "${path.basename(filename)}" using my own SSG!
   check out the source code at: https://github.com/ThinLiquid/site
 `}
 -->\n`;
@@ -120,7 +183,23 @@ ${dedent`
   return comment + beautified;
 };
 
-const parseFilename = (filename: string) => filename.replace(/\[.*\] /g, '').replaceAll(" ", "-").replace(".md", ".html");
+const processFile = async (file: string, rootTemplate: string, parser: XMLParser) => {
+  try {
+    const parsedFilename = parseFilename(file);
+    const data = await fs.readFile(file, "utf-8");
+    const formattedData = await formatPage(file, data, rootTemplate, parser);
+    const brotliCompressedData = zlib.brotliCompressSync(formattedData);
+
+    const outputFilePath = path.join(OUTPUT_FOLDER, path.relative(PAGES_FOLDER, parsedFilename));
+    await fs.mkdir(path.dirname(outputFilePath), { recursive: true });
+    await fs.writeFile(`${outputFilePath}.br`, brotliCompressedData);
+    await fs.writeFile(outputFilePath, formattedData);
+    successLog(`Built ${file}`);
+  } catch (e) {
+    errorLog(`Error processing ${file}:`);
+    console.error(e);
+  }
+};
 
 const build = async () => {
   try {
@@ -136,29 +215,15 @@ const build = async () => {
       return results.flat();
     };
 
-    const files = await readFilesRecursively("./src/pages/");
+    const files = await readFilesRecursively(PAGES_FOLDER);
+    const parser = new XMLParser();
+    const rootTemplate = await fs.readFile(TEMPLATE_FILE, "utf-8");
 
-    await Promise.all(files.map(async (file) => {
-      if (file.endsWith(".md")) {
-        try {
-          const parsedFilename = parseFilename(file);
-          const data = await fs.readFile(file, "utf-8");
-          const formattedData = await format(file, data);
-          const brotliCompressedData = zlib.brotliCompressSync(formattedData);
+    generateRSSFeed()
 
-          const outputFilePath = path.join(OUTPUT_FOLDER, path.relative("./src/pages", parsedFilename));
-          await fs.mkdir(path.dirname(outputFilePath), { recursive: true });
-          await fs.writeFile(`${outputFilePath}.br`, brotliCompressedData);
-          await fs.writeFile(outputFilePath, formattedData);
-          successLog(`Built ${file}`);
-        } catch (e) {
-          errorLog(`Error processing ${file}:`);
-          console.error(e);
-        }
-      }
-    }));
+    await Promise.all(files.map(file => file.endsWith(".md") ? processFile(file, rootTemplate, parser) : Promise.resolve()));
 
-    await fs.cp('./src/public', OUTPUT_FOLDER, { recursive: true });
+    await fs.cp(PUBLIC_FOLDER, OUTPUT_FOLDER, { recursive: true });
     successLog("Site built successfully!");
   } catch (e) {
     errorLog("Error during build:");
@@ -166,28 +231,16 @@ const build = async () => {
   }
 };
 
-let rootTemplate = await fs.readFile(TEMPLATE_FILE, "utf-8");
-await fs.mkdir(OUTPUT_FOLDER, { recursive: true });
-
 infoLog("Building site...");
-console.log();
-
-const debouncedBuild = debounce(async () => {
-  infoLog('Building...');
-  rootTemplate = await fs.readFile(TEMPLATE_FILE, "utf-8");
-  await build();
-}, 500);
-
 await build();
 
 if (process.argv[2] === 'watch' || process.argv[2] === 'serve') {
-  chokidar.watch(TEMPLATE_FILE).on("change", debouncedBuild);
-  chokidar.watch("./src").on("all", debouncedBuild);
+  const debouncedBuild = debounce(build, 500);
+  chokidar.watch([TEMPLATE_FILE, SRC_FOLDER]).on("all", debouncedBuild);
 
   if (process.argv[2] === 'serve') {
     const http = require('http');
     const handler = require('serve-handler');
-
     http.createServer((req: any, res: any) => handler(req, res, { public: OUTPUT_FOLDER })).listen(8080);
     successLog('Server running at http://localhost:8080/');
   }
