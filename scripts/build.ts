@@ -61,7 +61,7 @@ const generateRSSFeed = async () => {
 
   const rssFeed = {
     rss: {
-      "@version": "2.0",
+      "@@version": "2.0",
       channel: {
         title: "thinliquid's catppuccin heaven",
         link: siteURL,
@@ -71,14 +71,14 @@ const generateRSSFeed = async () => {
           title: item.title,
           description: item.description,
           link: item.link,
-          pubDate: item.pubDate !== "Invalid Date" ? item.pubDate : new Date().toUTCString(),
+          pubDate: item.pubDate !== "Invalid Date" ? item.pubDate : 'failed to get date',
           guid: item.guid,
         })),
       }
     }
   };
 
-  const builder = new XMLBuilder({ format: true, ignoreAttributes: false });
+  const builder = new XMLBuilder({ format: true, ignoreAttributes: false, attributeNamePrefix: '@@' });
   const xmlContent = builder.build(rssFeed);
   await fs.writeFile(path.join(OUTPUT_FOLDER, "blog.xml"), xmlContent);
   successLog("RSS feed generated successfully!");
