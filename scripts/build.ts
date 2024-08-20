@@ -46,7 +46,9 @@ import { XMLBuilder } from "fast-xml-parser";
 const generateRSSFeed = async () => {
   const siteURL = "https://thinliquid.dev";
   const blogPosts = await fs.readdir(BLOG_FOLDER);
-  const parser = new XMLParser();
+  const parser = new XMLParser({
+    attributeNamePrefix: '@'
+  });
   
   const items = await Promise.all(blogPosts.map(async (file) => {
     const [frontMatter, ...contentParts] = (await fs.readFile(path.join(BLOG_FOLDER, file), 'utf-8')).split('---');
