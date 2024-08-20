@@ -41,14 +41,10 @@ const getGitInfo = () => {
   }
 };
 
-import { XMLBuilder } from "fast-xml-parser";
-
 const generateRSSFeed = async () => {
   const siteURL = "https://thinliquid.dev";
   const blogPosts = await fs.readdir(BLOG_FOLDER);
-  const parser = new XMLParser({
-    attributeNamePrefix: '@'
-  });
+  const parser = new XMLParser();
   
   const items = await Promise.all(blogPosts.map(async (file) => {
     const [frontMatter, ...contentParts] = (await fs.readFile(path.join(BLOG_FOLDER, file), 'utf-8')).split('---');
@@ -83,7 +79,11 @@ const generateRSSFeed = async () => {
     }
   };
 
-  const builder = new XMLBuilder({ format: true });
+  const builder = new XMLBuilder({
+    ignoreAttributes: false,
+    attributeNamePrefix: "@@",
+    format: true
+  });
   const xmlContent = builder.build(rssFeed);
   await fs.writeFile(path.join(OUTPUT_FOLDER, "blog.xml"), xmlContent);
   successLog("RSS feed generated successfully!");
