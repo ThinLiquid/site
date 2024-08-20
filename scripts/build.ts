@@ -45,18 +45,17 @@ const generateRSSFeed = async () => {
   const siteURL = "https://thinliquid.dev";
   const blogPosts = await fs.readdir(BLOG_FOLDER);
   const parser = new XMLParser();
-  
+
   const items = await Promise.all(blogPosts.map(async (file) => {
     const [frontMatter, ...contentParts] = (await fs.readFile(path.join(BLOG_FOLDER, file), 'utf-8')).split('---');
     const json = parser.parse(frontMatter);
-    
+
     return {
       title: json.meta.title,
       description: json.meta.description,
       link: `${siteURL}/blog/${parseFilename(file)}`,
       pubDate: new Date(json.meta.date).toUTCString(),
       guid: `${siteURL}/blog/${parseFilename(file)}`,
-      content: marked.parse(contentParts.join('---')),
     };
   }));
 
@@ -68,22 +67,18 @@ const generateRSSFeed = async () => {
         link: siteURL,
         description: "yuh i have an rss feed!!",
         lastBuildDate: new Date().toUTCString(),
-        items: items.map(item => ({
+        item: items.map(item => ({
           title: item.title,
           description: item.description,
           link: item.link,
-          pubDate: item.pubDate,
+          pubDate: item.pubDate !== "Invalid Date" ? item.pubDate : new Date().toUTCString(),
           guid: item.guid,
-        }))
+        })),
       }
     }
   };
 
-  const builder = new XMLBuilder({
-    ignoreAttributes: false,
-    attributeNamePrefix: "@@",
-    format: true
-  });
+  const builder = new XMLBuilder({ format: true, ignoreAttributes: false });
   const xmlContent = builder.build(rssFeed);
   await fs.writeFile(path.join(OUTPUT_FOLDER, "blog.xml"), xmlContent);
   successLog("RSS feed generated successfully!");
