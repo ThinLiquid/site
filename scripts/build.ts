@@ -26,6 +26,11 @@ const errorLog = (msg: string) => log(chalk.red(msg));
 const successLog = (msg: string) => log(chalk.green(msg));
 const infoLog = (msg: string) => log(chalk.blue(msg));
 
+const parseDateString = (dateString: string): Date => {
+  const [day, month, year] = dateString.split('/').map(Number);
+  return new Date(year, month - 1, day); // month is 0-indexed
+};
+
 const getGitInfo = () => {
   try {
     const exec = (cmd: string) => execSync(cmd).toString().trim();
@@ -54,7 +59,7 @@ const generateRSSFeed = async () => {
       title: json.meta.title,
       description: json.meta.description,
       link: `${siteURL}/blog/${parseFilename(file)}`,
-      pubDate: new Date(json.meta.date).toUTCString(),
+      pubDate: parseDateString(json.meta.date).toUTCString(),
       guid: `${siteURL}/blog/${parseFilename(file)}`,
     };
   }));
