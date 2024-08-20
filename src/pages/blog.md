@@ -6,6 +6,6 @@
 </meta>
 ---
 # blog
-my ultra super-duper-uber cool blog!!
+my ultra super-duper-uber cool blog!! you can find my rss feed [> here <](https://thinliquid.dev/blog.xml)
 
 {{ blog-posts }}
