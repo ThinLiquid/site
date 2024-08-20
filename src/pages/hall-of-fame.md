@@ -3,8 +3,6 @@
   <description>these are some cool sites ive found over time</description>
 
   <use-style>/style.scss</use-style>
-
-  <modfile>unsuspected_h.mod</modfile>
 </meta>
 ---
 # hall of fame :trophy:
