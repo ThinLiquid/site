@@ -107,8 +107,7 @@ const formatPage = async (
   ]);
 
   const page = html
-    .replaceAll("{{ modfile }}", json.meta.modfile ?? 'gemini-bleeps.mod')
-    .replaceAll("{{ title }}", filename.endsWith("index.md") ? '' : `${json.meta.title} | `)
+    .replaceAll("{{ title }}", filename.endsWith("index.md") ? '' : `${json.meta.title.toLowerCase()} | `)
     .replaceAll("{{ page-title }}", json.meta.title)
     .replaceAll("{{ description }}", json.meta.description)
     .replace("{{ commit-hash }}", commitHash)
@@ -128,8 +127,7 @@ const formatPage = async (
   const comment = `<!--
 ${figlet.textSync("thinliquid.dev", { font: "Small Slant" })}
 ${dedent`
-  this file was generated from "${path.basename(filename)}" using my own SSG!
-  the source file can be found in the "src/pages" directory.
+  this HTML file was generated from "${path.basename(filename)}" using my own SSG!
   check out the source code at: https://github.com/ThinLiquid/site
 `}
 -->\n`;
