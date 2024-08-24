@@ -14,5 +14,6 @@ these are some cool sites ive found over time
 * [the absolute realm](https://theabsoluterealm.nekoweb.org) - the "index" is so fucking cool
 * [rice](https://rice.nekoweb.org) - really cute webiste
 * [cyberdemon](https://cyberdemon.nekoweb.org) - i love the windows 7 frutiger aero usage here!
+* [felisnite8](https://felisnite8.nekoweb.org/) - i like the green highlights and shadows :3
 
 there'll probably be more added later... so keep ur eyes peeled! :eyes:
