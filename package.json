@@ -12,7 +12,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "bun ./scripts/build.ts && zip -r site.zip site && rm -rf site"
+    "build": "bun ./scripts/build.ts"
   },
   "dependencies": {
     "ansi-colors": "^4.1.3",
