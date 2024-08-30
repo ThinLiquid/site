@@ -25,8 +25,6 @@
 
 he/him | gmt+0 | british
 
-THE HUNT IS ON, TRY TO FIND MY SECRETS :3
-
 ## about me
 
 i'm a 15-year-old dev who does (mostly) frontend projects...
