@@ -3,8 +3,6 @@
   <description>super cool home page</description>
 
   <use-style>/style.scss</use-style>
-
-  <modfile>gemini-bleeps.mod</modfile>
 </meta>
 ---
 <!-- prettier-ignore -->
