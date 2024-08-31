@@ -30,7 +30,7 @@
 
   --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.9);
 
-  --monospace: 'Iosevka Term Web', 'Iosevka', 'Fira Code', 'JetBrains Mono', 'Menlo', 'Courier New', monospace;
+  --monospace: MS Gothic, 'Iosevka Term Web', 'Iosevka', 'Fira Code', 'JetBrains Mono', 'Menlo', 'Courier New', monospace;
 
   --width: 800px;
 }
@@ -64,7 +64,7 @@ html,body {
   }
 
   * {
-    font-family: -apple-system, BlinkMacSystemFont, Inter, Arial, sans-serif;
+    font-family: var(--monospace);
   }
 }
 
