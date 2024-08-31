@@ -48,6 +48,7 @@ html,body {
 }
 
 * {
+  will-change: filter;
   scrollbar-color: rgb(var(--color)) rgb(var(--mantle));
   scrollbar-width: thin;
   
