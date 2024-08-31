@@ -23,7 +23,9 @@
       :root{--color:var(--| color-name |);--color2:var(--| color2-name |)}
       /* styles */
     </style>
-    <noscript><style>yescript{display:none;}</style></noscript>
+    <noscript><style>yescript{
+      display:none!important;
+    }</style></noscript>
   </head>
   <body>
     <nav>
@@ -36,8 +38,8 @@
           <small><a href="https://github.com/ThinLiquid/site/commit/{{ commit-hash }}">{{ commit-hash-short }}</a> - {{ commit-message }}</small>
           <br/>
           <small>{{ commit-date }}</small>
-          <br/><br/>
           <yescript style="display:flex;">
+            <br/><br/>
             <label for="toggle">
               add character and personality
             </label>
