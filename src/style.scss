@@ -135,7 +135,7 @@ nav {
 
   & .inner {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     justify-content: space-between;
     margin: 0 auto;
     width: var(--width);
@@ -143,6 +143,7 @@ nav {
 
     @media (max-width: 800px) {
       flex-direction: column;
+      gap: 20px;
 
       & div:nth-of-type(1) {
         max-width: 100%!important;

@@ -34,12 +34,17 @@ my personal collection of 88x31 buttons (that you can contribute to), all in one
   const BUTTON_DIRECTORY = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/'
 
   const fetchButtons = async () => {
-    const res = await fetch(`${BUTTON_FILE}?${Date.now()}`)
+    const res = await fetch(`${BUTTON_FILE}`, { cache: 'no-store', heders: { 'Cache-Control': 'no-store' } })
     const data = await res.text()
-    const entries = data.split('\n').map(entry => {
+    const entries = data.split('\n').map((entry, index) => {
       const [categories, tags, filename, description, creator] = entry.split(' | ')
-      return { categories: categories.split(','), tags: tags.split(' '), filename, description, creator: creator || 'N/A' }
-    })
+      try {
+        return { categories: categories.split(','), tags: tags.split(' '), filename, description, creator: creator || 'N/A' }
+      } catch {
+        console.error('Error: malformed content\n ->', JSON.stringify(entry), 'at line', index)
+        return null
+      }
+    }).filter(entry => entry !== null)
 
     return entries
   }
