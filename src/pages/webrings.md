@@ -10,9 +10,13 @@
   <modfile>1am.mod</modfile>
 </meta>
 ---
+
 # webrings
 just some webrings im in (probably not much)
 
+<strong>JavaScript is required to view this page.</strong>
+
+<yescript>
 <div id='nekowebring' style="color: var(--base);">
   <script type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
   <script type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
@@ -25,3 +29,4 @@ just some webrings im in (probably not much)
 
   <script src="https://palette.nekoweb.org/webring.js"></script>
 </webring-container>
+</yescript>

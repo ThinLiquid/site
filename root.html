@@ -15,7 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
 
     <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 
     {{ external-styles }}
 
@@ -24,6 +23,10 @@
       :root{--color:var(--| color-name |);--color2:var(--| color2-name |)}
       /* styles */
     </style>
+    <noscript><style>yescript{display:none;}</style></noscript>
+    <script>
+      
+    </script>
   </head>
   <body>
     <nav>
@@ -37,12 +40,12 @@
           <br/>
           <small>{{ commit-date }}</small>
           <br/><br/>
-          <div style="display:flex;">
+          <yescript style="display:flex;">
             <label for="toggle">
               add character and personality
             </label>
             <input type="checkbox" id="toggle" style="width: 20px;" onclick="toggleCharacter()" />
-          </div>
+          </yescript>
         </div>
         <div class="nav">
           {{ navigation }}
@@ -65,7 +68,7 @@
         }
       </script>
     </nav>
-    <div class="tooltip"></div>
+    <div class="tooltip"><noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" height="0" width="0" referrerpolicy="no-referrer-when-downgrade" /></noscript></div>
     <div id="content">
       <div class="inner">{{ content }}</div>
     </div>

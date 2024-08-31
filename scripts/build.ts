@@ -139,11 +139,13 @@ const getBlogPosts = async (parser: XMLParser) => {
     const [frontMatter] = (await fs.readFile(path.join(BLOG_FOLDER, file), 'utf-8')).split('---');
     const json = parser.parse(frontMatter);
     return `
-      <button class="big" onclick="window.location.href = '/blog/${parseFilename(file)}'" style="width:100%;padding:10px;text-align:left;--color:var(--${json.meta.color});">
+    <a href="/blog/${parseFilename(file)}" class="no-style">
+      <button class="big" style="width:100%;padding:10px;text-align:left;--color:var(--${json.meta.color});">
         <h2 style="margin: 0;margin-bottom:5px;">${json.meta.title}</h2>
         <p style="margin:0;padding-bottom:5px;">${json.meta.description}</p>
         <small>${json.meta.date}</small>
-      </button>`;
+      </button>
+    </a>`;
   }));
 };
 

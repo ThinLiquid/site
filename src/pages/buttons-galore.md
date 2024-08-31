@@ -11,6 +11,10 @@
 # buttons galore!!!
 my personal collection of 88x31 buttons (that you can contribute to), all in one place!
 
+<noscript>
+  <strong>JavaScript is required to view this page.</strong>
+</noscript>
+<yescript>
 <input type="text" id="search" placeholder="search for a button..." />
 
 <div class="options">
@@ -28,6 +32,7 @@ my personal collection of 88x31 buttons (that you can contribute to), all in one
 </div>
 
 <div class="buttons"></div>
+</yescript>
 
 <script>
   const BUTTON_FILE = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/index.buttonfile'
