@@ -135,11 +135,16 @@ nav {
 
   & .inner {
     display: flex;
+    gap: 20px;
     justify-content: space-between;
     max-width: var(--width);
     margin: 0 auto;
     width: var(--width);
     max-width: calc(100% - 40px);
+
+    @media (max-width: 800px) {
+      flex-direction: column;
+    }
   }
 }
 
@@ -484,4 +489,14 @@ code {
     content: '`';
     color: rgb(var(--color));
   }
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  flex: 1;
+  
+  height: 100%;
 }
