@@ -36,11 +36,34 @@
           <small><a href="https://github.com/ThinLiquid/site/commit/{{ commit-hash }}">{{ commit-hash-short }}</a> - {{ commit-message }}</small>
           <br/>
           <small>{{ commit-date }}</small>
+          <br/><br/>
+          <div style="display:flex;">
+            <label for="toggle">
+              add character and personality
+            </label>
+            <input type="checkbox" id="toggle" style="width: 20px;" onclick="toggleCharacter()" />
+          </div>
         </div>
         <div class="nav">
           {{ navigation }}
+          <br/>
         </div>
       </div>
+      <script>
+        if (window.localStorage.getItem("personality") === "true") {
+          document.body.classList.add("personality");
+          document.getElementById("toggle").checked = true;
+          document.querySelector("label[for=toggle]").textContent = "remove character and personality";
+        }
+
+        function toggleCharacter() {
+          document.body.classList.toggle("personality");
+          window.localStorage.setItem("personality", document.body.classList.contains("personality"));
+          document.querySelector("label[for=toggle]").textContent =
+            document.body.classList.contains("personality")
+            ? "remove character and personality" : "add character and personality";
+        }
+      </script>
     </nav>
     <div class="tooltip"></div>
     <div id="content">
