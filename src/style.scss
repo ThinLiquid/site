@@ -126,7 +126,7 @@ nav {
   &::after {
     content: '';
     position: absolute;
-    background: linear-gradient(90deg, transparent 25%, rgba(var(--overlay2), 1) 50%, transparent 75%);
+    background: linear-gradient(90deg, transparent 25%, rgba(var(--color), 1) 50%, transparent 75%);
     width: 100%;
     height: 1px;
     bottom: 0;
@@ -166,7 +166,7 @@ footer {
   &::before {
     content: '';
     position: absolute;
-    background: linear-gradient(90deg, transparent 25%, rgba(var(--overlay2), 1) 50%, transparent 75%);
+    background: linear-gradient(90deg, transparent 25%, rgba(var(--color), 1) 50%, transparent 75%);
     width: 100%;
     height: 1px;
     top: 0;
