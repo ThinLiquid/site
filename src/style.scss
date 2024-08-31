@@ -1157,3 +1157,15 @@ code {
 	font-style: italic;
 	src: url('WOFF2/IosevkaTerm-ExtendedHeavyItalic.woff2') format('woff2'), url('TTF/IosevkaTerm-ExtendedHeavyItalic.ttf') format('truetype');
 }
+
+webring-container {
+  small::before {
+    content: '';
+    color: rgb(var(--color));
+  }
+
+  small::after {
+    content: '';
+    color: rgb(var(--color));
+  }
+}
