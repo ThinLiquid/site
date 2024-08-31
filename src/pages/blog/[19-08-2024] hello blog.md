@@ -2,6 +2,7 @@
   <title>hello blog!</title>
   <description>this is the first entry of my blog</description>
   <date>19/08/2024</date>
+  <color>blue</color>
 
   <type>blog post</type>
 

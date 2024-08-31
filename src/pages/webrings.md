@@ -1,6 +1,7 @@
 <meta>
   <title>Webrings</title>
   <description>some webrings im in (probably not much)</description>
+  <color>peach</color>
 
   <use-style>/style.scss</use-style>
 

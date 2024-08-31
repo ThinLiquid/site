@@ -1,11 +1,10 @@
 <meta>
   <title>Buttons Galore</title>
   <description>a massive database of 88x31 buttons!</description>
+  <color>yellow</color>
 
   <use-style>/style.scss</use-style>
   <use-style>/styles/buttons-galore.scss</use-style>
-
-  <modfile>04-808rmx.xm</modfile>
 </meta>
 ---
 

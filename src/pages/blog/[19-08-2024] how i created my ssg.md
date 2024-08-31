@@ -2,6 +2,7 @@
   <title>how i created my ssg!</title>
   <description>built my own static site generator, wrestled with markdown, scss, and xml—turned chaos into something kinda cool. here’s how it went down.</description>
   <date>19/08/2024</date>
+  <color>green</color>
 
   <type>blog post</type>
 

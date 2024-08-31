@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>{{ title }}thinliquid's catppuccin heaven</title>
+    <meta name="theme-color" content="{{ color }}" />
     <meta name="description" content="{{ description }}" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -19,132 +20,36 @@
     {{ external-styles }}
 
     <!-- prettier-ignore -->
-    <style>/* styles */</style>
+    <style>
+      :root{--color:var(--| color-name |);--color2:var(--| color2-name |)}
+      /* styles */
+    </style>
   </head>
   <body>
-    <div class="tooltip"></div>
-    <div id="outskirts">
-      <div id="container" style="position: absolute; top: 0; width: 100%">
-        <window
-          class="no-bg"
-          style="
-            max-width: 390px;
-            width: 100%;
-            position: absolute;
-            left: calc(50% + 105px);
-            top: 100px;
-            z-index: 11;
-          "
-        >
-          <window-titlebar>
-            <window-controls>
-              <window-control type="close"></window-control>
-              <window-control type="minimize"></window-control>
-              <window-control type="maximize"></window-control>
-            </window-controls>
-            <window-title>Finder</window-title>
-          </window-titlebar>
-          <window-content>
-            <folders>
-              <a href="https://thnlqd.atabook.org" target="_blank">
-                <img src="/icons/Contacts.svg" width="64" height="64" alt="" />
-                <folder-name>Guestbook</folder-name>
-              </a>
-              <a href="https://nekoweb.org/follow/thnlqd" target="_blank">
-                <img src="/icons/Grapher.svg" width="64" height="64" alt="" />
-                <folder-name>Follow my Nekoweb</folder-name>
-              </a>
-              <a href="/">
-                <img src="/icons/Folder.svg" width="64" height="64" alt="" />
-                <folder-name>Home</folder-name>
-              </a>
-              <a href="/blog">
-                <img src="/icons/TextEdit.svg" width="64" height="64" alt="" />
-                <folder-name>Blog</folder-name>
-              </a>
-              <a href="/buttons-galore">
-                <img src="/icons/Folder.svg" width="64" height="64" alt="" />
-                <folder-name>Buttons Galore</folder-name>
-              </a>
-              <a href="/hall-of-fame">
-                <img src="/icons/Folder.svg" width="64" height="64" alt="" />
-                <folder-name>Hall of Fame</folder-name>
-              </a>
-              <a href="/webrings">
-                <img src="/icons/Folder.svg" width="64" height="64" alt="" />
-                <folder-name>Webrings</folder-name>
-              </a>
-            </folders>
-          </window-content>
-        </window>
-
-        <window>
-          <window-titlebar>
-            <window-controls>
-              <window-control type="close"></window-control>
-              <window-control type="minimize"></window-control>
-              <window-control type="maximize"></window-control>
-            </window-controls>
-            <window-title>generic_vtuberlogo.webp</window-title>
-          </window-titlebar>
-          <window-content>
-            <img src="/vtuberlogo_mini.webp" width="100%" style="aspect-ratio:1280/720;" alt="my super cool logo" />
-          </window-content>
-        </window>
-
-        <window>
-          <window-titlebar>
-            <window-controls>
-              <window-control type="close"></window-control>
-              <window-control type="minimize"></window-control>
-              <window-control type="maximize"></window-control>
-            </window-controls>
-            <window-title>{{ page-title }}</window-title>
-          </window-titlebar>
-          <window-content>{{ content }}</window-content>
-        </window>
-
-        <window
-          style="
-            max-width: 300px;
-            width: 100%;
-            position: absolute;
-            left: calc(50% - 555px);
-            top: 200px;
-            z-index: 10;
-          "
-        >
-          <window-titlebar>
-            <window-controls>
-              <window-control type="close"></window-control>
-              <window-control type="minimize"></window-control>
-              <window-control type="maximize"></window-control>
-            </window-controls>
-            <window-title> current commit </window-title>
-          </window-titlebar>
-          <window-content>
-            <div style="text-align: center">
-              🏷 <a href="https://github.com/ThinLiquid/site/commit/{{ commit-hash }}">{{ commit-hash-short }}</a>
-              <small style="margin-top: 5px; display: block">{{ commit-message }}</small>
-            </div>
-          </window-content>
-        </window>
+    <nav>
+      <div class="inner">
+        <div>
+          <h1 style="margin:0;font-size:3em;">thnlqd</h1>
+          <code><a href="https://github.com/ThinLiquid/site/commit/{{ commit-hash }}">{{ commit-hash-short }}</a> - {{ commit-message }}</code>
+        </div>
+        <div>
+          {{ navigation }}
+        </div>
       </div>
+    </nav>
+    <div class="tooltip"></div>
+    <div id="content">
+      <div class="inner">{{ content }}</div>
     </div>
-
-    <script>
-      document.querySelectorAll('folders a').forEach(e => {
-        e.ondblclick = () => {
-          if (e.target === '_blank') {
-            window.open(e.href)
-          } else {
-            window.location = e.href
-          }
-        }
-        e.onclick = evt => {
-          evt.preventDefault()
-        }
-      })
-    </script>
+    <footer>
+      <div class="inner">
+        <div>
+          <h4 style="margin: 0;">&copy; 2023-2024 ThinLiquid</h4>
+          <p style="margin: 0;">powered by bun | hosted on nekoweb</p>
+          <br/>
+          <p style="margin: 0;">last commit hash: <code style="user-select: all;">{{ commit-hash }}</code></p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

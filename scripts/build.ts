@@ -13,6 +13,8 @@ import { minify } from 'csso';
 import figlet from "figlet";
 import dedent from "dedent";
 import chalk from "chalk";
+import twemoji from "twemoji";
+import { title } from "process";
 
 const OUTPUT_FOLDER = "./site";
 const TEMPLATE_FILE = "./root.html";
@@ -46,13 +48,14 @@ const getGitInfo = () => {
   }
 };
 
+const siteURL = "https://thinliquid.dev";
+
 const generateRSSFeed = async () => {
-  const siteURL = "https://thinliquid.dev";
   const blogPosts = await fs.readdir(BLOG_FOLDER);
   const parser = new XMLParser();
 
   const items = await Promise.all(blogPosts.map(async (file) => {
-    const [frontMatter, ...contentParts] = (await fs.readFile(path.join(BLOG_FOLDER, file), 'utf-8')).split('---');
+    const [frontMatter,] = (await fs.readFile(path.join(BLOG_FOLDER, file), 'utf-8')).split('---');
     const json = parser.parse(frontMatter);
 
     return {
@@ -76,7 +79,7 @@ const generateRSSFeed = async () => {
           title: item.title,
           description: item.description,
           link: item.link,
-          pubDate: item.pubDate !== "Invalid Date" ? item.pubDate : 'failed to get date',
+          pubDate: item.pubDate === "Invalid Date" ? 'failed to get date' : item.pubDate,
           guid: item.guid,
         })),
       }
@@ -95,14 +98,14 @@ const compileSCSSFiles = async (files: string | string[]): Promise<string> => {
   return minify(result).css;
 };
 
-const createExternalStyles = (files: string | string[]): string => {
-  return Array.isArray(files)
-    ? files.map(file => `<link rel="stylesheet" href="${file}">`).join('')
-    : `<link rel="stylesheet" href="${files}">`;
-};
+const createExternalStyles = (files: string | string[]): string => Array.isArray(files)
+? files.map(file => `<link rel="stylesheet" href="${file}">`).join('')
+: `<link rel="stylesheet" href="${files}">`;
 
 const parseEmojis = (markdown: string): string => {
-  const emojify = (match: string) => `<span className="emoji">${emoji.emojify(match)}</span>`;
+  const emojify = (match: string) => twemoji.parse(emoji.emojify(match), {
+    base: 'https://raw.githubusercontent.com/twitter/twemoji/master/assets/'
+  });
   return markdown
     .replace(/<(pre|template|code)[^>]*?>[\s\S]+?<\/(pre|template|code)>/g, m => m.replace(/:/g, '__colon__'))
     .replace(/:(\w+?):/gi, emojify)
@@ -118,13 +121,42 @@ const getBlogPosts = async (parser: XMLParser) => {
     const [frontMatter] = (await fs.readFile(path.join(BLOG_FOLDER, file), 'utf-8')).split('---');
     const json = parser.parse(frontMatter);
     return `
-      <button onclick="window.location.href = '/blog/${parseFilename(file)}'" style="width:100%;padding:10px;text-align:left;">
-        <h2>${json.meta.title}</h2>
+      <button class="big" onclick="window.location.href = '/blog/${parseFilename(file)}'" style="width:100%;padding:10px;text-align:left;--color:var(--${json.meta.color});">
+        <h2 style="margin: 0;margin-bottom:5px;">${json.meta.title}</h2>
         <p style="margin:0;padding-bottom:5px;">${json.meta.description}</p>
         <small>${json.meta.date}</small>
       </button>`;
   }));
 };
+
+const colors = {
+  "rosewater": "#f5e0dc",
+  "flamingo": "#f2cdcd",
+  "pink": "#f5c2e7",
+  "mauve": "#cba6f7",
+  "red": "#f38ba8",
+  "maroon": "#eba0ac",
+  "peach": "#fab387",
+  "yellow": "#f9e2af",
+  "green": "#a6e3a1",
+  "teal": "#94e2d5",
+  "sky": "#89dceb",
+  "sapphire": "#74c7ec",
+  "blue": "#89b4fa",
+  "lavender": "#b4befd",
+  "text": "#cdd6f4",
+  "subtext1": "#bac2de",
+  "subtext0": "#a6adc8",
+  "overlay2": "#9399b2",
+  "overlay1": "#7f849c",
+  "overlay0": "#6c7086",
+  "surface2": "#585b70",
+  "surface1": "#45475a",
+  "surface0": "#313244",
+  "base": "#1e1e2e",
+  "mantle": "#181924",
+  "crust": "#11111b"
+}
 
 const formatPage = async (
   filename: string,
@@ -154,17 +186,35 @@ const formatPage = async (
     getBlogPosts(parser)
   ]);
 
+  const getNextInObj = (obj: any, key: string) => {
+    const keys = Object.keys(obj);
+    const index = keys.indexOf(key);
+    if (index === -1) return null;
+    return keys[index + 1];
+  }
+
+  const { default: nav } = require('../src/nav.ts')
+
   const page = html
+    .replaceAll("{{ color }}", (colors as any)[json.meta.color ?? 'blue'])
+    .replaceAll("| color-name |", json.meta.color ?? 'blue')
+    .replaceAll("{{ color2 }}", (colors as any)[getNextInObj(colors, json.meta.color ?? 'blue') ?? 'blue'])
+    .replaceAll("| color2-name |", getNextInObj(colors, json.meta.color ?? 'blue') ?? 'blue')
     .replaceAll("{{ title }}", filename.endsWith("index.md") ? '' : `${json.meta.title.toLowerCase()} | `)
     .replaceAll("{{ page-title }}", json.meta.title)
     .replaceAll("{{ description }}", json.meta.description)
-    .replace("{{ commit-hash }}", commitHash)
+    .replaceAll("{{ commit-hash }}", commitHash)
     .replace("{{ commit-hash-short }}", commitHash.slice(0, 7))
     .replace("{{ commit-message }}", commitMessage)
     .replace("/* styles */", styles)
     .replace("{{ external-styles }}", externalStyles)
     .replace("{{ content }}", md)
-    .replace("{{ blog-posts }}", blogPosts.join(''));
+    .replace("{{ blog-posts }}", blogPosts.join(''))
+    .replace("{{ navigation }}", nav.map(({ title, link, emoji }: {
+      title: string;
+      link: string;
+      emoji: string;
+    }) => `<a href="${link}"><button>${parseEmojis(emoji)} ${title}</button></a>`).join(''));
 
   const beautified = await prettier.format(page, {
     parser: "html",
@@ -192,7 +242,7 @@ const processFile = async (file: string, rootTemplate: string, parser: XMLParser
 
     const outputFilePath = path.join(OUTPUT_FOLDER, path.relative(PAGES_FOLDER, parsedFilename));
     await fs.mkdir(path.dirname(outputFilePath), { recursive: true });
-    await fs.writeFile(`${outputFilePath}.br`, brotliCompressedData);
+    await fs.writeFile(`${outputFilePath}.br`, new Uint8Array(brotliCompressedData));
     await fs.writeFile(outputFilePath, formattedData);
     successLog(`Built ${file}`);
   } catch (e) {
