@@ -261,6 +261,8 @@ button {
   opacity: 0;
   position: absolute;
   width: max-content;
+  user-select: none;
+  pointer-events: none;
   * {
     word-break: keep-all;
   }
