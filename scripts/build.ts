@@ -29,8 +29,17 @@ const successLog = (msg: string) => log(chalk.green(msg));
 const infoLog = (msg: string) => log(chalk.blue(msg));
 
 const parseDateString = (dateString: string): Date => {
-  const [day, month, year] = dateString.split('/').map(Number);
-  return new Date(year, month - 1, day); // month is 0-indexed
+  // 00/00/0000
+  const date = dateString.split(' ')[0]
+
+  // 00:00:00
+  const time = dateString.split(' ')[1] + dateString.split(' ')[2]
+
+  const [day, month, year] = date.split('/');
+  const [hour, minute, second] = time.split(':');
+  
+
+  return new Date(parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hour), parseInt(minute), parseInt(second));
 };
 
 const getGitInfo = () => {
@@ -73,6 +82,11 @@ const generateRSSFeed = async () => {
       channel: {
         title: "thinliquid's catppuccin heaven",
         link: siteURL,
+        'atom:link': {
+          '@@href': `${siteURL}/blog.xml`,
+          '@@rel': 'self',
+          '@@type': 'application/rss+xml',
+        },
         description: "yuh i have an rss feed!!",
         lastBuildDate: new Date().toUTCString(),
         item: items.map(item => ({
@@ -88,7 +102,10 @@ const generateRSSFeed = async () => {
 
   const builder = new XMLBuilder({ format: true, ignoreAttributes: false, attributeNamePrefix: '@@' });
   const xmlContent = builder.build(rssFeed);
-  await fs.writeFile(path.join(OUTPUT_FOLDER, "blog.xml"), xmlContent);
+  await fs.writeFile(path.join(OUTPUT_FOLDER, "blog.xml"), dedent`
+    <?xml-stylesheet type="text/xsl" href="/rss.xsl" ?>
+    ${xmlContent}
+  `);
   successLog("RSS feed generated successfully!");
 };
 

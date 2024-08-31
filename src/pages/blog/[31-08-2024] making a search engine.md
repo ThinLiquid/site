@@ -1,7 +1,7 @@
 <meta>
   <title>making a "search engine"!</title>
   <description>making a simple search engine using bun and elysia</description>
-  <date>31/08/2024</date>
+  <date>31/08/2024 18:11:00</date>
   <color>peach</color>
 
   <type>blog post</type>
