@@ -9,6 +9,7 @@
   <use-style>/style.scss</use-style>
 </meta>
 ---
+
 so the other day, i was on the nekoweb discord server, just chilling as usual. i mentioned to “chat” that my site was getting trickier and trickier to manage by the day, and a few people (max, tmhell, and giiki) suggested i use an ssg. one of the first they recommended was 11ty, an ssg with support for 11 markup languages. i’d used it in the past and was pretty comfortable with it.
 
 HOWWWEVERRR, i wanted a challenge—something not too difficult to create, but just tricky enough to fit my needs.
