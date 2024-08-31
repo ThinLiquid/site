@@ -14,7 +14,7 @@ import figlet from "figlet";
 import dedent from "dedent";
 import chalk from "chalk";
 import twemoji from "twemoji";
-import { title } from "process";
+import pkg from "../package.json";
 
 const OUTPUT_FOLDER = "./site";
 const TEMPLATE_FILE = "./root.html";
@@ -49,11 +49,12 @@ const getGitInfo = () => {
       commitHash: exec(`git rev-parse HEAD`),
       commitBranch: exec(`git rev-parse --abbrev-ref HEAD`),
       commitMessage: exec(`git log -1 --pretty=%B`),
+      commitDate: exec(`git log -1 --pretty=%cd`)
     };
   } catch (error) {
     errorLog("Error getting Git info:");
     console.error(error);
-    return { commitHash: "", commitMessage: "", commitBranch: "" };
+    return { commitHash: "", commitMessage: "", commitBranch: "", commitDate: "" };
   }
 };
 
@@ -185,7 +186,7 @@ const formatPage = async (
   const json = parser.parse(frontMatter);
   let mdContent = parseEmojis(contentParts.join('---'));
 
-  const { commitHash, commitMessage } = getGitInfo();
+  const { commitHash, commitMessage, commitDate } = getGitInfo();
 
   if (json.meta.type === 'blog post') {
     mdContent = dedent`
@@ -213,6 +214,7 @@ const formatPage = async (
   const { default: nav } = require('../src/nav.ts')
 
   const page = html
+    .replaceAll("{{ version }}", pkg.version)
     .replaceAll("{{ color }}", (colors as any)[json.meta.color ?? 'blue'])
     .replaceAll("| color-name |", json.meta.color ?? 'blue')
     .replaceAll("{{ color2 }}", (colors as any)[getNextInObj(colors, json.meta.color ?? 'blue') ?? 'blue'])
@@ -223,6 +225,7 @@ const formatPage = async (
     .replaceAll("{{ commit-hash }}", commitHash)
     .replace("{{ commit-hash-short }}", commitHash.slice(0, 7))
     .replace("{{ commit-message }}", commitMessage)
+    .replace("{{ commit-date }}", new Date(commitDate).toUTCString())
     .replace("/* styles */", styles)
     .replace("{{ external-styles }}", externalStyles)
     .replace("{{ content }}", md)

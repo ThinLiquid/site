@@ -1,5 +1,6 @@
 {
   "name": "new-site",
+  "version": "5.0.0",
   "module": "index.ts",
   "devDependencies": {
     "@types/bun": "latest",
