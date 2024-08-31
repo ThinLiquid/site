@@ -42,11 +42,16 @@
           <br/>
           <small>{{ commit-date }}</small>
           <br/><br/>
-          <yescript style="display:flex;">
-            <label for="toggle">
-              add character and personality
-            </label>
-            <input type="checkbox" id="toggle" style="width: 20px;" onclick="toggleCharacter()" />
+          <yescript>
+            <button onclick="toggleCharacter()">
+              character and personality
+            </button>
+            <button onclick="toggleMonospace()">
+              monospace mode
+            </button>
+            <button onclick="toggleNormal()">
+              normal
+            </button>
           </yescript>
         </div>
         <div class="nav">
@@ -55,18 +60,21 @@
         </div>
       </div>
       <script>
-        if (window.localStorage.getItem("personality") === "true") {
-          document.body.classList.add("personality");
-          document.getElementById("toggle").checked = true;
-          document.querySelector("label[for=toggle]").textContent = "remove character and personality";
-        }
+        document.body.setAttribute('class', window.localStorage.getItem("theme") || '');
 
         function toggleCharacter() {
-          document.body.classList.toggle("personality");
-          window.localStorage.setItem("personality", document.body.classList.contains("personality"));
-          document.querySelector("label[for=toggle]").textContent =
-            document.body.classList.contains("personality")
-            ? "remove character and personality" : "add character and personality";
+          document.body.setAttribute('class', 'personality');
+          window.localStorage.setItem("theme", 'personality');
+        }
+
+        function toggleMonospace() {
+          document.body.setAttribute('class', 'monospace');
+          window.localStorage.setItem("theme", 'monospace');
+        }
+
+        function toggleNormal() {
+          document.body.setAttribute('class', '');
+          window.localStorage.setItem("theme", '');
         }
       </script>
     </nav>

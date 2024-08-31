@@ -55,6 +55,12 @@ html,body {
       * { font-family: var(--monospace); }
     }
   }
+
+  &.monospace {
+    * {
+      * { font-family: var(--monospace); }
+    }
+  }
 }
 
 * {
