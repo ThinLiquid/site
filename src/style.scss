@@ -341,9 +341,16 @@ em, i {
   }
 }
 
-small::before {
-  content: '-# ';
-  color: rgb(var(--color));
+small {
+  &::before {
+    content: '<small>';
+    color: rgb(var(--color));
+  }
+
+  &::after {
+    content: '</small>';
+    color: rgb(var(--color));
+  }
 }
 
 hr {
