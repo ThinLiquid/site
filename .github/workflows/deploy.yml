@@ -1,4 +1,4 @@
-name: deploy 2 nekoweb
+name: deploy2nekoweb
 on: [push]
 jobs:
   deployer:
