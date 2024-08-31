@@ -137,13 +137,16 @@ nav {
     display: flex;
     gap: 20px;
     justify-content: space-between;
-    max-width: var(--width);
     margin: 0 auto;
     width: var(--width);
     max-width: calc(100% - 40px);
 
     @media (max-width: 800px) {
       flex-direction: column;
+
+      & div:nth-of-type(1) {
+        max-width: 100%!important;
+      }
 
       .nav {
         justify-content: flex-start;
@@ -186,9 +189,14 @@ a {
   padding: 2.5px 5px;
   border-radius: 7.5px;
   color: rgb(var(--color));
-  border: 2px solid rgb(var(--color));
+  border: 2px solid rgba(var(--color));
 
   transition: all .5s var(--bounce), color .25s, border-color .25s;
+
+  &:has(img) {
+    border: none!important;
+    padding: 0;
+  }
 
   &:not(:has(button)) {
     &:hover {
@@ -479,9 +487,10 @@ select {
 }
 
 code {
+  display: inline-block;
   font-family: Menlo, monospace;
   background: rgba(var(--base), 0.5);
-  padding: 2.5px 5px;
+  padding: 5px;
   border-radius: 5px;
 
   &::before {
