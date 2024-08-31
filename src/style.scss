@@ -196,12 +196,12 @@ a {
 
   transition: all .5s var(--bounce), color .25s, border-color .25s;
 
-  &:has(img) {
+  &:has(img), &.no-style {
     border: none!important;
     padding: 0;
   }
 
-  &:not(:has(button)) {
+  &:not(.no-style) {
     &:hover {
       transform: scale(1.05) skew(-5deg);
     }
