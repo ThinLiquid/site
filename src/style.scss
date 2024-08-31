@@ -144,6 +144,10 @@ nav {
 
     @media (max-width: 800px) {
       flex-direction: column;
+
+      .nav {
+        justify-content: flex-start;
+      }
     }
   }
 }
