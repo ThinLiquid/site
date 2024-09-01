@@ -1,9 +1,9 @@
-<meta>
-  <title>Home</title>
-  <description>super cool home page</description>
+---
+title: Home
+description: super cool home page
+color: blue
 
-  <use-style>/style.scss</use-style>
-</meta>
+use-style: /style.scss
 ---
 <!-- prettier-ignore -->
 <div style="text-align:center;position:relative;margin: 120px 0;">
@@ -45,7 +45,7 @@ i'm also currently learning rust and flutter as of now!
 
   <project-card onclick="window.open('https://buffer.thinliquid.dev')" style="--color:var(--maroon);">
     <h3>://buffer</h3>
-    <p>a spotify client (will be public soon!!)</p>
+    <p>a web-based spotify client</p>
   </project-card>
 
   <project-card onclick="window.open('https://untitled.thinliquid.dev')" style="--color:var(--peach);">

@@ -1,10 +1,9 @@
-<meta>
-  <title>Blog</title>
-  <description>my ultra super-duper-uber cool blog!!</description>
-  <color>maroon</color>
+---
+title: Blog
+description: my ultra super-duper-uber cool blog!!
+color: maroon
 
-  <use-style>/style.scss</use-style>
-</meta>
+use-style: /style.scss
 ---
 
 # blog

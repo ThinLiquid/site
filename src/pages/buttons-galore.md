@@ -1,11 +1,10 @@
-<meta>
-  <title>Buttons Galore</title>
-  <description>a massive database of 88x31 buttons!</description>
-  <color>yellow</color>
+---
+title: Buttons Galore
+description: a massive database of 88x31 buttons!
+color: yellow
 
-  <use-style>/style.scss</use-style>
-  <use-style>/styles/buttons-galore.scss</use-style>
-</meta>
+use-style: /style.scss
+use-style: /styles/buttons-galore.scss
 ---
 
 # buttons galore!!!

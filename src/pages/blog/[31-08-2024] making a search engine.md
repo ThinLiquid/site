@@ -1,13 +1,12 @@
-<meta>
-  <title>making a "search engine"!</title>
-  <description>making a simple search engine using bun and elysia</description>
-  <date>31/08/2024 18:11:00</date>
-  <color>peach</color>
+---
+title: making a "search engine"!
+description: making a simple search engine using bun and elysia
+date: 31/08/2024 18:11:00
+color: peach
 
-  <type>blog post</type>
+page-type: post
 
-  <use-style>/style.scss</use-style>
-</meta>
+use-style: /style.scss
 ---
 
 so (yet again) the other day, it was around 2am... i was programming on mobile data (cuz my mother unplugged the wifi that night) and i was using **"EE Stay Connected"** (the slowest unlimited data plan everrr). just to make a simple web search on any search engine, it would take around 5 minutes to load the page. so i thought to myself, "why not make a search engine that's super lightweight and fast?" and that's how i started making my own "search engine".

@@ -1,13 +1,12 @@
-<meta>
-  <title>how i created my ssg!</title>
-  <description>built my own static site generator, wrestled with markdown, scss, and xml—turned chaos into something kinda cool. here’s how it went down.</description>
-  <date>19/08/2024 00:00:00</date>
-  <color>green</color>
+---
+title: how i created my ssg!
+description: built my own static site generator, wrestled with markdown, scss, and xml—turned chaos into something kinda cool. here’s how it went down.
+date: 19/08/2024 00:00:00
+color: green
 
-  <type>blog post</type>
+page-type: post
 
-  <use-style>/style.scss</use-style>
-</meta>
+use-style: /style.scss
 ---
 
 so the other day, i was on the nekoweb discord server, just chilling as usual. i mentioned to “chat” that my site was getting trickier and trickier to manage by the day, and a few people (max, tmhell, and giiki) suggested i use an ssg. one of the first they recommended was 11ty, an ssg with support for 11 markup languages. i’d used it in the past and was pretty comfortable with it.
