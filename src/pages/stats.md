@@ -1,10 +1,9 @@
-<meta>
-  <title>Code::Stats</title>
-  <description>my code::stats progress</description>
-  <color>lavender</color>
+---
+title: code::stats
+description: my code::stats progress
+color: lavender
 
-  <use-style>/style.scss</use-style>
-</meta>
+use-style: /style.scss
 ---
 
 # code::stats
