@@ -13,17 +13,21 @@ styles:
 
 # socials
 
-[
-  ![Discord](https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/discord.gif)
-](https://discord.com/users/620492146406981642)[
-  ![GitHub](https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/github.gif)
-](https://github.com/ThinLiquid)[
-  ![Reddit](https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/reddit.gif)
-](https://www.reddit.com/user/JuiciiYT)[
-  ![X](https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/twitterbutton.gif)
-](https://x.com/thnlqd)[
-  ![PGP](https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/pgp-now.gif)
-](https://github.com/ThinLiquid.gpg)
+<a href="https://discord.com/users/620492146406981642" class="no-style">
+  <img src="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/discord.gif" alt="Discord">
+</a>
+<a href="https://github.com/ThinLiquid" class="no-style">
+  <img src="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/github.gif" alt="GitHub">
+</a>
+<a href="https://www.reddit.com/user/JuiciiYT" class="no-style">
+  <img src="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/reddit.gif" alt="Reddit">
+</a>
+<a href="https://x.com/thnlqd" class="no-style">
+  <img src="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/twitterbutton.gif" alt="X">
+</a>
+<a href="https://github.com/ThinLiquid.gpg" class="no-style">
+  <img src="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/pgp-now.gif" alt="PGP">
+</a>
 
 email: [thnlqd@gmail.com](mailto:thnlqd@gmail.com)
 

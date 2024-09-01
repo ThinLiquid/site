@@ -198,6 +198,11 @@ footer {
   }
 }
 
+#nekowebring a {
+	border: none!important;
+	padding: 0;
+}
+
 a {
   user-select: none;
   display: inline-flex;
@@ -210,7 +215,7 @@ a {
 
   transition: all .5s var(--bounce), color .25s, border-color .25s;
 
-  &:has(img), &.no-style {
+  &.no-style {
     border: none!important;
     padding: 0;
   }
@@ -229,11 +234,6 @@ a {
       border-color: rgb(var(--sapphire));
       color: rgb(var(--sapphire));
     }
-  }
-
-  &:has(button) {
-    padding: 0;
-    border: none;
   }
 }
 
