@@ -5,7 +5,6 @@ import * as marked from 'marked';
 
 import { parse } from 'yaml';
 
-import pkg from './package.json';
 import { execSync } from 'child_process';
 
 import nav from './src/nav';
@@ -189,7 +188,12 @@ ${dedent`
         });
       },
       variables: {
-        version: pkg.version,
+        version: () => {
+          const path = require.resolve('./package.json');
+          delete require.cache[path];
+          
+          return require('./package.json').version
+        },
 
         title: ({ title = 'Untitled' }: { title?: string }) => `${title} | `,
         'page-title': ({ title = 'Untitled' }: { title?: string }) => title,
