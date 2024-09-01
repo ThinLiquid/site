@@ -168,8 +168,8 @@ export default defineConfig({
 
           templateFile = templateFile.replace('<!-- variable:content -->', await marked.parse(`${prefix}\n${content}`))
           for (const [key, value] of Object.entries(_.variables)) {
-            templateFile = templateFile.replace(`/* variable:${key} */`, typeof value === 'function' ? await value(meta) : value);
-            templateFile = templateFile.replace(`<!-- variable:${key} -->`, typeof value === 'function' ? await value(meta) : value);
+            templateFile = templateFile.replaceAll(`/* variable:${key} */`, typeof value === 'function' ? await value(meta) : value);
+            templateFile = templateFile.replaceAll(`<!-- variable:${key} -->`, typeof value === 'function' ? await value(meta) : value);
           }
 
           const comment = `<!--
