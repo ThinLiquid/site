@@ -191,11 +191,11 @@ ${dedent`
         version: () => {
           const path = require.resolve('./package.json');
           delete require.cache[path];
-          
+
           return require('./package.json').version
         },
 
-        title: ({ title = 'Untitled' }: { title?: string }) => `${title} | `,
+        title: ({ title = 'Untitled' }: { title?: string }) => title === 'Home' ? '' : `${title} | `,
         'page-title': ({ title = 'Untitled' }: { title?: string }) => title,
         description: ({ description = 'No description' }: { description?: string }) => description,
 
