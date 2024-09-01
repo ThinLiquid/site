@@ -6,7 +6,8 @@ color: green
 
 page-type: post
 
-use-style: /style.scss
+styles:
+  - /style.css
 ---
 
 so the other day, i was on the nekoweb discord server, just chilling as usual. i mentioned to “chat” that my site was getting trickier and trickier to manage by the day, and a few people (max, tmhell, and giiki) suggested i use an ssg. one of the first they recommended was 11ty, an ssg with support for 11 markup languages. i’d used it in the past and was pretty comfortable with it.

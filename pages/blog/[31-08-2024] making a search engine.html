@@ -5,9 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><!-- variable:title -->thinliquid's catppuccin heaven</title>
-    <meta name="theme-color" content="<!-- variable:color -->" />
-    <meta name="description" content="<!-- variable:description -->" />
+    <title>{{ title }}thinliquid's catppuccin heaven</title>
+    <meta name="theme-color" content="{{ color }}" />
+    <meta name="description" content="{{ description }}" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,12 +15,12 @@
 
     <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 
-    <!-- variable:styles -->
-    <!-- variable:external-styles -->
+    {{ external-styles }}
 
     <!-- prettier-ignore -->
     <style>
-      :root{--color:var(--/* variable:color-name */);--color2:var(--/* variable:color2-name */)}
+      :root{--color:var(--| color-name |);--color2:var(--| color2-name |)}
+      /* styles */
     </style>
     <noscript><style>yescript{
       display:none!important;
@@ -35,11 +35,11 @@
         <div style="max-width: 490px;">
           <a href="/" class="no-style">
             <h1 style="margin:0;font-size:3em;">thnlqd</h1>
-          </a><code style="font-size:15px;">v<!-- variable:version --></code>
+          </a><code style="font-size:15px;">v{{ version }}</code>
           <br/>
-          <small><a href="https://github.com/ThinLiquid/site/commit/<!-- variable:commit-hash -->"><!-- variable:commit-hash-short --></a> - <!-- variable:commit-message --></small>
+          <small><a href="https://github.com/ThinLiquid/site/commit/{{ commit-hash }}">{{ commit-hash-short }}</a> - {{ commit-message }}</small>
           <br/>
-          <small><!-- variable:commit-date --></small>
+          <small>{{ commit-date }}</small>
           <br/><br/>
           <yescript>
             <button onclick="toggleCharacter()">
@@ -54,7 +54,7 @@
           </yescript>
         </div>
         <div class="nav">
-          <!-- variable:navigation -->
+          {{ navigation }}
           <br/>
         </div>
       </div>
@@ -79,7 +79,11 @@
     </nav>
     <div class="tooltip"><noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" height="0" width="0" referrerpolicy="no-referrer-when-downgrade" /></noscript></div>
     <div id="content">
-      <div class="inner"><!-- variable:content --></div>
+      <div class="inner"><p>so (yet again) the other day, it was around 2am... i was programming on mobile data (cuz my mother unplugged the wifi that night) and i was using <strong>&quot;EE Stay Connected&quot;</strong> (the slowest unlimited data plan everrr). just to make a simple web search on any search engine, it would take around 5 minutes to load the page. so i thought to myself, &quot;why not make a search engine that&#39;s super lightweight and fast?&quot; and that&#39;s how i started making my own &quot;search engine&quot;.</p>
+<p>so i started by scraping DuckDuckGo with a library called <code>duck-duck-scrape</code>. i then made a simple html page using <strong>bun</strong> and <strong>elysia&#39;s jsx plugin</strong> (god i love bun) with a search bar and a list of search results. i then added a little bit of css to make it look nice and voilà! i had my own search engine.</p>
+<p>i later added an actual main page which was just a heading and input lmao... this is actually a pretty fun project to work on, and would also make a fun started project for anyone who wants to get into web/backend development.</p>
+<p>anyways i hope i can update this blog some more.... au revoir :3</p>
+</div>
     </div>
     <footer>
       <div class="inner">
@@ -92,7 +96,7 @@
           <a href="https://archlinux.org"><img src="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" href="i use arch btw"></a>
           <img src="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/handcoded.gif" alt="completely hand-coded!">
           <br/><br/>
-          <p style="margin: 0;">last commit hash: <code style="user-select: all;"><!-- variable:commit-hash --></code></p>
+          <p style="margin: 0;">last commit hash: <code style="user-select: all;">{{ commit-hash }}</code></p>
         </div>
       </div>
     </footer>

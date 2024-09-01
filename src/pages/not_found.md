@@ -1,9 +1,10 @@
 ---
-title: 404: Not Found
+title: "404: Not Found"
 description: looks like u got lost... nya!
 color: red
 
-use-style: /style.scss
+styles:
+  - /style.css
 ---
 
 <div style="text-align:center;margin-top: 100px;">

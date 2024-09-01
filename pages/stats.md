@@ -5,9 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><!-- variable:title -->thinliquid's catppuccin heaven</title>
-    <meta name="theme-color" content="<!-- variable:color -->" />
-    <meta name="description" content="<!-- variable:description -->" />
+    <title>{{ title }}thinliquid's catppuccin heaven</title>
+    <meta name="theme-color" content="{{ color }}" />
+    <meta name="description" content="{{ description }}" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,12 +15,12 @@
 
     <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 
-    <!-- variable:styles -->
-    <!-- variable:external-styles -->
+    {{ external-styles }}
 
     <!-- prettier-ignore -->
     <style>
-      :root{--color:var(--/* variable:color-name */);--color2:var(--/* variable:color2-name */)}
+      :root{--color:var(--| color-name |);--color2:var(--| color2-name |)}
+      /* styles */
     </style>
     <noscript><style>yescript{
       display:none!important;
@@ -35,11 +35,11 @@
         <div style="max-width: 490px;">
           <a href="/" class="no-style">
             <h1 style="margin:0;font-size:3em;">thnlqd</h1>
-          </a><code style="font-size:15px;">v<!-- variable:version --></code>
+          </a><code style="font-size:15px;">v{{ version }}</code>
           <br/>
-          <small><a href="https://github.com/ThinLiquid/site/commit/<!-- variable:commit-hash -->"><!-- variable:commit-hash-short --></a> - <!-- variable:commit-message --></small>
+          <small><a href="https://github.com/ThinLiquid/site/commit/{{ commit-hash }}">{{ commit-hash-short }}</a> - {{ commit-message }}</small>
           <br/>
-          <small><!-- variable:commit-date --></small>
+          <small>{{ commit-date }}</small>
           <br/><br/>
           <yescript>
             <button onclick="toggleCharacter()">
@@ -54,7 +54,7 @@
           </yescript>
         </div>
         <div class="nav">
-          <!-- variable:navigation -->
+          {{ navigation }}
           <br/>
         </div>
       </div>
@@ -79,7 +79,61 @@
     </nav>
     <div class="tooltip"><noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" height="0" width="0" referrerpolicy="no-referrer-when-downgrade" /></noscript></div>
     <div id="content">
-      <div class="inner"><!-- variable:content --></div>
+      <div class="inner"><h1>code::stats</h1>
+<noscript>
+  <strong>JavaScript is required to view this page.</strong>
+</noscript>
+<yescript>
+  <div class="container" style="display: flex;flex-wrap:wrap;gap:10px;"></div>
+</yescript>
+
+<script type="module">
+  const fetchStats = async () => {
+    const res = await fetch('https://codestats.net/api/users/thnlqd')
+    const data = await res.json()
+    return data
+  }
+
+  const getLevelProgress = (xp) => {
+    const level = getLevel(xp)
+    const current_level_xp = getNextLevelXP(level - 1)
+    const next_level_xp = getNextLevelXP(level)
+
+    const have_xp = xp - current_level_xp
+    const needed_xp = next_level_xp - current_level_xp
+
+    return Math.round(have_xp / needed_xp * 100)
+  }
+
+  const getNextLevelXP = (level) => {
+    return Math.pow(Math.ceil((level + 1) / LEVEL_FACTOR), 2)
+  }
+
+  const getLevel = (xp) => parseInt(Math.floor(LEVEL_FACTOR * Math.sqrt(xp)))
+
+  const LEVEL_FACTOR = 0.025
+  
+
+  const data = await fetchStats()
+
+  const languages = Object.entries(data.languages).sort((a, b) => b[1].xps - a[1].xps)
+
+  for (const [key, value] of languages) {
+    const xp = value.xps
+    const lang = document.createElement('div')
+    lang.style.width = 'calc(50% - 10px)'
+    lang.innerHTML = `
+      <h3>${key}</h3>
+      <b>Level ${getLevel(xp)}</b> (${xp} XP)${value.new_xps > 0 ? ` (+${value.new_xps})` : ''}
+      <div style="position:relative;height:20px;margin-top: 5px;">
+        <span style="position:absolute;left:50%;top:0px;transform:translateX(-50%);color:rgb(var(--color));z-index:5;mix-blend-mode:difference;">${getLevelProgress(xp)}%</span>
+        <progress value="${getLevelProgress(xp)}" max="100" style="width:100%"></progress>
+      </div>
+    `
+    document.querySelector('.container').appendChild(lang)
+  }
+</script>
+</div>
     </div>
     <footer>
       <div class="inner">
@@ -92,7 +146,7 @@
           <a href="https://archlinux.org"><img src="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" href="i use arch btw"></a>
           <img src="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/handcoded.gif" alt="completely hand-coded!">
           <br/><br/>
-          <p style="margin: 0;">last commit hash: <code style="user-select: all;"><!-- variable:commit-hash --></code></p>
+          <p style="margin: 0;">last commit hash: <code style="user-select: all;">{{ commit-hash }}</code></p>
         </div>
       </div>
     </footer>

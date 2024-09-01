@@ -13,9 +13,10 @@
   },
   "type": "module",
   "scripts": {
-    "build": "bun ./scripts/build.ts"
+    "build": "bun ./ssg.ts build"
   },
   "dependencies": {
+    "@prettier/plugin-xml": "^3.4.1",
     "ansi-colors": "^4.1.3",
     "axios": "^1.7.4",
     "chalk": "^5.3.0",
@@ -27,12 +28,14 @@
     "fast-xml-parser": "^4.4.1",
     "figlet": "^1.7.0",
     "form-data": "^4.0.0",
+    "import-fresh": "^3.3.0",
     "lodash": "^4.17.21",
     "marked": "^14.0.0",
     "node-emoji": "^2.1.3",
     "prettier": "^3.3.3",
     "sass": "^1.77.8",
     "serve-handler": "^6.1.5",
-    "twemoji": "^14.0.2"
+    "twemoji": "^14.0.2",
+    "yaml": "^2.5.0"
   }
 }

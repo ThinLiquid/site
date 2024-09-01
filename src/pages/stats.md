@@ -3,7 +3,8 @@ title: code::stats
 description: my code::stats progress
 color: lavender
 
-use-style: /style.scss
+styles:
+  - /style.css
 ---
 
 # code::stats

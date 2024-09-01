@@ -3,7 +3,8 @@ title: Home
 description: super cool home page
 color: blue
 
-use-style: /style.scss
+styles:
+  - /style.css
 ---
 <!-- prettier-ignore -->
 <div style="text-align:center;position:relative;margin: 120px 0;">
