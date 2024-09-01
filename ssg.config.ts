@@ -5,8 +5,6 @@ import * as marked from 'marked';
 
 import { parse } from 'yaml';
 
-import chalk from "chalk";
-
 import pkg from './package.json';
 import { execSync } from 'child_process';
 
@@ -20,6 +18,7 @@ import path from 'path';
 import { XMLBuilder } from 'fast-xml-parser';
 import dedent from 'dedent';
 import * as prettier from "prettier";
+import figlet from 'figlet';
 
 const colors: Record<string, string> = {
   "rosewater": "#f5e0dc",
@@ -50,9 +49,6 @@ const colors: Record<string, string> = {
   "crust": "#11111b"
 }
 
-const { log } = console;
-const errorLog = (msg: string) => log(chalk.red(msg));
-
 const getGitInfo = () => {
   try {
     const exec = (cmd: string) => execSync(cmd).toString().trim();
@@ -63,7 +59,7 @@ const getGitInfo = () => {
       commitDate: exec(`git log -1 --pretty=%cd`)
     };
   } catch (error) {
-    errorLog("Error getting Git info:");
+    console.error("Error getting Git info:");
     console.error(error);
     return { commitHash: "", commitMessage: "", commitBranch: "", commitDate: "" };
   }
@@ -158,7 +154,7 @@ export default defineConfig({
     {
       name: 'Markdown',
       setup: async ({ _ }) => {
-        _.addFilter('.md', async (code: string) => {
+        _.addFilter('.md', async (code: string, filename: string) => {
           const { content, meta } = await parseMarkdownFile(code);
 
           let templateFile = await Bun.file('root.html').text();
@@ -176,8 +172,16 @@ export default defineConfig({
             templateFile = templateFile.replace(`<!-- variable:${key} -->`, typeof value === 'function' ? await value(meta) : value);
           }
 
+          const comment = `<!--
+${figlet.textSync("thinliquid.dev", { font: "Small Slant" })}
+${dedent`
+  this HTML file was generated from "${filename}" using my own SSG!
+  check out the source code at: https://github.com/ThinLiquid/site
+`}
+-->\n`;
+
           return {
-            code: await format(parseEmojis(templateFile), 'html'),
+            code: comment + await format(parseEmojis(templateFile), 'html'),
             newExtension: '.html',
             directoryPrefix: '../',
             filenameHandler: parseFilename

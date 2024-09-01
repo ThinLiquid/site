@@ -33,7 +33,7 @@ interface API {
   variables: Variables
 }
 
-type FilterFunction = (code: string) => FilterOutput | Promise<FilterOutput>
+type FilterFunction = (code: string, filename: string) => FilterOutput | Promise<FilterOutput>
 const filters: Map<string, FilterFunction> = new Map()
 
 const build = async () => {
@@ -77,7 +77,7 @@ const build = async () => {
 
     if (filters.has(extname)) {
       const filter = filters.get(extname)!
-      const { code, directoryPrefix, newExtension, filenameHandler } = await filter(fileContent)
+      const { code, directoryPrefix, newExtension, filenameHandler } = await filter(fileContent, realPath)
 
       let outPath = path.join(config.outputDirectory, file)
 
