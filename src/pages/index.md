@@ -6,7 +6,7 @@ color: blue
 styles:
   - /style.css
 ---
-<!-- prettier-ignore -->
+
 <div style="text-align:center;position:relative;margin: 120px 0;">
   <h1 style="position:relative;z-index:10;font-size: 3em;margin:15px 0;">
     hiya, i'm <span class="letters">
@@ -20,7 +20,8 @@ styles:
       <span class="letter">u</span>
       <span class="letter">i</span>
       <span class="letter">d</span>
-    </span>.
+      <span>.</span>
+    </span>
   </h1>
   <div style="position:relative;z-index:10;">
     <span class="chip">:bust_in_silhouette: he/him</span>

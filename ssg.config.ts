@@ -180,7 +180,7 @@ ${dedent`
 -->\n`;
 
           return {
-            code: comment + await format(parseEmojis(templateFile), 'html'),
+            code: (comment + await format(parseEmojis(templateFile), 'html')).replaceAll(/(?<=\s*)<!-- prettier-ignore -->\n?/g, ''),
             newExtension: '.html',
             directoryPrefix: '../',
             filenameHandler: parseFilename
@@ -201,7 +201,7 @@ ${dedent`
 
         'commit-hash': getGitInfo().commitHash,
         'commit-hash-short': getGitInfo().commitHash.slice(0, 7),
-        'commit-message': getGitInfo().commitMessage,
+        'commit-message': getGitInfo().commitMessage.trim(),
         'commit-date': new Date(getGitInfo().commitDate).toUTCString(),
 
         'navigation': nav.map(({ title, link, emoji }: {
