@@ -21,7 +21,6 @@ just some webrings im in (probably not much)
   <script type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
   <script type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
 </div>
-
 <webring-container>
   <config key="type" value="catppuccin-mocha"></config>
   <config key="font" value="Inter, sans-serif"></config>
@@ -29,4 +28,6 @@ just some webrings im in (probably not much)
 
   <script src="https://palette.nekoweb.org/webring.js"></script>
 </webring-container>
+<br/>
+<iframe id="bucket-webring" style="width: 100%; height: 3rem; border: none;" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
 </yescript>
