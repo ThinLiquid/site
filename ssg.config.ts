@@ -198,7 +198,7 @@ ${dedent`
         'commit-hash': getGitInfo().commitHash,
         'commit-hash-short': getGitInfo().commitHash.slice(0, 7),
         'commit-message': getGitInfo().commitMessage,
-        'commit-date': new Date(getGitInfo().commitDate).toLocaleString(),
+        'commit-date': new Date(getGitInfo().commitDate).toUTCString(),
 
         'navigation': nav.map(({ title, link, emoji }: {
           title: string;
