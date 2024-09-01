@@ -5,8 +5,13 @@
   
 
   <use-style>/style.scss</use-style>
+  <use-external-style>https://webring.nekoweb.org/onionring.css</use-external-style>
 </meta>
 ---
+
+# guestbook
+
+<iframe src="https://thnlqd.atabook.org" style="width: 100%; height: 20rem; border: none;"></iframe>
 
 # socials
 
@@ -23,3 +28,24 @@
 ](https://github.com/ThinLiquid.gpg)
 
 email: [thnlqd@gmail.com](mailto:thnlqd@gmail.com)
+
+# webrings
+
+<noscript>
+  <strong>JavaScript is required to view part of this page.</strong>
+</noscript>
+<yescript>
+<div id='nekowebring' style="color: var(--base);">
+  <script type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
+  <script type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
+</div>
+<webring-container>
+  <config key="type" value="catppuccin-mocha"></config>
+  <config key="font" value="Inter, sans-serif"></config>
+  <config key="fill" value="true"></config>
+
+  <script src="https://palette.nekoweb.org/webring.js"></script>
+</webring-container>
+<br/>
+<iframe id="bucket-webring" style="width: 100%; height: 3rem; border: none;" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
+</yescript>
