@@ -53,7 +53,7 @@
     lang.style.width = 'calc(50% - 10px)'
     lang.innerHTML = `
       <h3>${key}</h3>
-      <b>Level ${getLevel(xp)}</b> (${xp} XP) (+${value.new_xps})
+      <b>Level ${getLevel(xp)}</b> (${xp} XP)${value.get_xps > 0 ? ` (+${value.get_xps})` : ''}
       <div style="position:relative;height:20px;margin-top: 5px;">
         <span style="position:absolute;left:50%;top:0px;transform:translateX(-50%);color:rgb(var(--color));z-index:5;mix-blend-mode:difference;">${getLevelProgress(xp)}%</span>
         <progress value="${getLevelProgress(xp)}" max="100" style="width:100%"></progress>
