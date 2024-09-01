@@ -208,7 +208,7 @@ ${dedent`
           title: string;
           link: string;
           emoji: string;
-        }) => `<a href="${link}"><button>${parseEmojis(emoji)} ${title}</button></a>`).join(''),
+        }) => `<a href="${link}" class="no-style"><button>${parseEmojis(emoji)} ${title}</button></a>`).join(''),
 
         color: ({ color = 'blue' }: {
           color?: keyof typeof colors;
