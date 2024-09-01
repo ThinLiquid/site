@@ -83,11 +83,6 @@ const generateRSSFeed = async () => {
       channel: {
         title: "thinliquid's catppuccin heaven",
         link: siteURL,
-        'atom:link': {
-          '@@href': `${siteURL}/blog.xml`,
-          '@@rel': 'self',
-          '@@type': 'application/rss+xml',
-        },
         description: "yuh i have an rss feed!!",
         lastBuildDate: new Date().toUTCString(),
         item: items.map(item => ({
