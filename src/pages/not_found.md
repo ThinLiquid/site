@@ -8,11 +8,12 @@ styles:
 ---
 
 <div style="text-align:center;margin-top: 100px;">
-  <textarea readonly style="width:85px;height:95px" onclick="this.select()">
-    ╱|、
+  <textarea readonly rows="5" cols="12" style="width:max-content;padding-top:1em;overflow-y:hidden;" onclick="this.select()">
+   ╱|、
   (˚ˎ 。7
   |、˜〵
-  じしˍ,)ノ</textarea>
+  じしˍ,)ノ
+  </textarea>
 
   # 404: Not Found
 
