@@ -108,19 +108,24 @@
       </div>
     </footer>
     <script type="module">
-      const info = await fetch('https://nekoweb.org/api/site/info/thnlqd');
+      const info = await fetch('https://nekoweb.org/api/site/info/thnlqd', {
+        cache: 'no-cache'
+      });
       const data = await info.json();
 
       const opp = async (username) => {
-        const info = await fetch('https://nekoweb.org/api/site/info/' + username);
+        const info = await fetch('https://nekoweb.org/api/site/info/' + username, {
+          cache: 'no-cache'
+        });
         const data = await info.json();
         return data.followers
       }
 
       const goal = 'mars'
+      const _ = await opp(goal)
 
-      document.getElementById('follow-text').innerText = `(thnlqd) ${data.followers}/${await opp(goal)} (${goal})`;
-      document.getElementById('follow-progress').value = (data.followers / (await opp(goal))) * 100;
+      document.getElementById('follow-text').innerText = `(thnlqd) ${data.followers}/${_} (${goal})`;
+      document.getElementById('follow-progress').value = (data.followers / _) * 100;
     </script>
   </body>
 </html>
