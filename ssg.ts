@@ -26,6 +26,10 @@ interface FilterOutput {
   newExtension?: string
   directoryPrefix?: string,
   filenameHandler?: (filename: string) => string
+  otherOutputs?: {
+    encode: (code: string) => string | Buffer | Promise<string | Buffer>
+    extension: string
+  }[]
 }
 
 interface API {
@@ -77,7 +81,7 @@ const build = async () => {
 
     if (filters.has(extname)) {
       const filter = filters.get(extname)!
-      const { code, directoryPrefix, newExtension, filenameHandler } = await filter(fileContent, realPath)
+      const { code, directoryPrefix, newExtension, filenameHandler, otherOutputs } = await filter(fileContent, realPath)
 
       let outPath = path.join(config.outputDirectory, file)
 
@@ -100,6 +104,14 @@ const build = async () => {
       console.log(`Writing to ${outPath}`)
 
       await Bun.write(outPath, code)
+
+      if (otherOutputs != null) {
+        for (const { encode, extension } of otherOutputs) {
+          const outPath = path.join(config.outputDirectory, file.replace(extname, extension))
+          console.log(`Writing to ${outPath}`)
+          await Bun.write(outPath, await encode(code) as string)
+        }
+      }
     }
   }
 
@@ -122,7 +134,12 @@ if (process.argv[2] === 'build') {
   if (process.argv[2] === 'serve') {
     const http = require('http');
     const handler = require('serve-handler');
-    http.createServer((req: any, res: any) => handler(req, res, { public: ssgConfig.outputDirectory })).listen(8080);
+    http.createServer((req: any, res: any) => handler(req, res, {
+      public: ssgConfig.outputDirectory,
+      headers: {
+        'Accept-Encoding': 'gzip, compress, br'
+      }
+    })).listen(8080);
     console.log('Listening on http://localhost:8080');
   }
 }

@@ -4,6 +4,7 @@
   "module": "index.ts",
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/clean-css": "^4.2.11",
     "@types/figlet": "^1.5.8",
     "@types/lodash": "^4.17.7"
   },
@@ -17,6 +18,7 @@
   "dependencies": {
     "@prettier/plugin-xml": "^3.4.1",
     "chokidar": "^3.6.0",
+    "clean-css": "^5.3.3",
     "dedent": "^1.5.3",
     "fast-xml-parser": "^4.4.1",
     "figlet": "^1.7.0",

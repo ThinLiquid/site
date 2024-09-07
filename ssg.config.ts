@@ -19,6 +19,10 @@ import dedent from 'dedent';
 import * as prettier from "prettier";
 import figlet from 'figlet';
 
+import CleanCSS from 'clean-css';
+
+import zlib from 'zlib';
+
 const colors: Record<string, string> = {
   "rosewater": "#f5e0dc",
   "flamingo": "#f2cdcd",
@@ -145,8 +149,18 @@ export default defineConfig({
       name: 'Dart Sass',
       setup: async ({ _ }) => {
         _.addFilter('.scss', (code: string) => ({
-          code: sass.compileString(code).css.toString(),
+          code: new CleanCSS({}).minify(sass.compileString(code).css.toString()).styles,
           newExtension: '.css',
+          otherOutputs: [
+            {
+              encode: (_) => zlib.gzipSync(_),
+              extension: '.css.gz'
+            },
+            {
+              encode: (_) => zlib.brotliCompressSync(_, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: zlib.constants.BROTLI_MAX_QUALITY } }),
+              extension: '.css.br'
+            }
+          ]
         }));
       },
     },
@@ -183,7 +197,17 @@ ${dedent`
             code: (comment + await format(parseEmojis(templateFile), 'html')).replaceAll(/(?<=\s*)<!-- prettier-ignore -->\n?/g, ''),
             newExtension: '.html',
             directoryPrefix: '../',
-            filenameHandler: parseFilename
+            filenameHandler: parseFilename,
+            otherOutputs: [
+              {
+                encode: (_) => zlib.gzipSync(_),
+                extension: '.html.gz'
+              },
+              {
+                encode: (_) => zlib.brotliCompressSync(_, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: zlib.constants.BROTLI_MAX_QUALITY } }),
+                extension: '.html.br'
+              }
+            ]
           }
         });
       },
