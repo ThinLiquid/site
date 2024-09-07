@@ -276,7 +276,7 @@ button {
 
 .tooltip {
   opacity: 0;
-  position: absolute;
+  position: fixed;
   width: max-content;
   user-select: none;
   pointer-events: none;

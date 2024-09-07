@@ -141,8 +141,8 @@ my personal collection of 88x31 buttons (that you can contribute to), all in one
   const tooltip = document.querySelector('.tooltip')
 
   window.addEventListener('mousemove', (e) => {
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
+    const mouseX = e.clientX + window.scrollX;
+    const mouseY = e.clientY + window.scrollY;
     
     tooltip.style.left = `${mouseX + 10}px`; // Offset to prevent cursor overlap
     tooltip.style.top = `${mouseY + 10}px`;
