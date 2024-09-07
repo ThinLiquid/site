@@ -109,23 +109,28 @@
     </footer>
     <script type="module">
       const info = await fetch('https://nekoweb.org/api/site/info/thnlqd', {
-        cache: 'no-cache'
-      });
-      const data = await info.json();
-
-      const opp = async (username) => {
-        const info = await fetch('https://nekoweb.org/api/site/info/' + username, {
-          cache: 'no-cache'
-        });
+        cache: 'no-cache',
+        mode: 'no-cors'
+      }).catch(() => null);
+      if (info.ok) {
         const data = await info.json();
-        return data.followers
+
+        const opp = async (username) => {
+          const info = await fetch('https://nekoweb.org/api/site/info/' + username, {
+            cache: 'no-cache'
+          });
+          const data = await info.json();
+          return data.followers
+        }
+
+        const goal = 'mars'
+        const _ = await opp(goal)
+
+        document.getElementById('follow-text').innerText = `(thnlqd) ${data.followers}/${_} (${goal})`;
+        document.getElementById('follow-progress').value = (data.followers / _) * 100;
+      } else {
+        document.getElementById('follow-text').innerText = 'unable to fetch data';
       }
-
-      const goal = 'mars'
-      const _ = await opp(goal)
-
-      document.getElementById('follow-text').innerText = `(thnlqd) ${data.followers}/${_} (${goal})`;
-      document.getElementById('follow-progress').value = (data.followers / _) * 100;
     </script>
   </body>
 </html>
