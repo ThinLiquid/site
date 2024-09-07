@@ -70,6 +70,7 @@ html,body {
   
   color: rgb(var(--text));
   box-sizing: border-box;
+	font-display: optional;
   image-rendering: pixelated;
 
   &::selection {
