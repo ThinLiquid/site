@@ -78,15 +78,6 @@
     <div class="tooltip"><noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" height="0" width="0" referrerpolicy="no-referrer-when-downgrade" /></noscript></div>
     <div id="content">
       <div class="inner">
-        <yescript>
-          <br/>
-          <!-- prettier-ignore -->
-          <b>follow goal!!! <a href="https://nekoweb.org/follow/thnlqd">support the cause</a></b>
-          <div style="position:relative;height:20px;margin-top: 5px;">
-            <span id="follow-text" style="position:absolute;left:50%;top:0px;transform:translateX(-50%);color:rgb(var(--color));z-index:5;mix-blend-mode:difference;">loading...</span>
-            <progress id="follow-progress" value="0" max="100" style="width:100%"></progress>
-          </div>
-        </yescript>
         <!-- variable:content -->
       </div>
     </div>
@@ -107,30 +98,5 @@
         </div>
       </div>
     </footer>
-    <script type="module">
-      const info = await fetch('https://nekoweb.org/api/site/info/thnlqd', {
-        cache: 'no-cache',
-        mode: 'no-cors'
-      }).catch(() => null);
-      if (info.ok) {
-        const data = await info.json();
-
-        const opp = async (username) => {
-          const info = await fetch('https://nekoweb.org/api/site/info/' + username, {
-            cache: 'no-cache'
-          });
-          const data = await info.json();
-          return data.followers
-        }
-
-        const goal = 'mars'
-        const _ = await opp(goal)
-
-        document.getElementById('follow-text').innerText = `(thnlqd) ${data.followers}/${_} (${goal})`;
-        document.getElementById('follow-progress').value = (data.followers / _) * 100;
-      } else {
-        document.getElementById('follow-text').innerText = 'unable to fetch data';
-      }
-    </script>
   </body>
 </html>
