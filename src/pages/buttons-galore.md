@@ -10,6 +10,7 @@ styles:
 
 # buttons galore!!!
 my personal collection of 88x31 buttons (that you can contribute to), all in one place!
+github repo [> here <](https://github.com/ThinLiquid/buttons)
 
 <noscript>
   <strong>JavaScript is required to view this page.</strong>
