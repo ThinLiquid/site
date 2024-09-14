@@ -23,8 +23,11 @@ my personal collection of 88x31 buttons (that you can contribute to), all in one
   </select>
   <label for="sort"></label>
   <select id="sort">
-    <option>Alphabetical</option>
-    <option>Order</option>
+    <option value="alphabetical">Alphabetical</option>
+    <option value="alphabetical-reverse">Alphabetical (Reverse)</option>
+    <option value="order">Order</option>
+    <option value="order-reverse">Order (Reverse)</option>
+    <option value="random">Random</option>
   </select>
   <select id="creators">
     <option>All Creators</option>
@@ -92,6 +95,20 @@ my personal collection of 88x31 buttons (that you can contribute to), all in one
         )
       })
 
+      const sortOption = sortSelect.value
+      if (sortOption === 'alphabetical') {
+        filteredButtons.sort((a, b) => a.description.localeCompare(b.description))
+      } else if (sortOption === 'order') {
+        // Assuming 'order' means the original order from the file
+        // No need to sort as filteredButtons already maintains the original order
+      } else if (sortOption === 'random') {
+        filteredButtons.sort(() => Math.random() - 0.5)
+      } else if (sortOption === 'alphabetical-reverse') {
+        filteredButtons.sort((a, b) => b.description.localeCompare(a.description))
+      } else if (sortOption === 'order-reverse') {
+        filteredButtons.reverse()
+      }
+
       let i = 0;
       for (const button of filteredButtons) {
         const buttonElement = document.createElement('img')
@@ -136,6 +153,7 @@ my personal collection of 88x31 buttons (that you can contribute to), all in one
     search.addEventListener('input', renderButtons)
     categoriesSelect.addEventListener('change', renderButtons)
     creatorsSelect.addEventListener('change', renderButtons)
+    sortSelect.addEventListener('change', renderButtons)
   })()
 
   const tooltip = document.querySelector('.tooltip')
