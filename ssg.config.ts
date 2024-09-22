@@ -3,8 +3,6 @@ import { defineConfig } from './ssg';
 import * as sass from 'sass';
 import * as marked from 'marked';
 
-import { parse } from 'yaml';
-
 import { execSync } from 'child_process';
 
 import nav from './src/nav';
@@ -88,23 +86,6 @@ const parseEmojis = (markdown: string): string => {
 const parseFilename = (filename: string): string =>
   filename.replace(/\[.*\] /g, '').replaceAll(" ", "-");
 
-const getBlogPosts = async () => {
-  const files = await readdir(path.join(__dirname, 'src/pages/blog'));
-  return await Promise.all(files.map(async (file) => {
-    
-    const { meta } = await parseMarkdownFile(await Bun.file(`src/pages/blog/${file}`).text());
-
-    return `
-    <a href="/blog/${parseFilename(file).replace(".md", '')}" class="no-style">
-      <button class="big" style="width:100%;padding:10px;text-align:left;--color:var(--${meta.color});">
-        <h2 style="margin: 0;margin-bottom:5px;">${meta.title}</h2>
-        <p style="margin:0;padding-bottom:5px;">${meta.description}</p>
-        <small>${meta.date}</small>
-      </button>
-    </a>`;
-  }));
-};
-
 const parseDateString = (dateString: string): Date => {
   const date = dateString.split(' ')[0]
   const time = dateString.split(' ')[1] + dateString.split(' ')[2]
@@ -113,16 +94,6 @@ const parseDateString = (dateString: string): Date => {
   
   return new Date(parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hour), parseInt(minute), parseInt(second));
 };
-
-const parseMarkdownFile = async (code: string) => {
-  const file = code.match(/^---\n([\s\S]+?)\n---\n([\s\S]+)$/);
-  if (!file) throw new Error('Invalid markdown file');
-          
-  const content = file ? file[2] : code;
-  const meta: Record<string, string> = parse(file[1]) ?? {};
-
-  return { content, meta };
-}
 
 const format = async (code: string, parser: prettier.Options['parser']) => await prettier.format(code, {
   parser,
@@ -248,52 +219,6 @@ ${dedent`
         }) => getNextInObj(colors, color),
 
         styles: ({ styles = [] }: { styles?: string[] }) => styles.map(style => `<link rel="stylesheet" href="${style}">`).join('\n'),
-
-        'blog-posts': async () => (await getBlogPosts()).join('\n')
-      }
-    },
-    {
-      name: 'RSS Feed',
-      setup: async () => {
-        const blogPosts = await readdir('src/pages/blog');
-
-        const items = await Promise.all(blogPosts.map(async (file) => {
-          const { meta } = await parseMarkdownFile(await Bun.file(`src/pages/blog/${file}`).text());
-
-          return {
-            title: meta.title,
-            description: meta.description,
-            link: `${SITE_URL}/blog/${parseFilename(file)}`,
-            pubDate: parseDateString(meta.date).toUTCString(),
-            guid: `${SITE_URL}/blog/${parseFilename(file)}`,
-          };
-        }));
-
-        const rssFeed = {
-          rss: {
-            "@@version": "2.0",
-            channel: {
-              title: "thinliquid's catppuccin heaven",
-              link: SITE_URL,
-              description: "yuh i have an rss feed!!",
-              lastBuildDate: new Date().toUTCString(),
-              item: items.map(item => ({
-                title: item.title,
-                description: item.description,
-                link: item.link,
-                pubDate: item.pubDate === "Invalid Date" ? 'failed to get date' : item.pubDate,
-                guid: item.guid,
-              })),
-            },
-          }
-        };
-
-        const builder = new XMLBuilder({ format: true, ignoreAttributes: false, attributeNamePrefix: '@@' });
-        const xmlContent = builder.build(rssFeed);
-        await writeFile(path.join(OUTPUT_FOLDER, "blog.xml"), await format(dedent`
-          <?xml-stylesheet type="text/xsl" href="/rss.xsl" ?>
-          ${xmlContent}
-        `, 'xml'));
       }
     }
   ]
