@@ -3,6 +3,8 @@ import { defineConfig } from './ssg';
 import * as sass from 'sass';
 import * as marked from 'marked';
 
+import { parse } from 'yaml';
+
 import { execSync } from 'child_process';
 
 import nav from './src/nav';
@@ -85,6 +87,16 @@ const parseEmojis = (markdown: string): string => {
 
 const parseFilename = (filename: string): string =>
   filename.replace(/\[.*\] /g, '').replaceAll(" ", "-");
+
+const parseMarkdownFile = async (code: string) => {
+  const file = code.match(/^---\n([\s\S]+?)\n---\n([\s\S]+)$/);
+  if (!file) throw new Error('Invalid markdown file');
+          
+  const content = file ? file[2] : code;
+  const meta: Record<string, string> = parse(file[1]) ?? {};
+
+  return { content, meta };
+}
 
 const parseDateString = (dateString: string): Date => {
   const date = dateString.split(' ')[0]
