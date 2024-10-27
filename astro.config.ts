@@ -39,10 +39,15 @@ const remarkTwemoji = (options?: {
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'static',
   markdown: {
     remarkPlugins: [
       [remarkTwemoji, {}]
     ]
+  },
+
+  build: {
+    format: 'file'
   },
 
   integrations: [mdx()]
