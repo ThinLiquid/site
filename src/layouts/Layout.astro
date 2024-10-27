@@ -47,9 +47,6 @@ const commit = getGitInfo()
 		<title>{(title ?? frontmatter.title)} @ thinliquid's [studio]</title>
 
 		<link rel="stylesheet" href="https://webring.nekoweb.org/onionring.css" />
-
-		<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 	</head>
 	<body>
 		<main>
@@ -118,9 +115,10 @@ const commit = getGitInfo()
 			<div class="paper" style={{ padding: '20px' }}>
 				<b>&copy; 2023-2024 ThinLiquid. All rights reserved.</b><br/>
 				powered by bun & astro | hosted on nekoweb | <a>source code</a>
-				
 			</div>
 		</main>
+		<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 	</body>
 </html>
 <style is:global>
