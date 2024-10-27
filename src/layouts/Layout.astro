@@ -1,0 +1,311 @@
+---
+import pkg from '../../package.json'
+import ImageButton from '../components/ImageButton.astro';
+import { createButtonString } from '../util'
+import { execSync } from 'child_process'
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addDefaultLocale(en)
+
+const timeAgo = new TimeAgo('en-US')
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+
+const getGitInfo = () => {
+  try {
+    const exec = (cmd: string) => execSync(cmd).toString().trim();
+    return {
+      commitHash: exec(`git rev-parse HEAD`),
+      commitBranch: exec(`git rev-parse --abbrev-ref HEAD`),
+      commitMessage: exec(`git log -1 --pretty=%B`),
+      commitDate: exec(`git log -1 --pretty=%cd`)
+    };
+  } catch (error) {
+    console.error("Error getting Git info:");
+    console.error(error);
+    return { commitHash: "", commitMessage: "", commitBranch: "", commitDate: "" };
+  }
+};
+
+const commit = getGitInfo()
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+
+		<link rel="stylesheet" href="https://webring.nekoweb.org/onionring.css" />
+	</head>
+	<script>
+		import eruda from 'eruda'
+		eruda.init()
+		</script>
+	<body>
+		<main>
+			<div class="paper">
+				<header>
+					<h1>
+						thinliquid's [studio]
+						<code style={{ fontSize: '0.6em' }}>v{pkg.version}</co>
+					</h1>
+					<p>typescript is a lifestyle.</p>
+				</header>
+				<nav>
+					<a href="/" style={{ '--color': 'var(--blue)' }}>home</a>
+					<a href="/buttons-galore" style={{ '--color': 'var(--teal)' }}>buttons galore</a>
+					<a href="/resources" style={{ '--color': 'var(--green)' }}>resources</a>
+					<a href="/blog" style={{ '--color': 'var(--yellow)' }}>blog</a>
+					<div style="flex:1;"></div>
+					<div style={{ textAlign: 'right' }}>
+						<a href={`https://github.com/ThinLiquid/site/commit/${commit.commitHash}`}><code>{commit.commitHash.slice(0, 7)}</code></a>
+						<small>({timeAgo.format(new Date(commit.commitDate))})</small>
+					</div>
+				</nav>
+			</div>
+			<section>
+				<content><slot /></content>
+				<div>
+					<h3>buttons</h3>
+					<fieldset>
+						<legend>
+							my button
+						</legend>
+						<div>
+							<ImageButton style={{ width: '100%' }} alt="my button" url="https://thinliquid.dev/thnlqd.png" />
+							<textarea readonly onclick="this.select()" style={{ resize: 'none', width: '100%' }}>{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+						</div>
+					</fieldset>
+					<ImageButton alt="nekoweb.org button" href="https://nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/nekoweb12.gif" />
+					<ImageButton alt="arch linux button" href="https://archlinux.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" />
+					<ImageButton alt="max's apartment button" href="https://max.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/maxpixels.gif" />
+					<ImageButton alt="giiki's lair button" href="https://giikis2.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/giikis2.png" />
+					<ImageButton alt="bomberfish.ca button" href="https://bomberfish.ca" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/bomberfish.gif" />
+					<h3>socials</h3>
+					<a href="https://wetdry.world/@thnlqd">mastodon</a>
+					<a href="https://osu.ppy.sh/users/ThinLiquid">osu!</a>
+					<a href="https://bsky.app/profile/@thinliquid.dev">bluesky</a>
+					<a href="https://github.com/ThinLiquid">github</a>
+					<a href="https://github.com/ThinLiquid.gpg">pgp public key</a>
+				</div>
+				<div>
+					<h3>webrings</h3>
+					<div id="nekowebring" style="color: var(--base)">
+            <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
+            <script type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
+          </div>
+          <webring-container>
+            <config key="type" value="catppuccin-mocha"></config>
+            <config key="font" value="Inter, sans-serif"></config>
+            <config key="fill" value="true"></config>
+
+            <script src="https://palette.nekoweb.org/webring.js" is:inline></script>
+          </webring-container>
+          <br />
+          <iframe id="bucket-webring" style="width: 100%; height: 3rem; border: none" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
+				</div>
+			</section>
+			<div class="paper" style={{ padding: '20px' }}>
+				<b>&copy; 2023-2024 ThinLiquid. All rights reserved.</b><br/>
+				powered by bun | hosted on nekoweb | <a>source code</a>
+				
+			</div>
+		</main>
+	</body>
+</html>
+<style is:global>
+	:root {
+		--red: hsl(350, 100%, 79%);
+		--orange: hsl(31, 100%, 79%);
+		--yellow: hsl(66, 100%, 79%);
+		--green: hsl(136, 100%, 79%);
+		--teal: hsl(171, 100%, 79%);
+		--blue: hsl(233, 100%, 79%);
+
+		--text: hsl(245, 31%, 79%);
+		--surface1: hsl(245, 11%, 37%);
+		--surface0: hsl(245, 11%, 27%);
+		--base: hsl(245, 21%, 12%);
+		--mantle: hsl(245, 21%, 10%);
+
+		--base-alpha: color-mix(in srgb, var(--base), transparent 10%);
+	}
+
+	:root {
+		--bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+
+	body, html {
+		background: var(--base);
+		color: var(--text);
+		margin: 0;
+	}
+
+	* {
+		font-family: MS Gothic, MS UI Gothic, Menlo, monospace;
+		box-sizing: border-box;
+		image-rendering: pixelated;
+
+		&::selection {
+			background: var(--blue);
+			color: var(--base);
+		}
+	}
+
+	main {
+		max-width: 1512px;
+		padding: 20px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+
+		header {
+			aspect-ratio: 1512 / 256;
+			background: linear-gradient(var(--base-alpha), var(--base-alpha)), url(/win7.webp);
+			background-position: center;
+			background-size: cover;
+			background-repeat: no-repeat;
+			padding: 20px;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+
+			* {
+				margin: 0;
+			}
+		}
+
+		section {
+			display: grid;
+			grid-template-columns: 325px 1fr 0.5fr;
+			grid-template-areas: 'a b c';
+			gap: 20px;
+
+			@media screen and (max-width:1000px) {
+				display: flex;
+				flex-direction: column;
+			}
+
+			& > *:nth-child(2) { grid-area: a; }
+			& > *:nth-child(1) { grid-area: b; }
+			& > *:nth-child(3) { grid-area: c; }
+
+			& > * {
+				background: var(--mantle);
+				padding: 20px;
+				border: 2px dashed var(--surface0);
+				border-radius: 5px;
+			}
+		}
+	}
+
+	* h1:nth-child(1), * h2:nth-child(1), * h3:nth-child(1), * h4:nth-child(1), * h5:nth-child(1), * h6:nth-child(1), * p:nth-child(1) {
+		margin: 0;
+	}
+
+	.paper {
+		border: 2px dashed var(--surface0);
+		background: var(--mantle);
+		border-radius: 5px;
+	}
+	nav {
+		padding: 15px 20px;
+		background: var(--mantle);
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 10px;
+	}
+
+	a {
+		--color: var(--blue);
+
+		border-radius: 5px;
+		padding: 0 2px;
+
+		display: inline-block;
+		color: var(--color);
+		text-decoration-style: wavy;
+		text-decoration-thickness: 1px;
+		text-decoration-color: var(--surface0);
+		transition: text-decoration .5s, scale .5s var(--bounce);
+
+		outline-offset: 2px;
+		
+		cursor: crosshair;
+
+		&:hover {
+			outline: 1px dashed color-mix(in srgb, currentColor, transparent 65%);
+			text-decoration-color: currentColor;
+			scale: 1.1;
+		}
+
+		&:active {
+			scale: 0.97 1;
+		}
+
+		&:focus {
+			outline: 1px dashed currentColor;
+		}
+	}
+
+	code {
+		font-family: MS Gothic, Menlo, monospace;
+	}
+
+	del {
+		color: var(--surface1);
+	}
+
+	img.emoji {
+   	height: 1em;
+   	width: 1em;
+   	margin: 0 .05em 0 .1em;
+  	vertical-align: -0.1em;
+		image-rendering: crisp-edges;
+	}
+
+	a img {
+		display: block;
+		padding: 2px 0;
+	}
+	hr {
+		border-color: var(--surface0)
+	}
+
+	textarea, input, select {
+		border-radius: 5px;
+		border: 2px dashed var(--surface0);
+		background: var(--base);
+		color: var(--text);
+
+		&:focus {
+			border-color: var(--blue);
+			outline: none;
+		}
+	}
+
+	fieldset {
+		border-style: dashed;
+		border-color: var(--blue);
+		border-radius: 5px;
+
+		margin: 10px 0;
+	}
+
+	small {
+		color: var(--surface1);
+	}
+</style>

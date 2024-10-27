@@ -1,35 +1,27 @@
 {
-  "name": "new-site",
-  "version": "5.1.0",
-  "module": "index.ts",
-  "devDependencies": {
-    "@types/bun": "latest",
-    "@types/clean-css": "^4.2.11",
-    "@types/figlet": "^1.5.8",
-    "@types/lodash": "^4.17.7"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
+  "name": "",
   "type": "module",
+  "version": "6.0.0",
   "scripts": {
-    "build": "bun ./ssg.ts build"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "@prettier/plugin-xml": "^3.4.1",
-    "chokidar": "^3.6.0",
-    "clean-css": "^5.3.3",
-    "dedent": "^1.5.3",
-    "fast-xml-parser": "^4.4.1",
-    "figlet": "^1.7.0",
-    "form-data": "^4.0.0",
-    "lodash": "^4.17.21",
-    "marked": "^14.0.0",
-    "node-emoji": "^2.1.3",
-    "prettier": "^3.3.3",
-    "sass": "^1.77.8",
-    "serve-handler": "^6.1.5",
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/mdx": "^3.1.8",
+    "@types/bun": "^1.1.12",
+    "astro": "^4.16.7",
+    "emoji-js": "^3.8.0",
+    "eruda": "^3.4.0",
+    "javascript-time-ago": "^2.5.11",
+    "remark-twemoji": "^0.1.1",
     "twemoji": "^14.0.2",
-    "yaml": "^2.5.0"
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "@twemoji/api": "^15.1.0"
   }
 }
