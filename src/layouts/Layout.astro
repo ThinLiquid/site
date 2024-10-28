@@ -301,11 +301,13 @@ const commit = getGitInfo()
 		color: var(--surface1);
 	}
 </style>
-<script data-date={commit.commitDate}>
+<last-update>{commit.commitDate}</last-update>
+<script>
 	import TimeAgo from 'javascript-time-ago'
 	import en from 'javascript-time-ago/locale/en'
 	TimeAgo.addDefaultLocale(en)
 	const timeAgo = new TimeAgo('en-US')
 
-	document.querySelector('#time-ago').innerText = `(${timeAgo.format(new Date(document.currentScript.getAttribute('data-date')))})`
+	document.querySelector('#time-ago').innerText = `(${timeAgo.format(new Date(document.querySelector('last-update').getAttribute('data-date')))})`
+	document.querySelector('last-update').remove()
 </script>
