@@ -16,9 +16,7 @@
     "astro": "^4.16.7",
     "emoji-js": "^3.8.0",
     "eruda": "^3.4.0",
-    "javascript-time-ago": "^2.5.11",
     "remark-twemoji": "^0.1.1",
-    "twemoji": "^14.0.2",
     "typescript": "^5.6.3"
   },
   "devDependencies": {
