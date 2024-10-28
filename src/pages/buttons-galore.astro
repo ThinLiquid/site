@@ -40,12 +40,12 @@ import Layout from "../layouts/Layout.astro";
   const fetchButtons = async () => {
     const res = await fetch(BUTTON_FILE, { cache: 'no-store' });
     const data = await res.text();
-    const entries = data.split('\n').map((entry, index) => {
+    return data.split('\n').map((entry, index) => {
       const [categories = '', tags = '', filename, description, creator] = entry.split(' | ');
       try {
         return {
-          categories: categories ? categories.split(',') : [], // Default to empty array if undefined
-          tags: tags ? tags.split(' ') : [], // Default to empty array if undefined
+          categories: categories ? categories.split(',') : [],
+          tags: tags ? tags.split(' ') : [],
           filename,
           description,
           creator: creator || 'N/A'
@@ -54,16 +54,7 @@ import Layout from "../layouts/Layout.astro";
         console.error('Error: malformed content\n ->', JSON.stringify(entry), 'at line', index);
         return null;
       }
-    }).filter(entry => entry !== null);
-    return entries as any[];
-  };
-
-  const debounce = (func: Function, delay = 300) => {
-    let timeout: ReturnType<typeof setTimeout>;
-    return (...args: any[]) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), delay);
-    };
+    }).filter(entry => entry !== null) as any[];
   };
 
   (async () => {
@@ -95,71 +86,78 @@ import Layout from "../layouts/Layout.astro";
       creatorsSelect.appendChild(option);
     });
 
-    let activeRender: AbortController | null = null;
+    buttons.forEach(button => {
+      const buttonElement = document.createElement('img');
+      buttonElement.src = `${BUTTON_DIRECTORY}${button.filename}`;
+      buttonElement.alt = button.description;
+      buttonElement.width = 88;
+      buttonElement.height = 31;
+      buttonElement.classList.add('button-item');
 
-    const renderButtons = async () => {
-      buttonsContainer.innerHTML = '';
+      buttonElement.dataset.categories = button.categories.join(',');
+      buttonElement.dataset.tags = button.tags.join(',');
+      buttonElement.dataset.creator = button.creator;
+      buttonElement.dataset.description = button.description.toLowerCase();
 
-      if (activeRender) activeRender.abort();
-      activeRender = new AbortController();
+      buttonElement.addEventListener('mouseover', () => {
+        tooltip.innerHTML = `
+          <strong>${button.description}</strong><br />
+          Categories: ${button.categories.join(', ')}<br />
+          Tags: ${button.tags.join(', ')}<br />
+          Creator: ${button.creator}
+        `;
+        tooltip.style.opacity = '1';
+      });
 
-      const filteredButtons = buttons.filter(button => {
-        const category = categoriesSelect?.value || 'All Categories';
-        const creator = creatorsSelect?.value || 'All Creators';
-        const searchValue = search?.value.toLowerCase() || '';
+      buttonElement.addEventListener('mouseout', () => {
+        tooltip.style.opacity = '0';
+      });
 
-        return (
-          (category === 'All Categories' || button.categories.includes(category)) &&
-          (creator === 'All Creators' || button.creator === creator) &&
-          (button.description.toLowerCase().includes(searchValue) ||
-           button.tags.some((tag: string) => tag.includes(searchValue))) // Typing `tag` as `string`
-        );
+      buttonsContainer.appendChild(buttonElement);
+    });
+
+    const filterAndSortButtons = () => {
+      const category = categoriesSelect?.value || 'All Categories';
+      const creator = creatorsSelect?.value || 'All Creators';
+      const searchValue = search?.value.toLowerCase() || '';
+
+      const buttonElements = buttonsContainer?.querySelectorAll('.button-item') as NodeListOf<HTMLImageElement>;
+
+      buttonElements.forEach(button => {
+        const matchesCategory = category === 'All Categories' || button.dataset.categories?.includes(category);
+        const matchesCreator = creator === 'All Creators' || button.dataset.creator === creator;
+        const matchesSearch =
+          button.dataset.description?.includes(searchValue) ||
+          button.dataset.tags?.includes(searchValue);
+
+        if (matchesCategory && matchesCreator && matchesSearch) {
+          button.classList.remove('hidden');
+        } else {
+          button.classList.add('hidden');
+        }
       });
 
       const sortOption = sortSelect?.value;
+      const sortedButtons = Array.from(buttonElements)
+        .filter(button => !button.classList.contains('hidden'));
+
       if (sortOption === 'alphabetical') {
-        filteredButtons.sort((a, b) => a.description.localeCompare(b.description));
+        sortedButtons.sort((a, b) => a.dataset.description!.localeCompare(b.dataset.description!));
       } else if (sortOption === 'alphabetical-reverse') {
-        filteredButtons.sort((a, b) => b.description.localeCompare(a.description));
+        sortedButtons.sort((a, b) => b.dataset.description!.localeCompare(a.dataset.description!));
       } else if (sortOption === 'order-reverse') {
-        filteredButtons.reverse();
+        sortedButtons.reverse();
       } else if (sortOption === 'random') {
-        filteredButtons.sort(() => Math.random() - 0.5);
+        sortedButtons.sort(() => Math.random() - 0.5);
       }
 
-      const fragment = document.createDocumentFragment();
-      for (const button of filteredButtons.slice(0, 50)) { // Limit to 50 items
-        const buttonElement = document.createElement('img');
-        buttonElement.src = `${BUTTON_DIRECTORY}${button.filename}`;
-        buttonElement.alt = button.description;
-        buttonElement.width = 88;
-        buttonElement.height = 31;
-
-        buttonElement.addEventListener('mouseover', () => {
-          tooltip.innerHTML = `
-            <strong>${button.description}</strong><br />
-            Categories: ${button.categories.join(', ')}<br />
-            Tags: ${button.tags.join(', ')}<br />
-            Creator: ${button.creator}
-          `;
-          tooltip.style.opacity = '1';
-        });
-
-        buttonElement.addEventListener('mouseout', () => {
-          tooltip.style.opacity = '0';
-        });
-
-        fragment.appendChild(buttonElement);
-      }
-      buttonsContainer.appendChild(fragment);
+      sortedButtons.forEach(button => buttonsContainer!.appendChild(button));
     };
 
-    const debouncedRenderButtons = debounce(renderButtons, 300);
-
-    search.addEventListener('input', debouncedRenderButtons);
-    categoriesSelect.addEventListener('change', renderButtons);
-    creatorsSelect.addEventListener('change', renderButtons);
-    sortSelect.addEventListener('change', renderButtons);
+    search?.addEventListener('input', filterAndSortButtons);
+    categoriesSelect?.addEventListener('change', filterAndSortButtons);
+    creatorsSelect?.addEventListener('change', filterAndSortButtons);
+    sortSelect?.addEventListener('change', filterAndSortButtons);
   })();
 
   window.addEventListener('mousemove', (e) => {
@@ -170,6 +168,11 @@ import Layout from "../layouts/Layout.astro";
     }
   });
 </script>
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
 <style>
   .buttons {
     display: flex;
