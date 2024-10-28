@@ -149,7 +149,9 @@ import Layout from "../layouts/Layout.astro";
   window.addEventListener('mousemove', (e) => {
     const tooltip = document.querySelector('.tooltip');
     tooltip.style.left = `${e.clientX + 10}px`;
-    tooltip.style.top = `${e.clientY + 10}px`
+    tooltip.style.top = `${e.clientY + 10}px`;
+  });
+</script>
 <style>
   .buttons {
     display: flex;
