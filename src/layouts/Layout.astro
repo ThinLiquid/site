@@ -308,6 +308,6 @@ const commit = getGitInfo()
 	TimeAgo.addDefaultLocale(en)
 	const timeAgo = new TimeAgo('en-US')
 
-	document.querySelector('#time-ago').innerText = `(${timeAgo.format(new Date(document.querySelector('last-update').getAttribute('data-date')))})`
-	document.querySelector('last-update').remove()
+	document.querySelector('#time-ago')!.innerText = `(${timeAgo.format(new Date(document.querySelector('last-update')!.getAttribute('data-date')))})`
+	document.querySelector('last-update')!.remove()
 </script>
