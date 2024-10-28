@@ -3,12 +3,6 @@ import pkg from '../../package.json'
 import ImageButton from '../components/ImageButton.astro';
 import { createButtonString } from '../util'
 import { execSync } from 'child_process'
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
-
-TimeAgo.addDefaultLocale(en)
-
-const timeAgo = new TimeAgo('en-US')
 
 interface Props {
 	title: string;
@@ -66,7 +60,15 @@ const commit = getGitInfo()
 					<div style="flex:1;"></div>
 					<div style={{ textAlign: 'right' }}>
 						<a href={`https://github.com/ThinLiquid/site/commit/${commit.commitHash}`}><code>{commit.commitHash.slice(0, 7)}</code></a>
-						<small>({timeAgo.format(new Date(commit.commitDate))})</small>
+						<small id="time-ago">({})</small>
+						<script define:vars={{ date: commit.commitDate }}>
+							import TimeAgo from 'javascript-time-ago'
+							import en from 'javascript-time-ago/locale/en'
+							TimeAgo.addDefaultLocale(en)
+							const timeAgo = new TimeAgo('en-US')
+
+							document.querySelector('#time-ago').innerText = `(${timeAgo.format(new Date(date))})`
+						</script>
 					</div>
 				</nav>
 			</div>
@@ -114,7 +116,7 @@ const commit = getGitInfo()
 			</section>
 			<div class="paper" style={{ padding: '20px' }}>
 				<b>&copy; 2023-2024 ThinLiquid. All rights reserved.</b><br/>
-				powered by bun & astro | hosted on nekoweb | <a>source code</a>
+				powered by bun & astro | hosted on nekoweb | <a href="https://github.com/ThinLiquid/site">source code</a>
 			</div>
 		</main>
 		<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
