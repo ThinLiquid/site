@@ -61,7 +61,7 @@ const commit = getGitInfo()
 					<div style={{ textAlign: 'right' }}>
 						<a href={`https://github.com/ThinLiquid/site/commit/${commit.commitHash}`}><code>{commit.commitHash.slice(0, 7)}</code></a>
 						<small id="time-ago">({})</small>
-						<script define:vars={{ date: commit.commitDate }}>
+						<script define:vars={{ date: commit.commitDate }} lang="ts">
 							import TimeAgo from 'javascript-time-ago'
 							import en from 'javascript-time-ago/locale/en'
 							TimeAgo.addDefaultLocale(en)
