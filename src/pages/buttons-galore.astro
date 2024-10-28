@@ -33,19 +33,48 @@ import Layout from "../layouts/Layout.astro";
   <div class="buttons"></div>
 </Layout>
 
+<style>
+  .dimmed::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+    justify-content: center;
+    position: relative;
+  }
+
+  .button-img {
+    width: 88px;
+    height: 31px;
+    position: relative;
+    transition: opacity 0.2s;
+  }
+</style>
+
 <script>
   const BUTTON_FILE = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/index.buttonfile';
   const BUTTON_DIRECTORY = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/';
 
   const fetchButtons = async () => {
-    const res = await fetch(BUTTON_FILE, { cache: 'no-store' });
+    const res = await fetch(`${BUTTON_FILE}`, { cache: 'no-store' });
     const data = await res.text();
-    return data.split('\n').map((entry, index) => {
-      const [categories = '', tags = '', filename, description, creator] = entry.split(' | ');
+    const entries = data.split('\n').map((entry, index) => {
+      const [categories, tags, filename, description, creator] = entry.split(' | ');
       try {
         return {
-          categories: categories ? categories.split(',') : [],
-          tags: tags ? tags.split(' ') : [],
+          categories: categories?.split(',') || [],
+          tags: tags?.split(' ') || [],
           filename,
           description,
           creator: creator || 'N/A'
@@ -54,119 +83,54 @@ import Layout from "../layouts/Layout.astro";
         console.error('Error: malformed content\n ->', JSON.stringify(entry), 'at line', index);
         return null;
       }
-    }).filter(entry => entry !== null) as any[];
+    }).filter(entry => entry !== null);
+
+    return entries;
   };
 
-  (async () => {
-    const buttons = await fetchButtons();
-    const categories = [...new Set(buttons.flatMap(button => button.categories))];
-    const creators = [...new Set(buttons.map(button => button.creator))];
-
-    const buttonsContainer = document.querySelector('.buttons') as HTMLDivElement | null;
-    const search = document.getElementById('search') as HTMLInputElement | null;
-    const categoriesSelect = document.getElementById('categories') as HTMLSelectElement | null;
-    const sortSelect = document.getElementById('sort') as HTMLSelectElement | null;
-    const creatorsSelect = document.getElementById('creators') as HTMLSelectElement | null;
-    const tooltip = document.querySelector('.tooltip') as HTMLDivElement | null;
-
-    if (!buttonsContainer || !search || !categoriesSelect || !sortSelect || !creatorsSelect || !tooltip) {
-      console.error("One or more elements could not be found.");
-      return;
-    }
-
-    categories.forEach(category => {
-      const option = document.createElement('option');
-      option.innerText = category;
-      categoriesSelect.appendChild(option);
-    });
-
-    creators.forEach(creator => {
-      const option = document.createElement('option');
-      option.innerText = creator;
-      creatorsSelect.appendChild(option);
-    });
+  const renderButtons = (buttons) => {
+    const buttonsContainer = document.querySelector('.buttons');
+    buttonsContainer.innerHTML = '';
 
     buttons.forEach(button => {
       const buttonElement = document.createElement('img');
       buttonElement.src = `${BUTTON_DIRECTORY}${button.filename}`;
       buttonElement.alt = button.description;
-      buttonElement.width = 88;
-      buttonElement.height = 31;
-      buttonElement.classList.add('button-item');
+      buttonElement.classList.add('button-img');
 
-      buttonElement.dataset.categories = button.categories.join(',');
-      buttonElement.dataset.tags = button.tags.join(',');
-      buttonElement.dataset.creator = button.creator;
-      buttonElement.dataset.description = button.description.toLowerCase();
-
-      buttonElement.addEventListener('mouseover', () => {
-        tooltip.innerHTML = `
-          <strong>${button.description}</strong><br />
-          Categories: ${button.categories.join(', ')}<br />
-          Tags: ${button.tags.join(', ')}<br />
-          Creator: ${button.creator}
-        `;
-        tooltip.style.opacity = '1';
-      });
-
-      buttonElement.addEventListener('mouseout', () => {
-        tooltip.style.opacity = '0';
-      });
+      buttonElement.addEventListener('mouseover', () => showTooltip(button));
+      buttonElement.addEventListener('mouseout', hideTooltip);
 
       buttonsContainer.appendChild(buttonElement);
     });
+  };
 
-    const filterAndSortButtons = () => {
-      const category = categoriesSelect?.value || 'All Categories';
-      const creator = creatorsSelect?.value || 'All Creators';
-      const searchValue = search?.value.toLowerCase() || '';
+  const applyFilter = () => {
+    const searchValue = search.value.toLowerCase();
+    const category = categoriesSelect.value;
+    const creator = creatorsSelect.value;
 
-      const buttonElements = buttonsContainer?.querySelectorAll('.button-item') as NodeListOf<HTMLImageElement>;
+    document.querySelectorAll('.button-img').forEach(button => {
+      const { categories, tags, description, creator } = button.dataset;
+      const matches =
+        (category === 'All Categories' || categories.includes(category)) &&
+        (creator === 'All Creators' || creator === button.dataset.creator) &&
+        (description.toLowerCase().includes(searchValue) || tags.includes(searchValue));
+      
+      button.classList.toggle('dimmed', !matches);
+    });
+  };
 
-      buttonElements.forEach(button => {
-        const matchesCategory = category === 'All Categories' || button.dataset.categories?.includes(category);
-        const matchesCreator = creator === 'All Creators' || button.dataset.creator === creator;
-        const matchesSearch =
-          button.dataset.description?.includes(searchValue) ||
-          button.dataset.tags?.includes(searchValue);
+  const init = async () => {
+    const buttons = await fetchButtons();
+    renderButtons(buttons);
 
-        if (matchesCategory && matchesCreator && matchesSearch) {
-          button.classList.remove('hidden');
-        } else {
-          button.classList.add('hidden');
-        }
-      });
+    search.addEventListener('input', applyFilter);
+    categoriesSelect.addEventListener('change', applyFilter);
+    creatorsSelect.addEventListener('change', applyFilter);
+  };
 
-      const sortOption = sortSelect?.value;
-      const sortedButtons = Array.from(buttonElements)
-        .filter(button => !button.classList.contains('hidden'));
-
-      if (sortOption === 'alphabetical') {
-        sortedButtons.sort((a, b) => a.dataset.description!.localeCompare(b.dataset.description!));
-      } else if (sortOption === 'alphabetical-reverse') {
-        sortedButtons.sort((a, b) => b.dataset.description!.localeCompare(a.dataset.description!));
-      } else if (sortOption === 'order-reverse') {
-        sortedButtons.reverse();
-      } else if (sortOption === 'random') {
-        sortedButtons.sort(() => Math.random() - 0.5);
-      }
-
-      sortedButtons.forEach(button => buttonsContainer!.appendChild(button));
-    };
-
-    search?.addEventListener('input', filterAndSortButtons);
-    categoriesSelect?.addEventListener('change', filterAndSortButtons);
-    creatorsSelect?.addEventListener('change', filterAndSortButtons);
-    sortSelect?.addEventListener('change', filterAndSortButtons);
-  })();
-
-  window.addEventListener('mousemove', (e) => {
-    const tooltip = document.querySelector('.tooltip') as HTMLDivElement | null;
-    if (tooltip) {
-      tooltip.style.left = `${e.clientX + 10}px`;
-      tooltip.style.top = `${e.clientY + 10}px`;
-    }
-  });
+  init();
 </script>
 <style>
   .hidden {
