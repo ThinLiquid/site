@@ -333,7 +333,7 @@ const commit = getGitInfo()
 	const lastUpdateElement = document.querySelector('last-update') as HTMLElement;
 
 	if (timeAgoElement && lastUpdateElement) {
-		const dateAttr = lastUpdateElement.getAttribute('data-date');
+		const dateAttr = lastUpdateElement.innerText;
 		if (dateAttr) {
 			const date = new Date(dateAttr).getTime();
 			timeAgoElement.innerText = `(${timeSince(date)})`;
