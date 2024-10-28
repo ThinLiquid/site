@@ -36,81 +36,34 @@ import Layout from "../layouts/Layout.astro";
 <script>
   const BUTTON_FILE = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/index.buttonfile';
   const BUTTON_DIRECTORY = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/';
-  let activeRender = null;
 
   const fetchButtons = async () => {
-    const res = await fetch(`${BUTTON_FILE}`, { cache: 'no-store' });
+    const res = await fetch(BUTTON_FILE, { cache: 'no-store' });
     const data = await res.text();
     const entries = data.split('\n').map((entry, index) => {
       const [categories, tags, filename, description, creator] = entry.split(' | ');
       try {
-        return { categories: (categories as any).split(','), tags: (tags as string).split(' '), filename, description, creator: creator || 'N/A' };
+        return {
+          categories: categories.split(','),
+          tags: tags.split(' '),
+          filename,
+          description,
+          creator: creator || 'N/A'
+        };
       } catch {
         console.error('Error: malformed content\n ->', JSON.stringify(entry), 'at line', index);
         return null;
       }
     }).filter(entry => entry !== null);
-
-    return entries;
+    return entries as any[];
   };
 
-  const debounce = (func, delay = 300) => {
-    let timeout;
-    return (...args) => {
+  const debounce = (func: Function, delay = 300) => {
+    let timeout: ReturnType<typeof setTimeout>;
+    return (...args: any[]) => {
       clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(this, args), delay);
+      timeout = setTimeout(() => func(...args), delay);
     };
-  };
-
-  const renderButtons = async () => {
-    if (activeRender) activeRender.abort();
-    const controller = new AbortController();
-    activeRender = controller;
-    
-    const buttonsContainer = document.querySelector('.buttons');
-    buttonsContainer.innerHTML = '';
-    const fragment = document.createDocumentFragment();
-
-    const filteredButtons = buttons.filter(button => {
-      const category = categoriesSelect.value;
-      const creator = creatorsSelect.value;
-      const searchValue = search.value.toLowerCase();
-
-      return (
-        (category === 'All Categories' || button.categories.includes(category)) &&
-        (creator === 'All Creators' || button.creator === creator) &&
-        ((button.description as string).toLowerCase().includes(searchValue) || button.tags.some(tag => tag.includes(searchValue)))
-      );
-    });
-
-    filteredButtons.slice(0, 50).forEach(button => {  // Limit initial render to 50 items
-      const buttonElement = document.createElement('img');
-      buttonElement.src = `${BUTTON_DIRECTORY}${button.filename}`;
-      buttonElement.alt = button.description!;
-      buttonElement.width = 88;
-      buttonElement.height = 31;
-      buttonElement.loading = 'lazy';
-      buttonElement.classList.add('squishy');
-
-      buttonElement.addEventListener('mouseover', () => {
-        tooltip.innerHTML = `
-          <strong>${button.description}</strong><br />
-          Categories: ${button.categories.join(', ')}<br />
-          Tags: ${button.tags.join(', ')}<br />
-          Creator: ${button.creator}
-        `;
-        tooltip.style.opacity = '1';
-      });
-
-      buttonElement.addEventListener('mouseout', () => {
-        tooltip.style.opacity = '0';
-      });
-
-      fragment.appendChild(buttonElement);
-    });
-
-    buttonsContainer.appendChild(fragment);
-    activeRender = null;
   };
 
   (async () => {
@@ -118,12 +71,17 @@ import Layout from "../layouts/Layout.astro";
     const categories = [...new Set(buttons.flatMap(button => button.categories))];
     const creators = [...new Set(buttons.map(button => button.creator))];
 
-    const buttonsContainer = document.querySelector('.buttons');
-    const search = document.getElementById('search');
-    const categoriesSelect = document.getElementById('categories');
-    const sortSelect = document.getElementById('sort');
-    const creatorsSelect = document.getElementById('creators');
-    const tooltip = document.querySelector('.tooltip');
+    const buttonsContainer = document.querySelector('.buttons') as HTMLDivElement | null;
+    const search = document.getElementById('search') as HTMLInputElement | null;
+    const categoriesSelect = document.getElementById('categories') as HTMLSelectElement | null;
+    const sortSelect = document.getElementById('sort') as HTMLSelectElement | null;
+    const creatorsSelect = document.getElementById('creators') as HTMLSelectElement | null;
+    const tooltip = document.querySelector('.tooltip') as HTMLDivElement | null;
+
+    if (!buttonsContainer || !search || !categoriesSelect || !sortSelect || !creatorsSelect || !tooltip) {
+      console.error("One or more elements could not be found.");
+      return;
+    }
 
     categories.forEach(category => {
       const option = document.createElement('option');
@@ -137,19 +95,79 @@ import Layout from "../layouts/Layout.astro";
       creatorsSelect.appendChild(option);
     });
 
-    const debouncedRenderButtons = debounce(renderButtons);
+    let activeRender: AbortController | null = null;
+
+    const renderButtons = async () => {
+      buttonsContainer.innerHTML = '';
+
+      if (activeRender) activeRender.abort();
+      activeRender = new AbortController();
+
+      const filteredButtons = buttons.filter(button => {
+        const category = categoriesSelect?.value || 'All Categories';
+        const creator = creatorsSelect?.value || 'All Creators';
+        const searchValue = search?.value.toLowerCase() || '';
+
+        return (
+          (category === 'All Categories' || button.categories.includes(category)) &&
+          (creator === 'All Creators' || button.creator === creator) &&
+          (button.description.toLowerCase().includes(searchValue) ||
+           button.tags.some(tag => tag.includes(searchValue)))
+        );
+      });
+
+      const sortOption = sortSelect?.value;
+      if (sortOption === 'alphabetical') {
+        filteredButtons.sort((a, b) => a.description.localeCompare(b.description));
+      } else if (sortOption === 'alphabetical-reverse') {
+        filteredButtons.sort((a, b) => b.description.localeCompare(a.description));
+      } else if (sortOption === 'order-reverse') {
+        filteredButtons.reverse();
+      } else if (sortOption === 'random') {
+        filteredButtons.sort(() => Math.random() - 0.5);
+      }
+
+      const fragment = document.createDocumentFragment();
+      for (const button of filteredButtons.slice(0, 50)) { // Limit to 50 items
+        const buttonElement = document.createElement('img');
+        buttonElement.src = `${BUTTON_DIRECTORY}${button.filename}`;
+        buttonElement.alt = button.description;
+        buttonElement.width = 88;
+        buttonElement.height = 31;
+
+        buttonElement.addEventListener('mouseover', () => {
+          tooltip.innerHTML = `
+            <strong>${button.description}</strong><br />
+            Categories: ${button.categories.join(', ')}<br />
+            Tags: ${button.tags.join(', ')}<br />
+            Creator: ${button.creator}
+          `;
+          tooltip.style.opacity = '1';
+        });
+
+        buttonElement.addEventListener('mouseout', () => {
+          tooltip.style.opacity = '0';
+        });
+
+        fragment.appendChild(buttonElement);
+      }
+      buttonsContainer.appendChild(fragment);
+    };
+
+    const debouncedRenderButtons = debounce(renderButtons, 300);
+
     search.addEventListener('input', debouncedRenderButtons);
     categoriesSelect.addEventListener('change', renderButtons);
     creatorsSelect.addEventListener('change', renderButtons);
     sortSelect.addEventListener('change', renderButtons);
-
-    renderButtons();
   })();
 
   window.addEventListener('mousemove', (e) => {
-    const tooltip = document.querySelector('.tooltip');
-    tooltip.style.left = `${e.clientX + 10}px`;
-    tooltip.style.top = `${e.clientY + 10}px`;
+    const tooltip = document.querySelector('.tooltip') as HTMLDivElement | null;
+    if (tooltip) {
+      tooltip.style.left = `${e.clientX + 10}px`;
+      tooltip.style.top = `${e.clientY + 10}px`;
+    }
   });
 </script>
 <style>
