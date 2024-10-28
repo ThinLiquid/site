@@ -77,6 +77,19 @@ import Layout from "../layouts/Layout.astro";
     console.error('One or more elements could not be found.');
   }
 
+  const showTooltip = (button: any) => {
+    if (!tooltip) return;
+    tooltip.innerHTML = button.description;
+    tooltip.style.opacity = '1';
+    tooltip.style.position = 'absolute';
+    tooltip.style.left = `${button.clientX + 10}px`;
+    tooltip.style.top = `${button.clientY + 10}px`;
+  };
+
+  const hideTooltip = () => {
+    if (tooltip) tooltip.style.opacity = '0';
+  };
+
   const fetchButtons = async () => {
     const res = await fetch(`${BUTTON_FILE}`, { cache: 'no-store' });
     const data = await res.text();
