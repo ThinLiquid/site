@@ -60,15 +60,7 @@ const commit = getGitInfo()
 					<div style="flex:1;"></div>
 					<div style={{ textAlign: 'right' }}>
 						<a href={`https://github.com/ThinLiquid/site/commit/${commit.commitHash}`}><code>{commit.commitHash.slice(0, 7)}</code></a>
-						<small id="time-ago">({})</small>
-						<script client:load data-date={commit.commitDate} lang="ts">
-							import TimeAgo from 'javascript-time-ago'
-							import en from 'javascript-time-ago/locale/en'
-							TimeAgo.addDefaultLocale(en)
-							const timeAgo = new TimeAgo('en-US')
-						
-							document.querySelector('#time-ago').innerText = `(${timeAgo.format(new Date(document.currentScript.getAttribute('data-date')))})`
-						</script>
+						<small id="time-ago">(loading...)</small>
 					</div>
 				</nav>
 			</div>
@@ -309,3 +301,11 @@ const commit = getGitInfo()
 		color: var(--surface1);
 	}
 </style>
+<script data-date={commit.commitDate}>
+	import TimeAgo from 'javascript-time-ago'
+	import en from 'javascript-time-ago/locale/en'
+	TimeAgo.addDefaultLocale(en)
+	const timeAgo = new TimeAgo('en-US')
+
+	document.querySelector('#time-ago').innerText = `(${timeAgo.format(new Date(document.currentScript.getAttribute('data-date')))})`
+</script>
