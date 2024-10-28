@@ -303,7 +303,7 @@ const commit = getGitInfo()
 </style>
 <last-update>{commit.commitDate}</last-update>
 <script>
-	function timeSince(date: Date) {
+	function timeSince(date: number) {
 
   var seconds = Math.floor((new Date() - date) / 1000);
 
