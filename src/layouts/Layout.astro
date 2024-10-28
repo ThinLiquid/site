@@ -331,6 +331,6 @@ const commit = getGitInfo()
   return Math.floor(seconds) + " seconds";
 }
 
-	;(document.querySelector('#time-ago') as HTMLElement).innerText = `(${timeSince(new Date((document.querySelector('last-update') as HTMLElement).getAttribute('data-date') as any))})`
+	;(document.querySelector('#time-ago') as HTMLElement).innerText = `(${timeSince(new Date((document.querySelector('last-update') as HTMLElement).getAttribute('data-date') as any) as number)})`
 	;(document.querySelector('last-update') as HTMLElement).remove()
 </script>
