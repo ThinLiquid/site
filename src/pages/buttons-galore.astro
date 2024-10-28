@@ -66,6 +66,17 @@ import Layout from "../layouts/Layout.astro";
   const BUTTON_FILE = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/index.buttonfile';
   const BUTTON_DIRECTORY = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/';
 
+  // Select elements with type safety
+  const search = document.querySelector<HTMLInputElement>('#search');
+  const categoriesSelect = document.querySelector<HTMLSelectElement>('#categoriesSelect');
+  const creatorsSelect = document.querySelector<HTMLSelectElement>('#creatorsSelect');
+  const buttonsContainer = document.querySelector<HTMLDivElement>('.buttons');
+
+  // Check for null elements to avoid TypeScript errors
+  if (!search || !categoriesSelect || !creatorsSelect || !buttonsContainer) {
+    console.error('One or more elements could not be found.');
+  }
+
   const fetchButtons = async () => {
     const res = await fetch(`${BUTTON_FILE}`, { cache: 'no-store' });
     const data = await res.text();
@@ -88,8 +99,8 @@ import Layout from "../layouts/Layout.astro";
     return entries;
   };
 
-  const renderButtons = (buttons) => {
-    const buttonsContainer = document.querySelector('.buttons');
+  const renderButtons = (buttons: any[]) => {
+    if (!buttonsContainer) return;
     buttonsContainer.innerHTML = '';
 
     buttons.forEach(button => {
@@ -97,7 +108,12 @@ import Layout from "../layouts/Layout.astro";
       buttonElement.src = `${BUTTON_DIRECTORY}${button.filename}`;
       buttonElement.alt = button.description;
       buttonElement.classList.add('button-img');
+      buttonElement.dataset.categories = button.categories.join(',');
+      buttonElement.dataset.tags = button.tags.join(' ');
+      buttonElement.dataset.creator = button.creator;
+      buttonElement.dataset.description = button.description.toLowerCase();
 
+      // Add tooltip events if needed
       buttonElement.addEventListener('mouseover', () => showTooltip(button));
       buttonElement.addEventListener('mouseout', hideTooltip);
 
@@ -106,17 +122,22 @@ import Layout from "../layouts/Layout.astro";
   };
 
   const applyFilter = () => {
+    if (!search || !categoriesSelect || !creatorsSelect) return;
     const searchValue = search.value.toLowerCase();
     const category = categoriesSelect.value;
     const creator = creatorsSelect.value;
 
-    document.querySelectorAll('.button-img').forEach(button => {
-      const { categories, tags, description, creator } = button.dataset;
+    document.querySelectorAll<HTMLImageElement>('.button-img').forEach(button => {
+      const buttonCategories = button.dataset.categories?.split(',') || [];
+      const buttonTags = button.dataset.tags?.split(' ') || [];
+      const buttonDescription = button.dataset.description || '';
+      const buttonCreator = button.dataset.creator || '';
+
       const matches =
-        (category === 'All Categories' || categories.includes(category)) &&
-        (creator === 'All Creators' || creator === button.dataset.creator) &&
-        (description.toLowerCase().includes(searchValue) || tags.includes(searchValue));
-      
+        (category === 'All Categories' || buttonCategories.includes(category)) &&
+        (creator === 'All Creators' || buttonCreator === creator) &&
+        (buttonDescription.includes(searchValue) || buttonTags.includes(searchValue));
+
       button.classList.toggle('dimmed', !matches);
     });
   };
@@ -125,9 +146,9 @@ import Layout from "../layouts/Layout.astro";
     const buttons = await fetchButtons();
     renderButtons(buttons);
 
-    search.addEventListener('input', applyFilter);
-    categoriesSelect.addEventListener('change', applyFilter);
-    creatorsSelect.addEventListener('change', applyFilter);
+    if (search) search.addEventListener('input', applyFilter);
+    if (categoriesSelect) categoriesSelect.addEventListener('change', applyFilter);
+    if (creatorsSelect) creatorsSelect.addEventListener('change', applyFilter);
   };
 
   init();
