@@ -71,6 +71,7 @@ import Layout from "../layouts/Layout.astro";
   const categoriesSelect = document.querySelector<HTMLSelectElement>('#categoriesSelect');
   const creatorsSelect = document.querySelector<HTMLSelectElement>('#creatorsSelect');
   const buttonsContainer = document.querySelector<HTMLDivElement>('.buttons');
+  const tooltip = document.querySelector<HTMLDivElement>('.tooltip');
 
   // Check for null elements to avoid TypeScript errors
   if (!search || !categoriesSelect || !creatorsSelect || !buttonsContainer) {
