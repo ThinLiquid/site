@@ -41,11 +41,11 @@ import Layout from "../layouts/Layout.astro";
     const res = await fetch(BUTTON_FILE, { cache: 'no-store' });
     const data = await res.text();
     const entries = data.split('\n').map((entry, index) => {
-      const [categories, tags, filename, description, creator] = entry.split(' | ');
+      const [categories = '', tags = '', filename, description, creator] = entry.split(' | ');
       try {
         return {
-          categories: categories.split(','),
-          tags: tags.split(' '),
+          categories: categories ? categories.split(',') : [], // Default to empty array if undefined
+          tags: tags ? tags.split(' ') : [], // Default to empty array if undefined
           filename,
           description,
           creator: creator || 'N/A'
@@ -112,7 +112,7 @@ import Layout from "../layouts/Layout.astro";
           (category === 'All Categories' || button.categories.includes(category)) &&
           (creator === 'All Creators' || button.creator === creator) &&
           (button.description.toLowerCase().includes(searchValue) ||
-           button.tags.some(tag => tag.includes(searchValue)))
+           button.tags.some((tag: string) => tag.includes(searchValue))) // Typing `tag` as `string`
         );
       });
 
