@@ -74,7 +74,7 @@ import Layout from "../layouts/Layout.astro";
 
   const fetchButtons = async () => {
     const res = await fetch(`${BUTTON_FILE}`, { cache: 'no-store' });
-    const data = await res.text();
+    const data = (await res.text()).trim();
 
     const categoriesSet = new Set<string>()
     const creatorsSet = new Set<string>()
@@ -145,6 +145,7 @@ import Layout from "../layouts/Layout.astro";
 
   let ogButtons: any[] = []
   const sortButtons = (buttons: any[], sortOption: string) => {
+    console.log(buttons)
     switch (sortOption) {
       case 'alphabetical':
         return buttons.sort((a, b) => a.description.localeCompare(b.description));
