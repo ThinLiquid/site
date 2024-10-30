@@ -135,7 +135,6 @@ import Layout from "../layouts/Layout.astro";
       buttonElement.dataset.creator = button.creator;
       buttonElement.dataset.description = button.description.toLowerCase();
 
-      // Add tooltip events if needed
       buttonElement.addEventListener('mouseover', () => showTooltip(button));
       buttonElement.addEventListener('mouseout', hideTooltip);
 
@@ -207,19 +206,17 @@ import Layout from "../layouts/Layout.astro";
     justify-content: center;
 
     img {
-      transition: scale .2s var(--bounce), rotate .2s var(--bounce), opacity .2s, filter .25s;
+      transition: scale .2s var(--bounce), rotate .2s var(--bounce), opacity .2s, filter .2s;
       
       &.dimmed {
         opacity: 0.25;
-        filter:saturate(0) blur(2px);
+        filter:saturate(0) blur(1px);
         pointer-events: none;
       }
       &:hover {
         z-index: 6969;
         scale: 1.5;
-        box-shadow: 0 0 10px var(--base);
         backdrop-filter: blur(10px);
-
 
         &:nth-child(even) {
           rotate: 2deg;
