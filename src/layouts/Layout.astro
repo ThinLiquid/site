@@ -336,7 +336,7 @@ const commit = getGitInfo()
 		const dateAttr = lastUpdateElement.innerText;
 		if (dateAttr) {
 			const date = new Date(dateAttr).getTime();
-			timeAgoElement.innerText = `(${timeSince(date)})`;
+			timeAgoElement.innerText = `(${timeSince(date)} ago)`;
 		}
 		lastUpdateElement.remove();
 	}
