@@ -104,6 +104,77 @@ const commit = getGitInfo()
 					</webring-container>
 					<br />
 					<iframe id="bucket-webring" style="width: 100%; height: 3rem; border: none" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
+					<h3>music player</h3>
+					<div class="player">
+					    <link rel="stylesheet" href="https://thinliquid.github.io/music-player/95.css">
+					    <div class="lqd-metadata">
+					      <div><span></span><span></span></div>
+					    </div>
+					    
+					    <div style="display: flex;align-items: center;gap:5px;">
+					      <button class="lqd-toggle-songs" title="toggle songs menu">🎶</button>
+					      <button class="lqd-prev" title="previous track">⏮</button>
+					      <button class="lqd-play" title="play/pause">⏯</button>
+					      <button class="lqd-stop" title="stop">⏹</button>
+					      <button class="lqd-next" title="next track">⏭</button>
+					      <div style="flex:1"></div>
+					      <span class="lqd-time" style="font-weight: 700;">00:00 / 00:00</span>
+					    </div>
+					
+					    <div class="lqd-seek" title="seek track">
+					      <div class="lqd-seek-inner"></div>
+					    </div>
+					
+					    <div style="display: flex; gap: 5px; height: 64px;position: relative;">
+					      <div class="lqd-volume" title="volume slider">
+					        <div class="lqd-volume-inner"></div>
+					      </div>
+					      <canvas class="lqd-visualizer" width="272.15" height="64" style="width:100%;"></canvas>
+					      <div class="lqd-songs"></div>
+					    </div>
+					    <script src="https://thinliquid.github.io/music-player/music-player.js">
+					      ({
+					        // if you want to use your own audio context, you can pass it here
+					        // audioContext: new AudioContext(),
+					
+					        // true or false 
+					        autoplay: true,
+					
+					        // 'bar', 'wave', or 'milkdrop'
+					        canvasMode: 'milkdrop',
+					
+					        // 'random' or one of the presets from here (only used when canvasMode is 'milkdrop')
+					        // https://github.com/jberg/butterchurn-presets/tree/master/presets/full
+					        canvasPreset: 'random',
+					
+					        // can only be used when canvasPreset is 'random'
+					        canvasShowName: false,
+					
+					        // only used when canvasMode is 'milkdrop'
+					        // this is the duration of each preset in seconds
+					        canvasPresetDuration: 25,
+					        // this is the duration of the transition between presets in seconds
+					        canvasPresetTransitionDuration: 5.2,
+					
+					        // only used when canvasMode is 'bar' or 'wave'
+					        // ** canvasColorStyle: 'gradient', // 'volume', 'gradient', 'custom'
+					
+					        // only used when canvasColorStyle is 'custom' or 'gradient'
+					        // gradient: ['red', 'yellow', 'green', 'blue', 'purple']
+					        // custom: '#4169e1' or 'blue' or 'rgb(0, 0, 255)'
+					        // ** canvasColor: ['red', 'yellow'], 
+					
+					        // the songs to play
+					        songs: [
+					          {
+					            url: 'https://thinliquid.github.io/music-player/tracks/chroma.mp3',
+					            title: 'And Revive The Melody',
+					            artist: 'Chroma',
+					          },
+					        ]
+					      })
+					    </script>
+					  </div>
 				</div>
 			</section>
 			<div class="paper" style={{ padding: '20px' }}>
