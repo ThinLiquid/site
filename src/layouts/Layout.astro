@@ -44,334 +44,84 @@ const commit = getGitInfo()
 	</head>
 	<body>
 		<main>
-			<div class="paper">
-				<header>
-					<h1>
-						thinliquid's [studio]
-						<code style={{ fontSize: '0.6em' }}>v{pkg.version}</co>
-					</h1>
-					<p>typescript is a lifestyle.</p>
-				</header>
+			<aside style="left:calc(-250px - 20px);position:absolute;width:250px;">
+				<img src="/assets/ads/nekos.gif" width="250" height="500">
+
+				<h3>buttons</h3>
+				<fieldset>
+					<legend>
+						my button
+					</legend>
+					<div>
+						<ImageButton alt="my button" url="https://thinliquid.dev/thnlqd.png" /><br/>
+						<textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+					</div>
+				</fieldset>
+				<ImageButton alt="nekoweb.org button" href="https://nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/nekoweb12.gif" />
+				<ImageButton alt="arch linux button" href="https://archlinux.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" />
+				<ImageButton alt="max's apartment button" href="https://max.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/maxpixels.gif" />
+				<ImageButton alt="giiki's lair button" href="https://giikis2.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/giikis2.png" />
+				<ImageButton alt="bomberfish.ca button" href="https://bomberfish.ca" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/bomberfish.gif" />
+				<h3>socials</h3>
+				<a href="https://wetdry.world/@thnlqd">mastodon</a>
+				<a href="https://osu.ppy.sh/users/ThinLiquid">osu!</a>
+				<a href="https://bsky.app/profile/@thinliquid.dev">bluesky</a>
+				<a href="https://github.com/ThinLiquid">github</a>
+				<a href="https://github.com/ThinLiquid.gpg">pgp public key</a>
+			</aside>
+			<aside style="right:calc(-250px - 20px);position:absolute;width:250px;">
+				<img src="/assets/ads/nekos.gif" width="250" height="500">
+
+				<h3>webrings</h3>
+				<div id="nekowebring" style={{ color: 'var(--base)' }}>
+					<script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
+					<script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
+				</div>
+				<webring-container>
+					<config key="type" value="catppuccin-mocha"></config>
+					<config key="font" value="Inter, sans-serif"></config>
+					<config key="fill" value="true"></config>
+
+					<script is:inline src="https://palette.nekoweb.org/webring.js"></script>
+				</webring-container>
+				<br />
+				<iframe id="bucket-webring" style="height: 3rem; border: none;width:100%;" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
+			</aside>
+			<header>
+				<h1 style={{ marginBottom: '0' }}>
+					thinliquid's [studio]
+					<code>v{pkg.version}</code>
+				</h1>
+				<p style={{ marginTop: '0' }}>typescript is a lifestyle.</p>
 				<nav>
-					<a href="/" style={{ '--color': 'var(--blue)' }}>home</a>
-					<a href="/buttons-galore" style={{ '--color': 'var(--teal)' }}>buttons galore</a>
-					<a href="/resources" style={{ '--color': 'var(--green)' }}>resources</a>
-					<a href="/blog" style={{ '--color': 'var(--yellow)' }}>blog</a>
-					<div style="flex:1;"></div>
-					<div style={{ textAlign: 'right' }}>
+					<a href="/">home</a> •
+					<a href="/buttons-galore">buttons galore</a> •
+					<a href="/resources">resources</a> •
+					<a href="/blog">blog</a>
+					<br/>
+					<span>
 						<a href={`https://github.com/ThinLiquid/site/commit/${commit.commitHash}`}><code>{commit.commitHash.slice(0, 7)}</code></a>
 						<small id="time-ago">(loading...)</small>
-					</div>
+					</span>
 				</nav>
-			</div>
+				<hr/>
+			</header>
 			<section>
-				<content><slot /></content>
-				<div>
-					<h3>buttons</h3>
-					<fieldset>
-						<legend>
-							my button
-						</legend>
-						<div>
-							<ImageButton style={{ width: '100%' }} alt="my button" url="https://thinliquid.dev/thnlqd.png" />
-							<textarea readonly onclick="this.select()" style={{ resize: 'none', width: '100%' }}>{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
-						</div>
-					</fieldset>
-					<ImageButton alt="nekoweb.org button" href="https://nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/nekoweb12.gif" />
-					<ImageButton alt="arch linux button" href="https://archlinux.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" />
-					<ImageButton alt="max's apartment button" href="https://max.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/maxpixels.gif" />
-					<ImageButton alt="giiki's lair button" href="https://giikis2.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/giikis2.png" />
-					<ImageButton alt="bomberfish.ca button" href="https://bomberfish.ca" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/bomberfish.gif" />
-					<h3>socials</h3>
-					<a href="https://wetdry.world/@thnlqd">mastodon</a>
-					<a href="https://osu.ppy.sh/users/ThinLiquid">osu!</a>
-					<a href="https://bsky.app/profile/@thinliquid.dev">bluesky</a>
-					<a href="https://github.com/ThinLiquid">github</a>
-					<a href="https://github.com/ThinLiquid.gpg">pgp public key</a>
-				</div>
-				<div>
-					<h3>webrings</h3>
-					<div id="nekowebring" style="color: var(--base)">
-						<script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
-						<script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
-					</div>
-					<webring-container>
-				   		<config key="type" value="catppuccin-mocha"></config>
-				    		<config key="font" value="Inter, sans-serif"></config>
-				    		<config key="fill" value="true"></config>
-			
-				    		<script is:inline src="https://palette.nekoweb.org/webring.js"></script>
-					</webring-container>
-					<br />
-					<iframe id="bucket-webring" style="width: 100%; height: 3rem; border: none" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
-					<h3>music player</h3>
-					<div class="player">
-					    <link rel="stylesheet" href="https://thinliquid.github.io/music-player/95.css">
-					    <div class="lqd-metadata">
-					      <div><span></span><span></span></div>
-					    </div>
-					    
-					    <div style="display: flex;align-items: center;gap:5px;">
-					      <button class="lqd-toggle-songs" title="toggle songs menu">🎶</button>
-					      <button class="lqd-prev" title="previous track">⏮</button>
-					      <button class="lqd-play" title="play/pause">⏯</button>
-					      <button class="lqd-stop" title="stop">⏹</button>
-					      <button class="lqd-next" title="next track">⏭</button>
-					      <div style="flex:1"></div>
-					      <span class="lqd-time" style="font-weight: 700;">00:00 / 00:00</span>
-					    </div>
-					
-					    <div class="lqd-seek" title="seek track">
-					      <div class="lqd-seek-inner"></div>
-					    </div>
-					
-					    <div style="display: flex; gap: 5px; height: 64px;position: relative;">
-					      <div class="lqd-volume" title="volume slider">
-					        <div class="lqd-volume-inner"></div>
-					      </div>
-					      <canvas class="lqd-visualizer" width="272.15" height="64" style="width:100%;"></canvas>
-					      <div class="lqd-songs"></div>
-					    </div>
-					    <script is:inline src="https://thinliquid.github.io/music-player/music-player.js">
-					      ({
-					        // if you want to use your own audio context, you can pass it here
-					        // audioContext: new AudioContext(),
-					
-					        // true or false 
-					        autoplay: true,
-					
-					        // 'bar', 'wave', or 'milkdrop'
-					        canvasMode: 'milkdrop',
-					
-					        // 'random' or one of the presets from here (only used when canvasMode is 'milkdrop')
-					        // https://github.com/jberg/butterchurn-presets/tree/master/presets/full
-					        canvasPreset: 'random',
-					
-					        // can only be used when canvasPreset is 'random'
-					        canvasShowName: false,
-					
-					        // only used when canvasMode is 'milkdrop'
-					        // this is the duration of each preset in seconds
-					        canvasPresetDuration: 25,
-					        // this is the duration of the transition between presets in seconds
-					        canvasPresetTransitionDuration: 5.2,
-					
-					        // only used when canvasMode is 'bar' or 'wave'
-					        // ** canvasColorStyle: 'gradient', // 'volume', 'gradient', 'custom'
-					
-					        // only used when canvasColorStyle is 'custom' or 'gradient'
-					        // gradient: ['red', 'yellow', 'green', 'blue', 'purple']
-					        // custom: '#4169e1' or 'blue' or 'rgb(0, 0, 255)'
-					        // ** canvasColor: ['red', 'yellow'], 
-					
-					        // the songs to play
-					        songs: [
-					          {
-					            url: 'https://thinliquid.github.io/music-player/tracks/chroma.mp3',
-					            title: 'And Revive The Melody',
-					            artist: 'Chroma',
-					          },
-					        ]
-					      })
-					    </script>
-					  </div>
-				</div>
+				<content>
+					<slot />
+				</content>
 			</section>
-			<div class="paper" style={{ padding: '20px' }}>
+			<footer>
+				<hr/>
 				<b>&copy; 2023-2024 ThinLiquid. All rights reserved.</b><br/>
 				powered by bun & astro | hosted on nekoweb | <a href="https://github.com/ThinLiquid/site">source code</a>
-			</div>
+			</footer>
 		</main>
+
 		<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js" is:inline></script>
 		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 	</body>
 </html>
-<style is:global>
-	:root {
-		--red: hsl(350, 100%, 79%);
-		--orange: hsl(31, 100%, 79%);
-		--yellow: hsl(66, 100%, 79%);
-		--green: hsl(136, 100%, 79%);
-		--teal: hsl(171, 100%, 79%);
-		--blue: hsl(233, 100%, 79%);
-
-		--text: hsl(245, 31%, 79%);
-		--surface1: hsl(245, 11%, 37%);
-		--surface0: hsl(245, 11%, 27%);
-		--base: hsl(245, 21%, 12%);
-		--mantle: hsl(245, 21%, 10%);
-
-		--base-alpha: color-mix(in srgb, var(--base), transparent 10%);
-	}
-
-	:root {
-		--bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-	}
-
-	body, html {
-		background: var(--base);
-		color: var(--text);
-		margin: 0;
-	}
-
-	* {
-		font-family: MS Gothic, MS UI Gothic, Menlo, monospace;
-		box-sizing: border-box;
-		image-rendering: pixelated;
-
-		&::selection {
-			background: var(--blue);
-			color: var(--base);
-		}
-	}
-
-	main {
-		max-width: 1512px;
-		padding: 20px;
-		margin: 0 auto;
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-
-		header {
-			aspect-ratio: 1512 / 256;
-			background: linear-gradient(var(--base-alpha), var(--base-alpha)), url(/win7.webp);
-			background-position: center;
-			background-size: cover;
-			background-repeat: no-repeat;
-			padding: 20px;
-
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-end;
-
-			* {
-				margin: 0;
-			}
-		}
-
-		section {
-			display: grid;
-			grid-template-columns: 325px 1fr 0.5fr;
-			grid-template-areas: 'a b c';
-			gap: 20px;
-
-			@media screen and (max-width:1000px) {
-				display: flex;
-				flex-direction: column;
-			}
-
-			& > *:nth-child(2) { grid-area: a; }
-			& > *:nth-child(1) { grid-area: b; }
-			& > *:nth-child(3) { grid-area: c; }
-
-			& > * {
-				background: var(--mantle);
-				padding: 20px;
-				border: 2px dashed var(--surface0);
-				border-radius: 5px;
-			}
-		}
-	}
-
-	* h1:nth-child(1), * h2:nth-child(1), * h3:nth-child(1), * h4:nth-child(1), * h5:nth-child(1), * h6:nth-child(1), * p:nth-child(1) {
-		margin: 0;
-	}
-
-	.paper {
-		border: 2px dashed var(--surface0);
-		background: var(--mantle);
-		border-radius: 5px;
-	}
-	nav {
-		padding: 15px 20px;
-		background: var(--mantle);
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 10px;
-	}
-
-	a {
-		--color: var(--blue);
-
-		border-radius: 5px;
-		padding: 0 2px;
-
-		display: inline-block;
-		color: var(--color);
-		text-decoration-style: wavy;
-		text-decoration-thickness: 1px;
-		text-decoration-color: var(--surface0);
-		transition: text-decoration .5s, scale .5s var(--bounce);
-
-		outline-offset: 2px;
-		
-		cursor: crosshair;
-
-		&:hover {
-			outline: 1px dashed color-mix(in srgb, currentColor, transparent 65%);
-			text-decoration-color: currentColor;
-			scale: 1.1;
-		}
-
-		&:active {
-			scale: 0.97 1;
-		}
-
-		&:focus {
-			outline: 1px dashed currentColor;
-		}
-	}
-
-	code {
-		font-family: MS Gothic, Menlo, monospace;
-	}
-
-	del {
-		color: var(--surface1);
-	}
-
-	img.emoji {
-   	height: 1em;
-   	width: 1em;
-   	margin: 0 .05em 0 .1em;
-  	vertical-align: -0.1em;
-		image-rendering: crisp-edges;
-	}
-
-	a img {
-		display: block;
-		padding: 2px 0;
-	}
-	hr {
-		border-color: var(--surface0)
-	}
-
-	textarea, input, select {
-		border-radius: 5px;
-		border: 2px dashed var(--surface0);
-		background: var(--base);
-		color: var(--text);
-
-		&:focus {
-			border-color: var(--blue);
-			outline: none;
-		}
-	}
-
-	fieldset {
-		border-style: dashed;
-		border-color: var(--blue);
-		border-radius: 5px;
-
-		margin: 10px 0;
-	}
-
-	small {
-		color: var(--surface1);
-	}
-</style>
 <last-update>{commit.commitDate}</last-update>
 <script>
 	function timeSince(date: number): string {
@@ -412,3 +162,414 @@ const commit = getGitInfo()
 		lastUpdateElement.remove();
 	}
 </script>
+
+<style is:global>
+	:root {  
+		--base: hsl(240, 20%, 2%);
+		
+		--shade1: hsl(240, 20%, 8%);
+		--shade2: hsl(240, 20%, 13%);
+		--shade3: hsl(240, 20%, 18%);
+		--shade4: hsl(240, 20%, 21%);
+		--shade5: hsl(240, 20%, 24%);
+		--shade6: hsl(240, 30%, 27%);
+		
+		--text: hsl(240, 30%, 95%);
+		--subtext0: hsl(240, 30%, 74%);
+		
+		--red: hsl(0, 80%, 65%);
+		--orange: hsl(20, 80%, 65%);
+		--yellow: hsl(40, 80%, 65%);
+		--green: hsl(100, 80%, 65%);
+		--mint: hsl(150, 80%, 65%);
+		--cyan: hsl(200, 80%, 65%);
+		--blue: hsl(240, 90%, 79%);
+		--magenta: hsl(290, 80%, 65%);
+		
+		--color: var(--blue);
+		
+		--fs-sm: clamp(0.67rem, 0.3vi + 0.61rem, 0.8rem);
+		--fs-base: clamp(0.8rem, 0.45vi + 0.71rem, 1rem);
+		--fs-md: clamp(0.96rem, 0.66vi + 0.83rem, 1.25rem);
+		--fs-lg: clamp(1.15rem, 0.93vi + 0.97rem, 1.56rem);
+		--fs-xl: clamp(1.38rem, 1.3vi + 1.12rem, 1.95rem);
+		--fs-xxl: clamp(1.66rem, 1.78vi + 1.3rem, 2.44rem);
+		--fs-xxxl: clamp(1.99rem, 2.41vi + 1.51rem, 3.05rem);
+	}
+
+	small { font-size: var(--fs-sm); }
+	p { font-size: var(--fs-base); }
+	h6 { font-size: var(--fs-md); }
+	h5 { font-size: var(--fs-md); }
+	h4 { font-size: var(--fs-lg); }
+	h3 { font-size: var(--fs-xl); }
+	h2 { font-size: var(--fs-xxl); }
+	h1 { font-size: var(--fs-xxxl); }
+
+	h1,h2,h3,h4,h5,h6,p,small {
+		margin-top: 1rem;
+		margin-bottom: 0.8rem;
+	}
+
+	* { box-sizing: border-box; font-size: var(--fs-base); }
+
+	*::selection {
+		background: var(--color);
+		color: var(--base);
+	}
+
+	body, html {
+		background: var(--base);
+		color: var(--text);
+		font-family: Neue Haas Grotesk Display Pro, Helvetica Neue, Helvetica, Arial, sans-serif;
+	}
+
+	main {
+		max-width: 600px;
+		width: 100%;
+		margin: auto;
+		position: relative;
+	}
+
+	input[type="text"],
+	input[type="password"],
+	textarea,
+	select {
+		background: var(--shade1);
+		border: none;
+		border-bottom: 2px dotted var(--shade3);
+		height: 2.5rem;
+		padding: 0 0.5rem;
+		color: var(--text);
+		margin-bottom: 4px;
+		
+		transition: .2s border-color, .2s background, .2s outline;
+		
+		&::placeholder { color: var(--subtext0); }
+		&:hover, &:focus {
+			border-color: var(--color);
+		}
+	}
+
+	input[type="password"] {
+		letter-spacing: 0.25rem;
+		
+		&::placeholder { letter-spacing: 0; }
+	}
+
+	textarea {
+		padding: 0.5rem;
+		min-height: 5rem;
+	}
+
+	input[type="radio"],
+	input[type="checkbox"] {
+		appearance: none;
+		background: var(--shade1);
+		margin: 0;
+		font: inherit;
+		color: var(--shade4);
+		width: 1em;
+		height: 1em;
+		border: 1.2px solid currentColor;
+		display: grid;
+		border-radius: 50%;
+		place-content: center;
+		outline-offset: 0px;
+		outline-width: 1px;
+		
+		
+		transition: .2s background, .2s outline;
+		
+		&::before {
+			content: "";
+			width: 10px;
+			height: 10px;
+			transform: scale(0.75);
+			background: var(--color);
+			border-radius: 50%;
+			opacity: 0;
+			
+			transition: .2s opacity, .2s transform;
+		}
+		
+		&:checked {
+			color: var(--color);
+		}
+		
+		&:checked::before {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+
+	input[type="checkbox"] {
+		border-radius: 0;
+		
+		&::before {
+			border-radius: 0;
+		}
+	}
+
+
+	.form-item { display: flex; gap: 5px; align-items: center; }
+
+
+	button {
+		background: var(--shade1);
+		padding: 0.5rem 0.75rem;
+		border: none;
+		color: var(--text);
+		height: 38px;
+		
+		transition: .2s border, .2s background, .2s outline;
+		
+		
+		&:hover { border-color: var(--color); }
+		
+	}
+
+	input, button, textarea, select {
+		outline: 2px solid transparent;
+		outline-offset: 2px;
+		
+		&:hover { background: var(--shade3); }
+		&:active { background: var(--shade2); }
+		&:focus { outline-color: var(--color);z-index: 2; }
+	}
+
+	fieldset {
+		border-color: var(--shade1);
+		
+		legend {
+			background: var(--color);
+			color: var(--base);
+			padding: 2.5px 10px;
+			margin-bottom: 5px;
+
+			&::selection { background: var(--base); color: var(--color); }
+		}
+	}
+
+	kbd {
+		display: inline-block;
+		border: 0.1rem solid var(--shade3);
+		padding: 0.2rem 0.3rem;
+		border-bottom: 4px solid var(--shade3);
+		user-select: none;
+		
+		transition: .2s border-color, .2s color, .2s transform, .2s border-bottom;
+		
+		&:active {
+			border-bottom: 1.5px solid var(--shade3); 
+			transform: translateY(3px);
+		}
+		
+		&:hover { border-color: var(--color); color: var(--color); }
+	}
+
+	input:disabled, button:disabled {
+		color: var(--subtext0);
+		cursor: not-allowed;
+	}
+
+	a {
+		color: var(--color);
+		text-decoration-color: var(--shade6);
+		text-decoration-style: wavy;
+		cursor: crosshair;
+
+		transition: .2s text-decoration;
+
+		&:hover {
+			text-decoration-color: var(--color);
+		}
+	}
+	
+	img.emoji {
+		font-size:1em;
+  	height: 1em;
+   	width: 1em;
+   	margin: 0 .05em 0 .1em;
+   	vertical-align: -0.1em;
+	}
+
+	hr { border-color: var(--shade2) }
+</style>
+<style>
+	@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-BlackItalic.eot');
+    src: local('Neue Haas Grotesk Display Pro 96 Black Italic'), local('NeueHaasDisplay-BlackItalic'),
+       url('/assets/fonts/NeueHaasDisplay-BlackItalic.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-BlackItalic.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-Mediu.eot');
+    src: local('Neue Haas Grotesk Display Pro 65 Medium'), local('NeueHaasDisplay-Mediu'),
+       url('/assets/fonts/NeueHaasDisplay-Mediu.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-Mediu.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-Mediu.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-Light.eot');
+    src: local('Neue Haas Grotesk Display Pro 45 Light'), local('NeueHaasDisplay-Light'),
+       url('/assets/fonts/NeueHaasDisplay-Light.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-Light.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-ThinItalic.eot');
+    src: local('Neue Haas Grotesk Display Pro 36 Thin Italic'), local('NeueHaasDisplay-ThinItalic'),
+       url('/assets/fonts/NeueHaasDisplay-ThinItalic.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-ThinItalic.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-ThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-RomanItalic.eot');
+    src: local('Neue Haas Grotesk Display Pro 56 Roman Italic'), local('NeueHaasDisplay-RomanItalic'),
+       url('/assets/fonts/NeueHaasDisplay-RomanItalic.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-RomanItalic.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-RomanItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-XXThinItalic.eot');
+    src: local('Neue Haas Grotesk Display Pro 16 XXThin Italic'), local('NeueHaasDisplay-XXThinItalic'),
+       url('/assets/fonts/NeueHaasDisplay-XXThinItalic.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-XXThinItalic.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-XXThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-Roman.eot');
+    src: local('Neue Haas Grotesk Display Pro 55 Roman'), local('NeueHaasDisplay-Roman'),
+       url('/assets/fonts/NeueHaasDisplay-Roman.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-Roman.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-Roman.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-BoldItalic.eot');
+    src: local('Neue Haas Grotesk Display Pro 76 Bold Italic'), local('NeueHaasDisplay-BoldItalic'),
+       url('/assets/fonts/NeueHaasDisplay-BoldItalic.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-BoldItalic.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-Thin.eot');
+    src: local('Neue Haas Grotesk Display Pro 35 Thin'), local('NeueHaasDisplay-Thin'),
+       url('/assets/fonts/NeueHaasDisplay-Thin.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-Thin.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-Black.eot');
+    src: local('Neue Haas Grotesk Display Pro 95 Black'), local('NeueHaasDisplay-Black'),
+       url('/assets/fonts/NeueHaasDisplay-Black.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-Black.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-XXThin.eot');
+    src: local('Neue Haas Grotesk Display Pro 15 XXThin'), local('NeueHaasDisplay-XXThin'),
+       url('/assets/fonts/NeueHaasDisplay-XXThin.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-XXThin.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-XXThin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-MediumItalic.eot');
+    src: local('Neue Haas Grotesk Display Pro 66 Medium Italic'), local('NeueHaasDisplay-MediumItalic'),
+       url('/assets/fonts/NeueHaasDisplay-MediumItalic.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-MediumItalic.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-Bold.eot');
+    src: local('Neue Haas Grotesk Display Pro 75 Bold'), local('NeueHaasDisplay-Bold'),
+       url('/assets/fonts/NeueHaasDisplay-Bold.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-Bold.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-XThin.eot');
+    src: local('Neue Haas Grotesk Display Pro 25 XThin'), local('NeueHaasDisplay-XThin'),
+       url('/assets/fonts/NeueHaasDisplay-XThin.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-XThin.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-XThin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-LightItalic.eot');
+    src: local('Neue Haas Grotesk Display Pro 46 Light Italic'), local('NeueHaasDisplay-LightItalic'),
+       url('/assets/fonts/NeueHaasDisplay-LightItalic.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-LightItalic.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Neue Haas Grotesk Display Pro';
+    src:url('/assets/fonts/NeueHaasDisplay-XThinItalic.eot');
+    src: local('Neue Haas Grotesk Display Pro 26 XThin Italic'), local('NeueHaasDisplay-XThinItalic'),
+       url('/assets/fonts/NeueHaasDisplay-XThinItalic.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/NeueHaasDisplay-XThinItalic.woff') format('woff'),
+       url('/assets/fonts/NeueHaasDisplay-XThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+}
+</style>
