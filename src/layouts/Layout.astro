@@ -44,49 +44,6 @@ const commit = getGitInfo()
 	</head>
 	<body>
 		<main>
-			<aside style="left:calc(-250px - 20px);position:absolute;width:250px;">
-				<img src="/assets/ads/nekos.gif" width="250" height="500">
-
-				<h3>buttons</h3>
-				<fieldset>
-					<legend>
-						my button
-					</legend>
-					<div>
-						<ImageButton alt="my button" url="https://thinliquid.dev/thnlqd.png" /><br/>
-						<textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
-					</div>
-				</fieldset>
-				<ImageButton alt="nekoweb.org button" href="https://nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/nekoweb12.gif" />
-				<ImageButton alt="arch linux button" href="https://archlinux.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" />
-				<ImageButton alt="max's apartment button" href="https://max.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/maxpixels.gif" />
-				<ImageButton alt="giiki's lair button" href="https://giikis2.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/giikis2.png" />
-				<ImageButton alt="bomberfish.ca button" href="https://bomberfish.ca" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/bomberfish.gif" />
-				<h3>socials</h3>
-				<a href="https://wetdry.world/@thnlqd">mastodon</a>
-				<a href="https://osu.ppy.sh/users/ThinLiquid">osu!</a>
-				<a href="https://bsky.app/profile/@thinliquid.dev">bluesky</a>
-				<a href="https://github.com/ThinLiquid">github</a>
-				<a href="https://github.com/ThinLiquid.gpg">pgp public key</a>
-			</aside>
-			<aside style="right:calc(-250px - 20px);position:absolute;width:250px;">
-				<img src="/assets/ads/nekos.gif" width="250" height="500">
-
-				<h3>webrings</h3>
-				<div id="nekowebring" style={{ color: 'var(--base)' }}>
-					<script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
-					<script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
-				</div>
-				<webring-container>
-					<config key="type" value="catppuccin-mocha"></config>
-					<config key="font" value="Inter, sans-serif"></config>
-					<config key="fill" value="true"></config>
-
-					<script is:inline src="https://palette.nekoweb.org/webring.js"></script>
-				</webring-container>
-				<br />
-				<iframe id="bucket-webring" style="height: 3rem; border: none;width:100%;" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
-			</aside>
 			<header>
 				<h1 style={{ marginBottom: '0' }}>
 					thinliquid's [studio]
@@ -111,6 +68,49 @@ const commit = getGitInfo()
 					<slot />
 				</content>
 			</section>
+			<aside style="left:calc(-250px - 20px);position:absolute;width:250px;">
+				<img src="/assets/ads/nekos.gif" width="250" height="500" class="ad" />
+
+				<h3>buttons</h3>
+				<fieldset>
+					<legend>
+						my button
+					</legend>
+					<div>
+						<ImageButton alt="my button" url="https://thinliquid.dev/thnlqd.png" /><br/>
+						<textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+					</div>
+				</fieldset>
+				<ImageButton alt="nekoweb.org button" href="https://nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/nekoweb12.gif" />
+				<ImageButton alt="arch linux button" href="https://archlinux.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" />
+				<ImageButton alt="max's apartment button" href="https://max.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/maxpixels.gif" />
+				<ImageButton alt="giiki's lair button" href="https://giikis2.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/giikis2.png" />
+				<ImageButton alt="bomberfish.ca button" href="https://bomberfish.ca" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/bomberfish.gif" />
+				<h3>socials</h3>
+				<a href="https://wetdry.world/@thnlqd">mastodon</a>
+				<a href="https://osu.ppy.sh/users/ThinLiquid">osu!</a>
+				<a href="https://bsky.app/profile/@thinliquid.dev">bluesky</a>
+				<a href="https://github.com/ThinLiquid">github</a>
+				<a href="https://github.com/ThinLiquid.gpg">pgp public key</a>
+			</aside>
+			<aside style="right:calc(-250px - 20px);position:absolute;width:250px;">
+				<img src="/assets/ads/nekos.gif" width="250" height="500" class="ad">
+
+				<h3>webrings</h3>
+				<div id="nekowebring" style={{ color: 'var(--base)' }}>
+					<script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
+					<script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
+				</div>
+				<webring-container>
+					<config key="type" value="catppuccin-mocha"></config>
+					<config key="font" value="Inter, sans-serif"></config>
+					<config key="fill" value="true"></config>
+
+					<script is:inline src="https://palette.nekoweb.org/webring.js"></script>
+				</webring-container>
+				<br />
+				<iframe id="bucket-webring" style="height: 3rem; border: none;width:100%;" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
+			</aside>
 			<footer>
 				<hr/>
 				<b>&copy; 2023-2024 ThinLiquid. All rights reserved.</b><br/>
@@ -572,4 +572,24 @@ const commit = getGitInfo()
     font-weight: 100;
     font-style: italic;
 }
+</style>
+
+<style is:global>
+	aside {
+		top: 0;
+	}
+	@media (max-width: 1200px) {
+  aside {
+    position: static!important;
+		width: unset!important;
+  }
+
+	.ad {
+		display: none!important;
+	}
+}
+
+.ad {
+		display: block;
+	}
 </style>
