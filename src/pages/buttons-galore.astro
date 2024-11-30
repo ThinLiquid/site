@@ -7,7 +7,7 @@ import Layout from "../layouts/Layout.astro";
   my personal collection of 88x31 buttons (that you can contribute to), all in one place!
   <a href="https://github.com/ThinLiquid/buttons">github repo</a> &lt;-- YOU can add your own buttons by making a PR
 
-  <div class="tooltip" style={{ position: 'absolute', background: 'var(--base)', zIndex: 69696969, padding: '5px', border: '2px dashed var(--surface0)', borderRadius: '5px' }}></div>
+  <div class="tooltip" style={{ position: 'absolute', background: 'var(--base)', zIndex: 69696969, padding: '10px' }}></div>
 
   <input type="text" id="search" placeholder="search for a button..." style={{ width: '100%' }} />
 
@@ -31,171 +31,170 @@ import Layout from "../layouts/Layout.astro";
   </div>
 
   <div class="buttons"></div>
-</Layout>
 
-<script>
-  import eruda from 'eruda'
-  eruda.init()
-
-  const BUTTON_FILE = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/index.buttonfile';
-  const BUTTON_DIRECTORY = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/';
-
-  const search = document.querySelector<HTMLInputElement>('#search');
-  const categoriesSelect = document.querySelector<HTMLSelectElement>('#categoriesSelect');
-  const creatorsSelect = document.querySelector<HTMLSelectElement>('#creatorsSelect');
-  const sortSelect = document.querySelector<HTMLSelectElement>('#sortSelect');
-  const buttonsContainer = document.querySelector<HTMLDivElement>('.buttons');
-  const tooltip = document.querySelector<HTMLDivElement>('.tooltip');
-
-  if (!search || !categoriesSelect || !creatorsSelect || !sortSelect || !buttonsContainer || !tooltip) {
-    console.error('One or more elements could not be found.');
-  }
-
-  const showTooltip = (button: any) => {
-    if (!tooltip) return;
-    tooltip.innerHTML = `
-      <b>${button.description}</b> by ${button.creator}<br/>
-      tags: ${button.tags}<br/>
-      categories: ${button.categories}<br/>
-    `;
-    tooltip.style.opacity = '1';
-    tooltip.style.position = 'fixed';
-  };
-
-  document.addEventListener('mousemove', (e) => {
-    if (!tooltip) return;
-    tooltip.style.top = `${e.clientY + 10}px`
-    tooltip.style.left = `${e.clientX + 10}px`
-  })
-
-  const hideTooltip = () => {
-    if (tooltip) tooltip.style.opacity = '0';
-  };
-
-  const fetchButtons = async () => {
-    const res = await fetch(`${BUTTON_FILE}`, { cache: 'no-store' });
-    const data = (await res.text()).trim();
-
-    const categoriesSet = new Set<string>()
-    const creatorsSet = new Set<string>()
-
-    const entries = data.split('\n').map((entry, index) => {
-      const [categories, tags, filename, description, creator] = entry.split(' | ');
-      
-      const categoryArray = categories?.split(',').filter(x => x != null) || [];
-      categoryArray.forEach(category => categoriesSet.add(category));
-
-      creatorsSet.add(creator || 'N/A')
-
-      try {
-        return {
-          categories: categories?.split(',') || [],
-          tags: tags?.split(' ') || [],
-          filename,
-          description,
-          creator: creator || 'N/A'
-        };
-      } catch {
-        console.error('Error: malformed content\n ->', JSON.stringify(entry), 'at line', index);
-        return null;
+  <script is:inline>
+    document.addEventListener('astro:page-load', () => {
+      const BUTTON_FILE = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/index.buttonfile';
+      const BUTTON_DIRECTORY = 'https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/';
+    
+      const search = document.querySelector('#search');
+      const categoriesSelect = document.querySelector('#categoriesSelect');
+      const creatorsSelect = document.querySelector('#creatorsSelect');
+      const sortSelect = document.querySelector('#sortSelect');
+      const buttonsContainer = document.querySelector('.buttons');
+      const tooltip = document.querySelector('.tooltip');
+    
+      if (!search || !categoriesSelect || !creatorsSelect || !sortSelect || !buttonsContainer || !tooltip) {
+        console.error('One or more elements could not be found.');
       }
-    }).filter(entry => entry !== null);
-
-    categoriesSet.forEach(x => {
-      const option = document.createElement('option')
-      option.innerText = x
-      categoriesSelect!.appendChild(option)
+    
+      const showTooltip = (button) => {
+        if (!tooltip) return;
+        tooltip.innerHTML = `
+          <b>${button.description}</b> by ${button.creator}<br/>
+          tags: ${button.tags}<br/>
+          categories: ${button.categories}<br/>
+        `;
+        tooltip.style.opacity = '1';
+        tooltip.style.position = 'fixed';
+      };
+    
+      document.addEventListener('mousemove', (e) => {
+        if (!tooltip) return;
+        tooltip.style.top = `${e.clientY + 10}px`
+        tooltip.style.left = `${e.clientX + 10}px`
+      })
+    
+      const hideTooltip = () => {
+        if (tooltip) tooltip.style.opacity = '0';
+      };
+    
+      const fetchButtons = async () => {
+        const res = await fetch(`${BUTTON_FILE}`, { cache: 'no-store' });
+        const data = (await res.text()).trim();
+    
+        const categoriesSet = new Set()
+        const creatorsSet = new Set()
+    
+        const entries = data.split('\n').map((entry, index) => {
+          const [categories, tags, filename, description, creator] = entry.split(' | ');
+          
+          const categoryArray = categories?.split(',').filter(x => x != null) || [];
+          categoryArray.forEach(category => categoriesSet.add(category));
+    
+          creatorsSet.add(creator || 'N/A')
+    
+          try {
+            return {
+              categories: categories?.split(',') || [],
+              tags: tags?.split(' ') || [],
+              filename,
+              description,
+              creator: creator || 'N/A'
+            };
+          } catch {
+            console.error('Error: malformed content\n ->', JSON.stringify(entry), 'at line', index);
+            return null;
+          }
+        }).filter(entry => entry !== null);
+    
+        categoriesSet.forEach(x => {
+          const option = document.createElement('option')
+          option.innerText = x
+          categoriesSelect.appendChild(option)
+        })
+    
+        creatorsSet.forEach(x => {
+          const option = document.createElement('option')
+          option.innerText = x
+          creatorsSelect.appendChild(option)
+        })
+    
+        return entries;
+      };
+    
+      const renderButtons = (buttons) => {
+        if (!buttonsContainer || !sortSelect) return;
+        buttonsContainer.innerHTML = '';
+    
+        const sort = sortSelect.value
+        console.log(sort)
+    
+        sortButtons(buttons, sort).forEach(button => {
+          const buttonElement = document.createElement('img');
+          buttonElement.src = `${BUTTON_DIRECTORY}${button.filename}`;
+          buttonElement.alt = button.description;
+          buttonElement.classList.add('button-img');
+          buttonElement.width = 88
+          buttonElement.height = 31
+          buttonElement.dataset.categories = button.categories.join(',');
+          buttonElement.dataset.tags = button.tags.join(' ');
+          buttonElement.dataset.creator = button.creator;
+          buttonElement.dataset.description = button.description.toLowerCase();
+    
+          buttonElement.addEventListener('mouseover', () => showTooltip(button));
+          buttonElement.addEventListener('mouseout', hideTooltip);
+    
+          buttonsContainer.appendChild(buttonElement);
+        });
+      };
+    
+      let ogButtons = []
+      const sortButtons = (buttons, sortOption) => {
+        console.log(buttons)
+        switch (sortOption) {
+          case 'alphabetical':
+            return buttons.sort((a, b) => a.description.localeCompare(b.description));
+          case 'alphabetical-reverse':
+            return buttons.sort((a, b) => b.description.localeCompare(a.description));
+          case 'order':
+            return ogButtons; // Assuming the order is based on the original fetch order
+          case 'order-reverse':
+            return ogButtons.slice().reverse(); // Reverse the original order
+          case 'random':
+            return buttons.sort(() => Math.random() - 0.5);
+          default:
+            return buttons;
+        }
+      };
+    
+    
+      const applyFilter = () => {
+        if (!search || !categoriesSelect || !creatorsSelect) return;
+        const searchValue = search.value.toLowerCase();
+        const category = categoriesSelect.value;
+        const creator = creatorsSelect.value;
+    
+        document.querySelectorAll('.button-img').forEach(button => {
+          const buttonCategories = button.dataset.categories?.split(',') || [];
+          const buttonTags = button.dataset.tags?.split(' ') || [];
+          const buttonDescription = button.dataset.description || '';
+          const buttonCreator = button.dataset.creator || '';
+    
+          const matches =
+            (category === 'All Categories' || buttonCategories.includes(category)) &&
+            (creator === 'All Creators' || buttonCreator === creator) &&
+            (buttonDescription.includes(searchValue) || buttonTags.includes(searchValue));
+    
+          button.classList.toggle('dimmed', !matches);
+        });
+      };
+    
+      const init = async () => {
+        const buttons = await fetchButtons();
+        ogButtons = [...buttons]
+        renderButtons(buttons);
+    
+        if (search) search.addEventListener('input', applyFilter);
+        if (categoriesSelect) categoriesSelect.addEventListener('change', applyFilter);
+        if (creatorsSelect) creatorsSelect.addEventListener('change', applyFilter);
+        if (sortSelect) sortSelect.addEventListener('change', _ => renderButtons(buttons));
+      };
+    
+      init();
     })
-
-    creatorsSet.forEach(x => {
-      const option = document.createElement('option')
-      option.innerText = x
-      creatorsSelect!.appendChild(option)
-    })
-
-    return entries;
-  };
-
-  const renderButtons = (buttons: any[]) => {
-    if (!buttonsContainer || !sortSelect) return;
-    buttonsContainer.innerHTML = '';
-
-    const sort = sortSelect.value
-    console.log(sort)
-
-    sortButtons(buttons, sort).forEach(button => {
-      const buttonElement = document.createElement('img');
-      buttonElement.src = `${BUTTON_DIRECTORY}${button.filename}`;
-      buttonElement.alt = button.description;
-      buttonElement.classList.add('button-img');
-      buttonElement.width = 88
-      buttonElement.height = 31
-      buttonElement.dataset.categories = button.categories.join(',');
-      buttonElement.dataset.tags = button.tags.join(' ');
-      buttonElement.dataset.creator = button.creator;
-      buttonElement.dataset.description = button.description.toLowerCase();
-
-      buttonElement.addEventListener('mouseover', () => showTooltip(button));
-      buttonElement.addEventListener('mouseout', hideTooltip);
-
-      buttonsContainer.appendChild(buttonElement);
-    });
-  };
-
-  let ogButtons: any[] = []
-  const sortButtons = (buttons: any[], sortOption: string) => {
-    console.log(buttons)
-    switch (sortOption) {
-      case 'alphabetical':
-        return buttons.sort((a, b) => a.description.localeCompare(b.description));
-      case 'alphabetical-reverse':
-        return buttons.sort((a, b) => b.description.localeCompare(a.description));
-      case 'order':
-        return ogButtons; // Assuming the order is based on the original fetch order
-      case 'order-reverse':
-        return ogButtons.slice().reverse(); // Reverse the original order
-      case 'random':
-        return buttons.sort(() => Math.random() - 0.5);
-      default:
-        return buttons;
-    }
-  };
-
-
-  const applyFilter = () => {
-    if (!search || !categoriesSelect || !creatorsSelect) return;
-    const searchValue = search.value.toLowerCase();
-    const category = categoriesSelect.value;
-    const creator = creatorsSelect.value;
-
-    document.querySelectorAll<HTMLImageElement>('.button-img').forEach(button => {
-      const buttonCategories = button.dataset.categories?.split(',') || [];
-      const buttonTags = button.dataset.tags?.split(' ') || [];
-      const buttonDescription = button.dataset.description || '';
-      const buttonCreator = button.dataset.creator || '';
-
-      const matches =
-        (category === 'All Categories' || buttonCategories.includes(category)) &&
-        (creator === 'All Creators' || buttonCreator === creator) &&
-        (buttonDescription.includes(searchValue) || buttonTags.includes(searchValue));
-
-      button.classList.toggle('dimmed', !matches);
-    });
-  };
-
-  const init = async () => {
-    const buttons = await fetchButtons();
-    ogButtons = [...buttons]
-    renderButtons(buttons);
-
-    if (search) search.addEventListener('input', applyFilter);
-    if (categoriesSelect) categoriesSelect.addEventListener('change', applyFilter);
-    if (creatorsSelect) creatorsSelect.addEventListener('change', applyFilter);
-    if (sortSelect) sortSelect.addEventListener('change', _ => renderButtons(buttons));
-  };
-
-  init();
-</script>
+  </script>  
+</Layout>
 
 <style>
   .buttons {
@@ -239,5 +238,13 @@ import Layout from "../layouts/Layout.astro";
 
   body, html {
     overflow-x: hidden;
+  }
+
+  .tooltip b {
+    color: var(--color);
+  }
+
+  .tooltip {
+    border: 1px solid var(--shade6);
   }
 </style>

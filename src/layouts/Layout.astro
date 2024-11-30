@@ -1,6 +1,7 @@
 ---
 import pkg from '../../package.json'
 import ImageButton from '../components/ImageButton.astro';
+import { ViewTransitions } from 'astro:transitions';
 import { createButtonString } from '../util'
 import { execSync } from 'child_process'
 
@@ -41,26 +42,19 @@ const commit = getGitInfo()
 		<title>{(title ?? frontmatter.title)} @ thinliquid's [studio]</title>
 
 		<link rel="stylesheet" href="https://webring.nekoweb.org/onionring.css" />
+
+		<ViewTransitions />
 	</head>
 	<body>
 		<main>
 			<header>
-				<h1 style={{ marginBottom: '0' }}>
+				<h1 style={{ margin: '0' }}>
 					thinliquid's [studio]
 					<code>v{pkg.version}</code>
 				</h1>
-				<p style={{ marginTop: '0' }}>typescript is a lifestyle.</p>
-				<nav>
-					<a href="/">home</a> •
-					<a href="/buttons-galore">buttons galore</a> •
-					<a href="/resources">resources</a> •
-					<a href="/blog">blog</a>
-					<br/>
-					<span>
-						<a href={`https://github.com/ThinLiquid/site/commit/${commit.commitHash}`}><code>{commit.commitHash.slice(0, 7)}</code></a>
-						<small id="time-ago">(loading...)</small>
-					</span>
-				</nav>
+				<p style={{ marginTop: '0' }}>
+					typescript is a lifestyle.
+				</p>
 				<hr/>
 			</header>
 			<section>
@@ -69,8 +63,16 @@ const commit = getGitInfo()
 				</content>
 			</section>
 			<aside style="left:calc(-250px - 20px);position:absolute;width:250px;">
-				<img src="/assets/ads/nekos.gif" width="250" height="500" class="ad" />
-
+				<h3>nav</h3>
+				<nav style={{ display: 'flex', flexDirection: 'column' }}>
+					<a href="/" style={{ '--color': 'var(--red)' }}>home</a>
+					<a href="/buttons-galore" style={{ '--color': 'var(--orange)' }}>buttons galore</a>
+					<a href="/resources" style={{ '--color': 'var(--yellow)' }}>resources</a>
+					<a href="/blog" style={{ '--color': 'var(--green)' }}>blog</a>
+					<a href="/webrings" style={{ '--color': 'var(--mint)' }}>webrings</a>
+					<a href="https://thnlqd.atabook.org" style={{ '--color': 'var(--cyan)' }}>guestbook</a>
+					<a href="https://nekoweb.org/follow/thnlqd" style={{ '--color': 'var(--blue)' }}>follow me on nekoweb</a>
+				</nav>
 				<h3>buttons</h3>
 				<fieldset>
 					<legend>
@@ -94,27 +96,20 @@ const commit = getGitInfo()
 				<a href="https://github.com/ThinLiquid.gpg">pgp public key</a>
 			</aside>
 			<aside style="right:calc(-250px - 20px);position:absolute;width:250px;">
-				<img src="/assets/ads/nekos.gif" width="250" height="500" class="ad">
+				<h3>current commit</h3>
+				<a href={`https://github.com/ThinLiquid/site/commit/${commit.commitHash}`}>
+					{commit.commitHash.slice(0, 7)}
+				</a>
+				<span>- {commit.commitMessage}</span>
+				<br/><small>{commit.commitDate}</small>
 
-				<h3>webrings</h3>
-				<div id="nekowebring" style={{ color: 'var(--base)' }}>
-					<script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
-					<script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
-				</div>
-				<webring-container>
-					<config key="type" value="catppuccin-mocha"></config>
-					<config key="font" value="Inter, sans-serif"></config>
-					<config key="fill" value="true"></config>
-
-					<script is:inline src="https://palette.nekoweb.org/webring.js"></script>
-				</webring-container>
-				<br />
-				<iframe id="bucket-webring" style="height: 3rem; border: none;width:100%;" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
+				<h2>sponsored segment</h2>
+				<img src="/assets/ads/nekos.gif" width="250" height="490">
 			</aside>
 			<footer>
 				<hr/>
 				<b>&copy; 2023-2024 ThinLiquid. All rights reserved.</b><br/>
-				powered by bun & astro | hosted on nekoweb | <a href="https://github.com/ThinLiquid/site">source code</a>
+				powered by bun & astro | hosted on nekoweb | <a href="https://github.com/ThinLiquid/site">source code</a><br/>
 			</footer>
 		</main>
 
@@ -122,50 +117,11 @@ const commit = getGitInfo()
 		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 	</body>
 </html>
-<last-update>{commit.commitDate}</last-update>
-<script>
-	function timeSince(date: number): string {
-		const seconds = Math.floor((Date.now() - date) / 1000);
-
-		let interval = seconds / 31536000;
-		if (interval > 1) {
-			return Math.floor(interval) + " years";
-		}
-		interval = seconds / 2592000;
-		if (interval > 1) {
-			return Math.floor(interval) + " months";
-		}
-		interval = seconds / 86400;
-		if (interval > 1) {
-			return Math.floor(interval) + " days";
-		}
-		interval = seconds / 3600;
-		if (interval > 1) {
-			return Math.floor(interval) + " hours";
-		}
-		interval = seconds / 60;
-		if (interval > 1) {
-			return Math.floor(interval) + " minutes";
-		}
-		return Math.floor(seconds) + " seconds";
-	}
-
-	const timeAgoElement = document.querySelector('#time-ago') as HTMLElement;
-	const lastUpdateElement = document.querySelector('last-update') as HTMLElement;
-
-	if (timeAgoElement && lastUpdateElement) {
-		const dateAttr = lastUpdateElement.innerText;
-		if (dateAttr) {
-			const date = new Date(dateAttr).getTime();
-			timeAgoElement.innerText = `(${timeSince(date)} ago)`;
-		}
-		lastUpdateElement.remove();
-	}
-</script>
 
 <style is:global>
 	:root {  
-		--base: hsl(240, 20%, 2%);
+		font-size: 16px;
+		--base: hsl(240, 20%, 5%);
 		
 		--shade1: hsl(240, 20%, 8%);
 		--shade2: hsl(240, 20%, 13%);
@@ -195,6 +151,9 @@ const commit = getGitInfo()
 		--fs-xl: clamp(1.38rem, 1.3vi + 1.12rem, 1.95rem);
 		--fs-xxl: clamp(1.66rem, 1.78vi + 1.3rem, 2.44rem);
 		--fs-xxxl: clamp(1.99rem, 2.41vi + 1.51rem, 3.05rem);
+		--fs-xxxxl: clamp(2.42rem, 3.1vi + 1.92rem, 3.65rem);
+
+		--bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 
 	small { font-size: var(--fs-sm); }
@@ -223,6 +182,13 @@ const commit = getGitInfo()
 		color: var(--text);
 		font-family: Neue Haas Grotesk Display Pro, Helvetica Neue, Helvetica, Arial, sans-serif;
 	}
+
+	html{
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
 
 	main {
 		max-width: 600px;
@@ -374,15 +340,34 @@ const commit = getGitInfo()
 	}
 
 	a {
+		display: inline-block;
 		color: var(--color);
-		text-decoration-color: var(--shade6);
 		text-decoration-style: wavy;
+		text-decoration-thickness: 0.5px;
+		text-decoration-color: color-mix(in oklab, currentColor 50%, transparent 50%);
 		cursor: crosshair;
 
-		transition: .2s text-decoration;
+		transition: .2s text-decoration, 0.5s padding var(--bounce);
+		padding: 1.5px 0;
 
 		&:hover {
-			text-decoration-color: var(--color);
+			background: var(--color);
+			color: var(--base);
+			text-decoration-color: currentColor;
+			padding: 1.5px 5px;
+		}
+	}
+
+	nav a {
+		padding: 5px;
+
+		&:hover {
+			padding: 5px 25px;
+			&::before {
+				content: '🠶';
+				position: absolute;
+				left: 7.5px;
+			}
 		}
 	}
 	
@@ -392,6 +377,12 @@ const commit = getGitInfo()
    	width: 1em;
    	margin: 0 .05em 0 .1em;
    	vertical-align: -0.1em;
+
+		transition: .5s scale;
+
+		&:hover {
+			scale: 1.1;
+		}
 	}
 
 	hr { border-color: var(--shade2) }
@@ -591,5 +582,12 @@ const commit = getGitInfo()
 
 .ad {
 		display: block;
+	}
+
+	header h1 {
+		font-size: var(--fs-xxxxl);
+		background: linear-gradient(to right, var(--cyan), var(--blue));
+		color: var(--base);
+		margin-bottom: 0.5rem!important;
 	}
 </style>
