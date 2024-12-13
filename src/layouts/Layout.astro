@@ -46,72 +46,15 @@ const commit = getGitInfo()
 		<ViewTransitions />
 	</head>
 	<body>
-		<main>
-			<header>
-				<h1 style={{ margin: '0' }}>
-					thinliquid's [studio]
-					<code>v{pkg.version}</code>
-				</h1>
-				<p style={{ marginTop: '0' }}>
-					typescript is a lifestyle.
-				</p>
-				<hr/>
-			</header>
-			<section>
-				<content>
-					<slot />
-				</content>
-			</section>
-			<aside style="left:calc(-250px - 20px);position:absolute;width:250px;">
-				<h3>nav</h3>
-				<nav style={{ display: 'flex', flexDirection: 'column' }}>
-					<a href="/" style={{ '--color': 'var(--red)' }}>home</a>
-					<a href="/buttons-galore" style={{ '--color': 'var(--orange)' }}>buttons galore</a>
-					<a href="/resources" style={{ '--color': 'var(--yellow)' }}>resources</a>
-					<a href="/blog" style={{ '--color': 'var(--green)' }}>blog</a>
-					<a href="/webrings" style={{ '--color': 'var(--mint)' }}>webrings</a>
-					<a href="https://thnlqd.atabook.org" style={{ '--color': 'var(--cyan)' }}>guestbook</a>
-					<a href="https://nekoweb.org/follow/thnlqd" style={{ '--color': 'var(--blue)' }}>follow me on nekoweb</a>
-				</nav>
-				<h3>buttons</h3>
-				<fieldset>
-					<legend>
-						my button
-					</legend>
-					<div>
-						<ImageButton alt="my button" url="https://thinliquid.dev/thnlqd.png" /><br/>
-						<textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
-					</div>
-				</fieldset>
-				<ImageButton alt="nekoweb.org button" href="https://nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/nekoweb12.gif" />
-				<ImageButton alt="arch linux button" href="https://archlinux.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" />
-				<ImageButton alt="max's apartment button" href="https://max.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/maxpixels.gif" />
-				<ImageButton alt="giiki's lair button" href="https://giikis2.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/giikis2.png" />
-				<ImageButton alt="bomberfish.ca button" href="https://bomberfish.ca" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/bomberfish.gif" />
-				<h3>socials</h3>
-				<a href="https://wetdry.world/@thnlqd">mastodon</a>
-				<a href="https://osu.ppy.sh/users/ThinLiquid">osu!</a>
-				<a href="https://bsky.app/profile/@thinliquid.dev">bluesky</a>
-				<a href="https://github.com/ThinLiquid">github</a>
-				<a href="https://github.com/ThinLiquid.gpg">pgp public key</a>
-			</aside>
-			<aside style="right:calc(-250px - 20px);position:absolute;width:250px;">
-				<h3>current commit</h3>
-				<a href={`https://github.com/ThinLiquid/site/commit/${commit.commitHash}`}>
-					{commit.commitHash.slice(0, 7)}
-				</a>
-				<span>- {commit.commitMessage}</span>
-				<br/><small>{commit.commitDate}</small>
+		<div style={{ textAlign: 'center' }}>
+			<h1 style={{ fontSize: 'var(--fs-xxxxl)', color: 'var(--orange)', textShadow: '0 0 50px var(--orange)' }}>⚠</h1>
+			<h1>we'll be right back.</h1>
+			<p>more css wizardry coming <i>your</i> way.</p>
+		</div>
 
-				<h2>sponsored segment</h2>
-				<img src="/assets/ads/nekos.gif" width="250" height="490">
-			</aside>
-			<footer>
-				<hr/>
-				<b>&copy; 2023-2024 ThinLiquid. All rights reserved.</b><br/>
-				powered by bun & astro | hosted on nekoweb | <a href="https://github.com/ThinLiquid/site">source code</a><br/>
-			</footer>
-		</main>
+		<a style={{ position: 'absolute', bottom: '10px', left: '10px' }} href={"https://github.com/ThinLiquid/site/commits/" + commit.commitHash}>
+			{commit.commitHash.slice(0, 7)} ({commit.commitBranch})
+		</a>
 
 		<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js" is:inline></script>
 		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
@@ -142,7 +85,7 @@ const commit = getGitInfo()
 		--blue: hsl(240, 90%, 79%);
 		--magenta: hsl(290, 80%, 65%);
 		
-		--color: var(--blue);
+		--color: var(--orange);
 		
 		--fs-sm: clamp(0.67rem, 0.3vi + 0.61rem, 0.8rem);
 		--fs-base: clamp(0.8rem, 0.45vi + 0.71rem, 1rem);
@@ -188,204 +131,12 @@ const commit = getGitInfo()
 }
 body {
   min-height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-	main {
-		max-width: 600px;
-		width: 100%;
-		margin: auto;
-		position: relative;
-	}
-
-	input[type="text"],
-	input[type="password"],
-	textarea,
-	select {
-		background: var(--shade1);
-		border: none;
-		border-bottom: 2px dotted var(--shade3);
-		height: 2.5rem;
-		padding: 0 0.5rem;
-		color: var(--text);
-		margin-bottom: 4px;
-		
-		transition: .2s border-color, .2s background, .2s outline;
-		
-		&::placeholder { color: var(--subtext0); }
-		&:hover, &:focus {
-			border-color: var(--color);
-		}
-	}
-
-	input[type="password"] {
-		letter-spacing: 0.25rem;
-		
-		&::placeholder { letter-spacing: 0; }
-	}
-
-	textarea {
-		padding: 0.5rem;
-		min-height: 5rem;
-	}
-
-	input[type="radio"],
-	input[type="checkbox"] {
-		appearance: none;
-		background: var(--shade1);
-		margin: 0;
-		font: inherit;
-		color: var(--shade4);
-		width: 1em;
-		height: 1em;
-		border: 1.2px solid currentColor;
-		display: grid;
-		border-radius: 50%;
-		place-content: center;
-		outline-offset: 0px;
-		outline-width: 1px;
-		
-		
-		transition: .2s background, .2s outline;
-		
-		&::before {
-			content: "";
-			width: 10px;
-			height: 10px;
-			transform: scale(0.75);
-			background: var(--color);
-			border-radius: 50%;
-			opacity: 0;
-			
-			transition: .2s opacity, .2s transform;
-		}
-		
-		&:checked {
-			color: var(--color);
-		}
-		
-		&:checked::before {
-			transform: scale(1);
-			opacity: 1;
-		}
-	}
-
-	input[type="checkbox"] {
-		border-radius: 0;
-		
-		&::before {
-			border-radius: 0;
-		}
-	}
-
-
-	.form-item { display: flex; gap: 5px; align-items: center; }
-
-
-	button {
-		background: var(--shade1);
-		padding: 0.5rem 0.75rem;
-		border: none;
-		color: var(--text);
-		height: 38px;
-		
-		transition: .2s border, .2s background, .2s outline;
-		
-		
-		&:hover { border-color: var(--color); }
-		
-	}
-
-	input, button, textarea, select {
-		outline: 2px solid transparent;
-		outline-offset: 2px;
-		
-		&:hover { background: var(--shade3); }
-		&:active { background: var(--shade2); }
-		&:focus { outline-color: var(--color);z-index: 2; }
-	}
-
-	fieldset {
-		border-color: var(--shade1);
-		
-		legend {
-			background: var(--color);
-			color: var(--base);
-			padding: 2.5px 10px;
-			margin-bottom: 5px;
-
-			&::selection { background: var(--base); color: var(--color); }
-		}
-	}
-
-	kbd {
-		display: inline-block;
-		border: 0.1rem solid var(--shade3);
-		padding: 0.2rem 0.3rem;
-		border-bottom: 4px solid var(--shade3);
-		user-select: none;
-		
-		transition: .2s border-color, .2s color, .2s transform, .2s border-bottom;
-		
-		&:active {
-			border-bottom: 1.5px solid var(--shade3); 
-			transform: translateY(3px);
-		}
-		
-		&:hover { border-color: var(--color); color: var(--color); }
-	}
-
-	input:disabled, button:disabled {
-		color: var(--subtext0);
-		cursor: not-allowed;
-	}
-
-	a {
-		display: inline-block;
-		color: var(--color);
-		text-decoration-style: wavy;
-		text-decoration-thickness: 0.5px;
-		text-decoration-color: color-mix(in oklab, currentColor 50%, transparent 50%);
-		cursor: crosshair;
-
-		transition: .2s text-decoration, 0.5s padding var(--bounce);
-		padding: 1.5px 0;
-
-		&:hover {
-			background: var(--color);
-			color: var(--base);
-			text-decoration-color: currentColor;
-			padding: 1.5px 5px;
-		}
-	}
-
-	nav a {
-		padding: 5px;
-
-		&:hover {
-			padding: 5px 25px;
-			&::before {
-				content: '🠶';
-				position: absolute;
-				left: 7.5px;
-			}
-		}
-	}
-	
-	img.emoji {
-		font-size:1em;
-  	height: 1em;
-   	width: 1em;
-   	margin: 0 .05em 0 .1em;
-   	vertical-align: -0.1em;
-
-		transition: .5s scale;
-
-		&:hover {
-			scale: 1.1;
-		}
-	}
-
-	hr { border-color: var(--shade2) }
+a { color: var(--color); }
 </style>
 <style>
 	@font-face {
