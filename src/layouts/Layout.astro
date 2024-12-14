@@ -29,20 +29,25 @@ const getGitInfo = () => {
   }
 };
 
-const getAllCommits = () => {
+const fetchCommitsFromGitHub = async () => {
   try {
-    const exec = (cmd: string) => execSync(cmd).toString().trim();
-    const log = exec(`git log --pretty=format:"[%cd] <a href="https://github.com/ThinLiquid/site/commit/%h">%s</a>" --date=short`);
-    return log.split('\n');
+    const response = await fetch('https://api.github.com/repos/ThinLiquid/site/commits');
+    const data = await response.json();
+    return data.map((commit: any) => ({
+      message: commit.commit.message,
+      date: commit.commit.author.date,
+      url: commit.html_url,
+      hash: commit.sha
+    }));
   } catch (error) {
-    console.error("Error getting all commits:");
+    console.error("Error fetching commits from GitHub:");
     console.error(error);
     return [];
   }
 };
 
 const commit = getGitInfo()
-const allCommits = getAllCommits()
+const allCommits = await fetchCommitsFromGitHub();
 ---
 
 <!doctype html>
@@ -109,9 +114,12 @@ const allCommits = getAllCommits()
           <fieldset>
             <legend>commit history</legend>
 
-            {allCommits.splice(1, 7).map(commit => (
+            {allCommits.splice(1, 7).map((commit: any) => (
               <div>
-                <code style="font-size: 10px!important;"><Fragment set:html={commit} /></code>
+                  <code style="font-size: 10px!important;">
+                    <a href={commit.url} target="_blank">[{commit.date}]</a>
+                    {commit.message}
+                  </code>
               </div>
             ))}
           </fieldset>
