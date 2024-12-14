@@ -5,7 +5,7 @@ export async function GET(context) {
     title: 'blog @ thinliquid.dev',
     description: 'just my little programming blog (i probably wont update this a lot)',
     site: context.site,
-    items: await pagesGlobToRssItems(import.meta.glob('./**/*.md')),
+    items: await pagesGlobToRssItems(import.meta.glob('./**/*.mdx')),
     customData: `<language>en-us</language>`,
   });
 }
