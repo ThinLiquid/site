@@ -4,13 +4,14 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout title="buttons galore">
   <h1>buttons galore!</h1>
-  my personal collection of 88x31 buttons (that you can contribute to), all in one place!
-  <a href="https://github.com/ThinLiquid/buttons">github repo</a> &lt;-- YOU can add your own buttons by making a PR
-
-  <div class="tooltip" style={{ position: 'absolute', background: 'var(--base)', zIndex: 69696969, padding: '10px' }}></div>
+  <p>
+    my personal collection of 88x31 buttons (that you can contribute to), all in one place!
+    <a href="https://github.com/ThinLiquid/buttons">github repo</a> &lt;-- YOU can add your own buttons by making a PRs
+  </p>
 
   <input type="text" id="search" placeholder="search for a button..." style={{ width: '100%' }} />
-
+  <br/>
+  
   <div style={{ display: 'flex' }}>
     <label for="categoriesSelect"></label>
     <select id="categoriesSelect" style={{ flex: 1 }}>
@@ -55,18 +56,6 @@ import Layout from "../layouts/Layout.astro";
           tags: ${button.tags}<br/>
           categories: ${button.categories}<br/>
         `;
-        tooltip.style.opacity = '1';
-        tooltip.style.position = 'fixed';
-      };
-    
-      document.addEventListener('mousemove', (e) => {
-        if (!tooltip) return;
-        tooltip.style.top = `${e.clientY + 10}px`
-        tooltip.style.left = `${e.clientX + 10}px`
-      })
-    
-      const hideTooltip = () => {
-        if (tooltip) tooltip.style.opacity = '0';
       };
     
       const fetchButtons = async () => {
@@ -132,8 +121,11 @@ import Layout from "../layouts/Layout.astro";
           buttonElement.dataset.creator = button.creator;
           buttonElement.dataset.description = button.description.toLowerCase();
     
-          buttonElement.addEventListener('mouseover', () => showTooltip(button));
-          buttonElement.addEventListener('mouseout', hideTooltip);
+          buttonElement.dataset.tooltip = `
+            <b>${button.description}</b> by ${button.creator}<br/>
+            tags: ${button.tags}<br/>
+            categories: ${button.categories}<br/>
+          `
     
           buttonsContainer.appendChild(buttonElement);
         });
@@ -225,26 +217,5 @@ import Layout from "../layouts/Layout.astro";
         }
       }
     }
-  }
-</style>
-<style is:global>
-  content .tooltip {
-    visibility: hidden;
-  }
-
-  content:hover .tooltip {
-    visibility: visible;
-  }
-
-  body, html {
-    overflow-x: hidden;
-  }
-
-  .tooltip b {
-    color: var(--color);
-  }
-
-  .tooltip {
-    border: 1px solid var(--shade6);
   }
 </style>

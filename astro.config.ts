@@ -50,5 +50,7 @@ export default defineConfig({
     format: 'file'
   },
 
-  integrations: [mdx()]
+  integrations: [mdx()],
+
+  site: "https://thinliquid.dev"
 });

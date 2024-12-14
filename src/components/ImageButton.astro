@@ -9,9 +9,9 @@ interface Props {
 const { url, href, alt, ...props } = Astro.props
 ---
 <a href={href} {...props}>
-  <img src={url} alt={alt} />
+  <img src={url} alt={alt} data-tooltip={alt} />
 </a>
 
 <style>
-  a { text-decoration: none; padding: 0!important; background: none!important; }
+  a { text-decoration: none; padding: 0!important; background: none!important; display: inline-block; }
 </style>

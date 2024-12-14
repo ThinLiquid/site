@@ -1,0 +1,22 @@
+---
+interface Props {
+  post: any;
+}
+
+const { post } = Astro.props
+const date = new Date(post.frontmatter.pubDate)
+const { frontmatter } = post
+---
+
+<li>
+  <b>
+    <a
+      href={post.url}
+      data-tooltip={`
+        <b>${frontmatter.title}</b><br/>
+        ${frontmatter.description}
+      `}
+    >{frontmatter.title}</a>
+  </b><br/>
+  {date.toLocaleDateString('en-GB')}
+</li>

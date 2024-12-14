@@ -1,0 +1,13 @@
+---
+import Layout from "./Layout.astro";
+---
+
+<Layout title={`${Astro.props.frontmatter.title} // blog`}>
+  <article>
+    <h1>{Astro.props.frontmatter.title}</h1>
+    <p>{new Date(Astro.props.frontmatter.pubDate).toLocaleDateString('en-GB')} || {Astro.props.frontmatter.description}</p>
+    <hr/>
+
+    <slot/>
+  </article>
+</Layout>

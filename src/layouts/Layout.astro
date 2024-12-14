@@ -1,6 +1,10 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import { execSync } from 'child_process'
+import NavItem from '../components/NavItem.astro';
+import Banner from '../components/Banner.astro';
+import ImageButton from '../components/ImageButton.astro';
+import { createButtonString } from '../util';
 
 interface Props {
 	title: string;
@@ -25,7 +29,20 @@ const getGitInfo = () => {
   }
 };
 
+const getAllCommits = () => {
+  try {
+    const exec = (cmd: string) => execSync(cmd).toString().trim();
+    const log = exec(`git log --pretty=format:"[%cd] <a href="https://github.com/ThinLiquid/site/commit/%h">%s</a>" --date=short`);
+    return log.split('\n');
+  } catch (error) {
+    console.error("Error getting all commits:");
+    console.error(error);
+    return [];
+  }
+};
+
 const commit = getGitInfo()
+const allCommits = getAllCommits()
 ---
 
 <!doctype html>
@@ -40,49 +57,181 @@ const commit = getGitInfo()
 
 		<link rel="stylesheet" href="https://webring.nekoweb.org/onionring.css" />
 
-		<ViewTransitions />
+		<ClientRouter />
 	</head>
 	<body>
-		<div style={{ textAlign: 'center' }}>
-			<h1 style={{ fontSize: 'var(--fs-xxxxl)', color: 'var(--orange)', textShadow: '0 0 50px var(--orange)' }}>⚠</h1>
-			<h1>we'll be right back.</h1>
-			<p>more css wizardry coming <i>your</i> way.</p>
-		</div>
+    <div class="tooltip"></div>
 
-		<a style={{ position: 'absolute', bottom: '10px', left: '10px' }} href={"https://github.com/ThinLiquid/site/commits/" + commit.commitHash}>
-			{commit.commitHash.slice(0, 7)} ({commit.commitBranch})
-		</a>
+    <div class="container">
+      <header>
+        <Banner src="/userbanner.png" href='/' tooltip="cool frutiger aero banner i made" />
+        <span style="display:none;justify-content:space-between;align-items:center;" class="nav-helper">
+          <a data-tooltip="scroll the nav to the left" class="btn" id="scroll-left">&lt;---</a>
+          <span>use these buttons to scroll the nav</span>
+          <a data-tooltip="scroll the nav to the right" class="btn" id="scroll-right">---&gt;</a>
+        </span>
+        <nav>
+          <ul>
+            <NavItem tooltip="go home" color="blue" href="/">home</NavItem>
+            <NavItem tooltip="check out my button database" color="sapphire" href="/buttons-galore">buttons galore</NavItem>
+            <NavItem tooltip="cool stuff i use" color="sky" href="/resources">resources</NavItem>
+            <NavItem tooltip="read my ramblings" color="teal" href="/blog">blog</NavItem>
+          </ul>
+          <div style="flex:1;"></div>
+          <ul>
+            <NavItem tooltip="send me a message" color="green" href="https://thnlqd.atabook.org" small={true}>guestbook</NavItem>
+            <NavItem tooltip="follow me on nekoweb" color="yellow" href="https://nekoweb.org/follow/thnlqd" small={true}>[+]</NavItem>
+          </ul>
+        </nav>
+      </header>
+
+      <section class="content">
+        <main>
+          <slot/>
+        </main>
+        <aside>
+          <br/>
+          <fieldset>
+            <legend>latest git commit</legend>
+            
+            <a href={"https://github.com/ThinLiquid/site/commit/" + commit.commitHash}>
+              <h4 data-tooltip="click here to check out the code of the latest commit" style="margin-top:0;">
+                {commit.commitMessage}
+              </h4>
+            </a>
+            <div>
+              {commit.commitDate}
+            </div>
+            <small style={{ color: 'var(--subtext0)' }}>
+              {commit.commitHash.slice(0, 7)} ({commit.commitBranch})
+            </small>
+          </fieldset>
+          <fieldset>
+            <legend>commit history</legend>
+
+            {allCommits.splice(1, 7).map(commit => (
+              <div>
+                <code style="font-size: 10px!important;"><Fragment set:html={commit} /></code>
+              </div>
+            ))}
+          </fieldset>
+
+          <h6>socials</h6>
+          <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+            <a class="btn" href="https://wetdry.world/@thnlqd">mastodon</a>
+            <a class="btn" href="https://osu.ppy.sh/users/ThinLiquid">osu!</a>
+            <a class="btn" href="https://bsky.app/profile/@thinliquid.dev">bluesky</a>
+            <a class="btn" href="https://github.com/ThinLiquid">github</a>
+            <a class="btn" href="https://github.com/ThinLiquid.gpg">pgp public key</a>
+          </div>
+
+          <h6>buttons</h6>
+          <fieldset>
+            <legend>
+              my button
+            </legend>
+            <div>
+              <ImageButton alt="my button" url="https://thinliquid.dev/thnlqd.png" /><br/>
+              <textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+            </div>
+          </fieldset>
+          <br/>
+          <ImageButton alt="nekoweb.org button" href="https://nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/nekoweb12.gif" />
+          <ImageButton alt="arch linux button" href="https://archlinux.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" />
+          <ImageButton alt="max's apartment button" href="https://max.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/maxpixels.gif" />
+          <ImageButton alt="giiki's lair button" href="https://giikis2.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/giikis2.png" />
+          <ImageButton alt="bomberfish.ca button" href="https://bomberfish.ca" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/bomberfish.gif" />
+        </aside>
+      </section>
+
+      <br/><hr/>
+      <footer>
+        {new Date().getFullYear()} &copy; ThinLiquid. All rights reserved.<br/>
+        <small>
+          powered by astro & bun || hosted on nekoweb
+        </small>
+      </footer>
+    </div>
 
 		<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js" is:inline></script>
 		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 	</body>
 </html>
 
+<script is:inline>
+  document.addEventListener('astro:page-load', () => {
+  const tooltip = document.querySelector('.tooltip');
+  const navList = document.querySelector('nav')
+  const scrollLeftBtn = document.getElementById('scroll-left');
+  const scrollRightBtn = document.getElementById('scroll-right');
+
+  document.addEventListener('mousemove', (e) => {
+    if (!tooltip) return;
+    tooltip.style.top = `${e.clientY + 10}px`;
+    tooltip.style.left = `${e.clientX + 10}px`;
+  });
+
+  let current = null;
+  document.addEventListener('mouseover', (e) => {
+    current = e.target;
+    if (current.getAttribute('data-tooltip')) {
+      tooltip.innerHTML = current.getAttribute('data-tooltip');
+      tooltip.classList.add('active');
+    } else if (current.tagName === 'A' && current.href != null) {
+      tooltip.innerHTML = `<small>${current.href}</small>`;
+      tooltip.classList.add('active');
+    }
+
+    const handler = (e) => {
+      tooltip.classList.remove('active');
+      current.removeEventListener('mouseout', handler);
+      current = null;
+      tooltip.innerText = '';
+    };
+
+    current.addEventListener('mouseout', handler);
+  });
+
+  scrollLeftBtn.addEventListener('click', () => {
+    navList.scrollBy({ left: -100, behavior: 'smooth' });
+  });
+
+  scrollRightBtn.addEventListener('click', () => {
+    navList.scrollBy({ left: 100, behavior: 'smooth' });
+  });
+});
+</script>
+
 <style is:global>
 	:root {  
 		font-size: 16px;
-		--base: hsl(240, 20%, 5%);
-		
-		--shade1: hsl(240, 20%, 8%);
-		--shade2: hsl(240, 20%, 13%);
-		--shade3: hsl(240, 20%, 18%);
+
+    --crust: #11111b;
+    --mantle: #181825;
+		--base: #1e1e2e;
+		--surface0: #313244;
+		--surface1: #45475a;
+		--surface2: #585b70;
 		--shade4: hsl(240, 20%, 21%);
 		--shade5: hsl(240, 20%, 24%);
 		--shade6: hsl(240, 30%, 27%);
 		
-		--text: hsl(240, 30%, 95%);
-		--subtext0: hsl(240, 30%, 74%);
+		--text: #cdd6f4;
+    --subtext1: #bac2de;
+		--subtext0: #a6adc8;
 		
-		--red: hsl(0, 80%, 65%);
-		--orange: hsl(20, 80%, 65%);
-		--yellow: hsl(40, 80%, 65%);
-		--green: hsl(100, 80%, 65%);
-		--mint: hsl(150, 80%, 65%);
-		--cyan: hsl(200, 80%, 65%);
-		--blue: hsl(240, 90%, 79%);
-		--magenta: hsl(290, 80%, 65%);
+		--red: #f38ba8;
+    --maroon: #eba0ac;
+		--peach: #fab387;
+		--yellow: #f9e2af;
+		--green: #a6e3a1;
+    --teal: #94e2d5;
+		--sky: #89dceb;
+    --sapphire: #74c7ec;
+		--blue: #89b4fa;
+		--lavender: #b4befe;
 		
-		--color: var(--orange);
+		--color: var(--green);
 		
 		--fs-sm: clamp(0.67rem, 0.3vi + 0.61rem, 0.8rem);
 		--fs-base: clamp(0.8rem, 0.45vi + 0.71rem, 1rem);
@@ -110,7 +259,7 @@ const commit = getGitInfo()
 		margin-bottom: 0.8rem;
 	}
 
-	* { box-sizing: border-box; font-size: var(--fs-base); }
+	* { box-sizing: border-box; }
 
 	*::selection {
 		background: var(--color);
@@ -118,22 +267,202 @@ const commit = getGitInfo()
 	}
 
 	body, html {
-		background: var(--base);
+		background: var(--crust);
 		color: var(--text);
 		font-family: Neue Haas Grotesk Display Pro, Helvetica Neue, Helvetica, Arial, sans-serif;
+    margin: 0;
 	}
 
 	html{
   height: 100%;
+  width: 100%;
 }
 body {
   min-height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  min-width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
-a { color: var(--color); }
+img { display: block; }
+
+.container {
+  width: 100%;
+  padding: 20px;
+  max-width: 850px;
+  margin: auto;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+
+  &:nth-child(1) {
+    li:nth-child(1) {
+      border-left: none;
+      a { border-left: none; }
+    }
+  } 
+
+  &:nth-last-child(1) {
+    li:nth-last-child(1) {
+      border-right: none;
+      a { border-right: none; }
+    }
+  }
+}
+
+nav ul li {
+  --color: var(--text);
+
+  border-left: 1px solid var(--mantle);
+  text-shadow: 0 -1px var(--crust), 0 1px var(--surface0);
+  user-select: none;
+  cursor: pointer;
+  background: transparent;
+  transition: background .05s;
+  
+  &.small a {
+    padding: 0 10px;
+  }
+
+  a {
+    border-left: 1px solid var(--surface2);
+    padding: 0 20px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    text-decoration: none;
+
+    transition: padding .25s;
+  }
+
+  &:hover {
+    background: rgba(0,0,0,0.2);
+    
+    &.small a {
+      padding: 0 15px;
+    }
+
+    a {
+      padding: 0 25px;
+      color: var(--color);
+    }
+  }
+
+  &:nth-last-child(1) {
+    border-right: 1px solid var(--mantle);
+    a {
+      border-right: 1px solid var(--surface2);
+    }
+  }
+}
+
+fieldset {
+  border-color: var(--surface1);
+  border-radius: 5px;
+}
+
+
+header {
+  display: flex;
+  gap: 6px;
+  flex-direction: column;
+}
+
+.banner {
+  border-radius: 6px;
+  border: 1px outset var(--surface2);
+  box-shadow: 0 2.5px 2.5px rgb(0, 0, 0, 0.25);
+}
+
+nav {
+  display: flex;
+  background: linear-gradient(var(--surface0), var(--surface1) 50%, var(--surface2) 50%, var(--surface1));
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px outset var(--surface2);
+  box-shadow: 0 2.5px 2.5px rgb(0, 0, 0, 0.25);
+}
+
+.content {
+  display: flex;
+  gap: 25px;
+
+  & > aside {
+    min-width: 250px;
+    max-width: 250px;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  a[href] {
+    color: var(--color);
+  }
+}
+
+.tooltip {
+  position: fixed;
+  z-index:6969696969;
+  padding: 5px;
+  background: linear-gradient(var(--surface1), var(--surface0));
+  border: 1px solid var(--surface2);
+  border-radius: 6px;
+  width: 5px;
+  height: 5px;
+  transform: scale(0.75);
+  white-space: nowrap;
+  color: var(--color);
+
+  transition: top .2s ease-out, left .2s ease-out, padding .25s var(--bounce), transform .25s var(--bounce), background .25s, color .25s;
+
+  &.active {
+    padding: 7px 10px;
+    width: auto;
+    height: auto;
+    transform: scale(1);
+    color: var(--text);
+  }
+}
+
+a.btn {
+  --color: var(--text);
+  text-decoration: none;
+  padding: 5px 10px;
+  background: linear-gradient(var(--surface0), var(--surface1) 50%, var(--surface2) 50%, var(--surface1));
+  display: inline-block;
+  border-radius: 3px;
+  border: 1px outset var(--surface2);
+  transition: scale .2s;
+
+  &:active {
+    background: linear-gradient(var(--base), var(--surface0) 50%, var(--surface1) 50%, var(--surface0));
+  }
+
+  &:hover {
+    scale: 1.2;
+    position: relative;
+    z-index:999;
+  }
+}
+
+input, textarea, select {
+  background: linear-gradient(var(--base), var(--surface0));
+  color: var(--text);
+  border: 1px solid var(--surface2);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+hr {
+  border-color: var(--surface2);
+}
 </style>
 <style>
 	@font-face {
@@ -314,23 +643,37 @@ a { color: var(--color); }
 </style>
 
 <style is:global>
-	aside {
-		top: 0;
-	}
-	@media (max-width: 1200px) {
-  aside {
-    position: static!important;
-		width: unset!important;
+	@media (max-width: 835px) {
+  .content {
+    flex-direction: column;
+
+    aside {
+      min-width: 100%!important;
+      max-width: 100%!important;
+    }
   }
 
-	.ad {
-		display: none!important;
-	}
-}
+  header .nav-helper {
+    display: flex!important;
+  }
 
-.ad {
-		display: block;
-	}
+  header nav {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+
+    & > div { display: inline-block; padding: 0 30px; }
+
+    ul {
+      display: inline-block;
+      white-space: nowrap;
+
+      li { display: inline-block }
+    }
+  }
+}
 
 	header h1 {
 		font-size: var(--fs-xxxxl);
@@ -338,4 +681,5 @@ a { color: var(--color); }
 		color: var(--base);
 		margin-bottom: 0.5rem!important;
 	}
+
 </style>

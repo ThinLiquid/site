@@ -11,9 +11,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "^3.1.8",
+    "@astrojs/mdx": "4.0.2",
+    "@astrojs/rss": "^4.0.10",
     "@types/bun": "^1.1.12",
-    "astro": "^4.16.7",
+    "astro": "5.0.5",
     "emoji-js": "^3.8.0",
     "eruda": "^3.4.0",
     "remark-twemoji": "^0.1.1",
