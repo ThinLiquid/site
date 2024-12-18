@@ -427,6 +427,8 @@ nav {
   transform: scale(0.75);
   white-space: nowrap;
   color: var(--color);
+  max-width: 500px;
+  text-wrap: wrap;
 
   transition: top .2s ease-out, left .2s ease-out, padding .25s var(--bounce), transform .25s var(--bounce), background .25s, color .25s;
 
@@ -469,7 +471,27 @@ input, textarea, select {
 }
 
 hr {
-  border-color: var(--surface2);
+  border-color: var(--surface0);
+}
+
+code:not(pre > code) {
+  display: inline-block;
+  padding: 2.5px 5px;
+  margin: 2px 0;
+  font-size: var(--fs-sm);
+  background: var(--surface0);
+  border-radius: 5px;
+}
+
+pre {
+  padding: 10px;
+  border-radius: 5px;
+}
+
+blockquote {
+  border-left: 2px solid var(--color);
+  margin: 0;
+  padding: 0 0 0 10px;
 }
 </style>
 <style>

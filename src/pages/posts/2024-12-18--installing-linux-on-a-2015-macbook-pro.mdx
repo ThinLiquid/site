@@ -1,0 +1,99 @@
+---
+layout: ../../layouts/BlogLayout.astro
+title: Installing Linux on a 2014 MacBook Pro
+description: "I revived a 2015 MacBook Pro with Linux! Follow my adventure through failed installs, unexpected fixes, and problem-solving all without a single USB stick in sight."
+pubDate: 2024-12-18
+---
+
+Recently, I decided to repurpose my dad's old MacBook Pro (2015). macOS was struggling to keep up, so I turned to Linux. What followed was a journey through eight Linux distributions, countless lessons, 1.5 weeks of effort, and an unconventional installation process—all without a USB stick.
+
+## MacBook Specifications
+
+- **Model:** `MacBook11,5`
+- **WiFi Card:** `BCM43602`
+- **CPU:** Intel Core i7-4870HQ CPU @ 2.50GHz
+- **Graphics:** AMD Radeon R9 M370X (Discrete)
+
+> **Note:** What I did for my MacBook Pro may not work for yours.
+
+---
+
+## Why Linux?
+
+The MacBook Pro was hella laggy on macOS. So naturally I ended up wanting to install Linux. A quick  search for "arch linux dual boot macos" led me to the Arch Linux Wiki's [Mac](https://wiki.archlinux.org/title/Mac) and [Laptop/Apple](https://wiki.archlinux.org/title/Laptop/Apple) pages. My goal: install Arch Linux and dual boot it alongside macOS. The catch? I didn’t have a USB stick to install the ISO.
+
+---
+
+## Installation Without a USB Stick
+
+### Attempt 1: Virtual Machine Approach
+
+*Inspired* by ChatGPT, I tried installing Arch Linux in a virtual machine (VM) and extracting it into a partition. However, extracting the VM installation to the MacBook proved too complex and ultimately unsuccessful.
+
+### Attempt 2: Booting from a Partition
+
+After asking being "inspired" by ChatGPT, I came across [rEFInd](https://www.rodsbooks.com/refind/); a boot manager with macOS support. This led to my first attempt:
+
+1. Installed rEFInd using `./refind-install.sh`.
+2. Created two new partitions:
+    - **ISO Partition:** 8GB, formatted as FAT32.
+    - **Archintosh HD:** 192GB, intended for the Linux installation.
+3. Booted into the ISO partition to start the installation process.
+
+#### The “No Space Left on Device” Error
+
+During installation, `pacstrap` failed because the EFI partition ran out of space. Out of desperation, I deleted rEFInd thinking it was the culprit. It wasn’t.
+
+---
+
+## Exploration Arc: Trying Other Distros
+
+When Arch didn’t work out initially, I explored other Linux distributions. Here’s what I had to deal with:
+
+1. **Linux Mint (Cinnamon):** Severe performance issues.
+2. **Manjaro Linux:** Failed to boot, likely due to conflicts with the macOS partition.
+3. **ArcoLinux and EndeavourOS:** WiFi issues caused by the default `broadcom-wl` driver instead of `brcmfmac` (I didn’t realize this at the time).
+4. **Debian:** The ISO froze on boot. Fixed by replacing the `grubx64.efi` file with the version from the testing ISO ([source](https://forums.debian.net/viewtopic.php?t=155747)), but I found Debian too rigid compared to Arch.
+
+---
+
+## Returning to Arch Linux
+
+### Step 1: Booting from a Partition (Again)
+
+This time, I skipped rEFInd and used macOS’s built-in `bless` command:
+
+```sh
+sudo bless --device /dev/diskXsY --set-boot
+```
+
+At boot, I held the Alt key to select the ISO partition, and it worked.
+
+### Step 2: Fixing the EFI Mount Point
+
+Previously, I mounted the EFI partition to `/boot` as per the [Arch Linux installation guide](https://wiki.archlinux.org/title/Installation_guide). This time, I mounted it to `/boot/efi`, resolving the “No Space Left on Device” error. I learned this from Debian’s partition structure.
+
+### Step 3: Resolving WiFi Issues
+
+Post-installation, I spent hours debugging WiFi issues:
+
+1. Replaced the `broadcom-wl` driver with `brcmfmac`.
+2. Addressed a bug in `wpa_supplicant` v2.11 ([source](https://forum.endeavouros.com/t/pinebook-cannot-connect-to-wifi-anymore/58516)) by switching NetworkManager’s backend to `iwd`.
+
+Finally, the WiFi worked, allowing me to proceed with post-installation configurations.
+
+### Step 4: Setting up webcam drivers
+
+For webcam drivers, I used [`facetimehd`](https://github.com/patjak/facetimehd) followed the instructions in the wiki and it worked first try!
+
+---
+
+## Lessons Learned
+
+1. **Partitioning Matters:** Correct EFI mount points are crucial.
+2. **Driver Awareness:** Knowing the right WiFi driver (`brcmfmac` in this case) saved hours.
+3. **Persistence Pays Off:** Linux on a MacBook can be challenging, but the performance gains are worth it.
+
+---
+
+With Arch Linux up and running, the 2015 MacBook Pro now meets my requirements for a laptop. If you’re looking to repurpose an old computer, just install Linux.
