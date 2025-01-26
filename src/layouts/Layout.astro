@@ -73,13 +73,17 @@ const allCommits = await fetchCommitsFromGitHub();
 
     <div class="container">
       <nav>
-        <h2 style={{ fontFamily: 'var(--font-readable)' }}>
-          <img src="/icon.png" alt="thinliquid's studio" style="width: 32px; height: 32px;"/>&nbsp;
-          thinliquid's [studio]
-        </h2>
+        <a href="/" style={{
+          textDecoration: 'none',
+          color: 'var(--color-text)'
+        }}>
+          <h2 style={{ fontFamily: 'var(--font-readable)' }}>
+            <img src="/icon.png" alt="thinliquid's studio" style="width: 32px; height: 32px;"/>&nbsp;
+            thinliquid's [studio]</ul>
+          </h2>
+        </a>
         <div class="page">{(title ?? frontmatter.title)}</div>
         <ul>
-          <NavItem tooltip="go home" color="blue" href="/">home</NavItem>
           <NavItem tooltip="check out my button database" color="sapphire" href="/buttons-galore">buttons galore</NavItem>
           <NavItem tooltip="cool stuff i use" color="sky" href="/resources">resources</NavItem>
           <NavItem tooltip="read my ramblings" color="teal" href="/blog">blog</NavItem>
