@@ -3,7 +3,7 @@
   "type": "module",
   "version": "7.0.0",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --host",
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "4.0.2",
-    "@astrojs/rss": "^4.0.10",
+    "@astrojs/mdx": "4.0.7",
+    "@astrojs/rss": "4.0.11",
     "@types/bun": "^1.1.12",
-    "astro": "5.0.5",
+    "astro": "5.1.9",
     "emoji-js": "^3.8.0",
     "eruda": "^3.4.0",
     "remark-twemoji": "^0.1.1",
