@@ -1,9 +1,10 @@
 ---
 layout: ../../layouts/BlogLayout.astro
 title: Why I uninstalled Arch Linux
-description: "Recently, I installed Arch Linux on a 2015 MacBook Pro. While the novelty of running Arch on a MacBook was nice, it wasn’t exactly practical, to say the least."
+description: "After documenting my Arch Linux installation journey, I share why I ultimately uninstalled it from my MacBook Pro."
 pubDate: 2025-02-13
 ---
+Recently, I installed Arch Linux on a 2015 MacBook Pro. While the novelty of running Arch on a MacBook was nice, it wasn’t exactly practical, to say the least.
 
 ## Package Issues
 
