@@ -1,16 +1,19 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 import { execSync } from 'child_process'
 import NavItem from '../components/NavItem.astro';
 import ImageButton from '../components/ImageButton.astro';
 import { createButtonString } from '../util';
+import RootLayout, { type Props as RootProps } from './RootLayout.astro';
 
-interface Props {
-	title: string;
-	frontmatter?: any;
+interface Props extends RootProps {
+  frontmatter: {
+    title?: string
+    description?: string
+  }
 }
 
-const { title, frontmatter } = Astro.props;
+const { title, description } = Astro.props;
+const { title: _title, description: _description } = Astro.props.frontmatter ?? { title: null, description: null }
 
 const getGitInfo = () => {
   try {
@@ -44,7 +47,12 @@ const fetchCommitsFromGitHub = async () => {
   } catch (error) {
     console.error("Error fetching commits from GitHub:");
     console.error(error);
-    return [];
+    return new Array(10).fill({
+      message: 'debug...',
+      date: new Date().toISOString(),
+      url: 'https://thinliquid.dev',
+      hash: crypto.randomUUID()
+    })
   }
 };
 
@@ -52,38 +60,28 @@ const commit = getGitInfo()
 const allCommits = await fetchCommitsFromGitHub();
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{(title ?? frontmatter.title)} @ thinliquid's [studio]</title>
-    
-
-    <link rel="icon" type="image/png" href="/icon.png" />
-		<link rel="stylesheet" href="https://webring.nekoweb.org/onionring.css" />
-
-		<ClientRouter />
-	</head>
-	<body>
-    <div class="tooltip"></div>
+{/* @ts-ignore */}
+<RootLayout title={title ?? _title} description={description ?? _description}>
+    <div class="tooltip" transition:persist></div>
 
     <div class="container">
       <nav>
-        <a href="/" style={{
-          textDecoration: 'none',
-          color: 'var(--color-text)'
-        }}>
-          <h2 style={{ fontFamily: 'var(--font-readable)' }}>
-            <img src="/icon.png" alt="thinliquid's studio" style="width: 32px; height: 32px;"/>&nbsp;
-            thinliquid's [studio]</ul>
-          </h2>
-        </a>
-        <div class="page">{(title ?? frontmatter.title)}</div>
+        
+        <div>
+          <a href="/" style={{
+            textDecoration: 'none',
+            color: 'var(--color-text)',
+            display: 'flex', gap: '16px', justifyContent: 'center'
+          }}>
+            <img src="/icon.png" height="32" width="32">
+            <h2 style={{ fontFamily: 'var(--font-readable)', margin: '0', lineHeight: '32px' }} transition:name="title">
+              thinliquid's [studio]
+            </h2>
+          </a>
+        </div>
+        <div class="page">{title ?? _title}</div>
         <ul>
+          <NavItem tooltip="home" color="sapphire" href="/home">home</NavItem>
           <NavItem tooltip="check out my button database" color="sapphire" href="/buttons-galore">buttons galore</NavItem>
           <NavItem tooltip="cool stuff i use" color="sky" href="/resources">resources</NavItem>
           <NavItem tooltip="read my ramblings" color="teal" href="/blog">blog</NavItem>
@@ -93,32 +91,36 @@ const allCommits = await fetchCommitsFromGitHub();
       </nav>
       
       <div class="some-shitty-class-name-here">
-        <main class="content">
-          <slot/>
+        <main class="content" transition:animate="fade">
+          <div style={{
+            maxWidth: '700px',
+            margin: 'auto'
+          }}><slot/></div>
         </main>
   
         <section>
           <aside>
-            <br/>
             <fieldset>
               <legend>latest git commit</legend>
               
               <h2>{commit.commitMessage}</h2>
-              <small style={{ color: 'var(--subtext0)' }}>
+              <small>
                 <a href={"https://github.com/ThinLiquid/site/commit/" + commit.commitHash}>⠿ {commit.commitHash.slice(0, 7)} ({commit.commitBranch})</a> [{commit.commitDate}]
               </small>
               <br/><br/>
               <fieldset>
                 <legend>commit history</legend>
     
-                {allCommits.splice(1, 7).map((commit: any) => (
-                  <div>
-                      <code style="font-size: 10px!important;">
-                        <a href={commit.url} target="_blank">[{commit.date}]</a>
-                        {commit.message}
-                      </code>
-                  </div>
-                ))}
+                <div>
+                  {allCommits.splice(1, 7).map((commit: any) => (
+                    <code>
+                        <div>
+                          <a href={commit.url} target="_blank"><small>[{new Date(commit.date).toUTCString()}]</small></a>
+                          {commit.message}
+                        </div>
+                    </code>
+                  ))}
+                </div>
               </fieldset>  
             </fieldset>
             
@@ -147,24 +149,21 @@ const allCommits = await fetchCommitsFromGitHub();
             <ImageButton alt="max's apartment button" href="https://max.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/maxpixels.gif" />
             <ImageButton alt="giiki's lair button" href="https://giikis2.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/giikis2.png" />
             <ImageButton alt="bomberfish.ca button" href="https://bomberfish.ca" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/bomberfish.gif" />
-          </aside>
-          <br/><hr/>
-        <footer>
-          {new Date().getFullYear()} (c) ThinLiquid<br/>
-          <small>
-            powered by astro & bun || hosted on nekoweb
-          </small>
-        </footer>
+          </aside>    
         </section>
-        </div>
+      </div>
 
-      
+      <hr style={{ margin: 0 }} />
+      <footer>
+        {new Date().getFullYear()} &copy; ThinLiquid<br/>
+        <small>
+          powered by astro & bun || hosted on nekoweb
+        </small>
+      </footer>
     </div>
 
-		<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js" is:inline></script>
-		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
-	</body>
-</html>
+    <img src="/logo.png" class="logo" transition:name="logo" transition:persist>
+</RootLayout>
 
 <script is:inline>
   document.addEventListener('astro:page-load', () => {
@@ -222,63 +221,7 @@ const allCommits = await fetchCommitsFromGitHub();
 });
 </script>
 
-<style is:global>
-  @import url('https://fonts.cdnfonts.com/css/neue-haas-grotesk');
-  @import url('https://raw.githubusercontent.com/iosevka-webfonts/iosevka-term/refs/heads/main/iosevka-term.css');
-:root {
-  font-size: 16px;
-  
-  /* Utility */
-  --color-dark: #0A0A0A;
-  --color-white: #FFFFFF;
-
-  /* Neutral */
-  --color-base: #141414;
-  --color-surface-0: #292929;
-  --color-surface-1: #525252;
-  --color-subtext-0: #828287;
-  --color-subtext-1: #9A9A9E;
-  --color-text: #CBCBCD;
-
-  /* Color */
-  --color-red: #F23F4F;
-  --color-orange: #EE6748;
-  --color-yellow: #FA9F50;
-  --color-green: #52EEA3;
-  --color-cyan: #51E1E9;
-  --color-blue: #437CF3;
-  --color-purple: #6F51F4;
-  --color-pink: #E54F9B;
-
-  --font-interface: 'IosevkaTerm Nerd Font', 'Iosevka Term Web', monospace;
-  --font-readable: 'Alte Haas Grotesk', 'Neue Haas Grotesk', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-}
-
-* { box-sizing: border-box; }
-*::selection {
-  background: var(--color-green);
-  color: var(--color-base);
-}
-
-html, body {
-  background: var(--color-base);
-  color: var(--color-text);
-  margin: 0;
-  font-family: var(--font-interface);
-}
-
-html{
-  height: 100%;
-  width: 100%;
-}
-
-body {
-  width: 100%;
-  min-height: 100%;
-  min-width: 100%;
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
+<style is:global lang="scss">
 
 a {
   color: var(--color-green);
@@ -312,60 +255,84 @@ a {
   }
 }
 
+
+
 .container {
-  max-width: 100%;
-  min-width: 100%;
-  display: flex;
-  gap: 16px;
-  overflow: hidden;
-}
-
-.content {
-  font-family: var(--font-readable);
-  width: 700px;
-}
-
-.some-shitty-class-name-here {
-  display: flex;
-  gap: 32px;
-  padding: 32px;
-  height: 100dvh;
+  border: 1px solid var(--color-surface-0);
+  height: calc(100vh - 32px);
   overflow-y: scroll;
   scrollbar-width: none;
-}
 
-
-article {
-  padding-bottom: 16px;
-}
-@media screen and (max-width:1032px) {
-  .content {
-    width: 100%;
-  }
-
-  .container { display: flex; }
-
-  .some-shitty-class-name-here {
-    display: block;
-    padding: 16px;
+  nav {
+    display: flex;
+    position: sticky;
+    top: 16px;
+    z-index: 6969;
+    box-shadow: 0 0 16px var(--color-base);
+    border-bottom: 1px solid var(--color-surface-0);
+    padding: 16px 16px;
+    top: 0;
+    left: 0;
+    gap: 32px;
+    background: var(--color-base);
     
-    aside, section,fieldset {
-      width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    
+    ul {
+      display: flex;
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        white-space: nowrap;
+        list-style: none;
+      }
     }
   }
+
+  .some-shitty-class-name-here {
+    display: flex;
+    scrollbar-width: none;
+    width: 100%;
+
+    .content {
+      padding: 32px;
+      flex: 1;
+      width: 100%;
+    }
+
+    section {
+      flex: 0 0 320px;
+      min-width: 320px;
+      border-left: 1px solid var(--color-surface-0);
+      padding: 16px;
+    }
+  }
+
+  
 }
 
-@media screen and (max-height:1000px) {
+.logo {
+  position: fixed;
+  bottom: -32px;
+  left: -32px;
+  width: 25vw;
+  animation: 4s logo infinite;
+  animation-delay: .5s;
+}
+
+@keyframes logo {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(20deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@media screen and (max-width:1000px) {
   .page {
     display: none;
-  }
-}
-
-section {
-  width: 300px;
-
-  & > aside {
-    margin-right: 16px;
   }
 }
 
@@ -381,32 +348,8 @@ em {
   color: var(--color-cyan);
 }
 
-nav {
-  display: flex;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  border-right: 1px solid var(--color-surface-0);
-  padding: 16px 8px;
-  top: 0;
-  left: 0;
-  gap: 32px;
-  background: var(--color-base);
-  
-  justify-content: space-between;
-  align-items: center;
-  height: 100dvh;
-  
-  ul {
-    display: flex;
-    gap: 10px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      white-space: nowrap;
-    }
-  }
+footer {
+  padding: 16px;
 }
 
 input, select, textarea {
@@ -519,6 +462,4 @@ table {
 
   th { text-align: left; }
 }
-
-
 </style>

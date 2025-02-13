@@ -1,0 +1,54 @@
+---
+import RootLayout from "../layouts/RootLayout.astro";
+---
+
+<RootLayout>
+    <div class="centered">
+      <div class="show-later" style="text-align:right;animation-delay: 1s;">
+        <small>note: this site is best viewed a Chromium-based browser</small>
+      </div>
+      <h1 style="margin:0;" transition:name="title">
+        thinliquid's [studio]
+      </h1>
+      <div class="show-later" style="animation-delay: 2s;">
+        <a href="/home">➤ enter the [studio]</a>
+      </div>
+    </div>
+
+    <img src="/logo.png" class="logo" transition:name="logo">
+</RootLayout>
+
+<style>
+  a {
+    color: var(--color-primary);
+  }
+
+  .centered, .logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: max-content;
+  }
+
+  .logo {
+    opacity: 0.05;
+    z-index: -1;
+  }
+
+  .show-later {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+
+    animation: open 1s forwards;
+  }
+
+  @keyframes open {
+    from { height: 0; opacity: 0; }
+    to { height: auto; opacity: 1; }
+  }
+
+  h1 { font-size: 64px; }
+  small { color: var(--color-subtext-0)}
+</style>

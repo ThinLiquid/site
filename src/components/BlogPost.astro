@@ -8,9 +8,10 @@ const date = new Date(post.frontmatter.pubDate)
 const { frontmatter } = post
 ---
 
-<li>
+<div>
   <b>
     <a
+      transition:name="blog-title"
       href={post.url}
       data-tooltip={`
         <b>${frontmatter.title}</b><br/>
@@ -18,5 +19,12 @@ const { frontmatter } = post
       `}
     >{frontmatter.title}</a>
   </b><br/>
-  {date.toLocaleDateString('en-GB')}
-</li>
+  <b>{date.toDateString()}</b> • {frontmatter.description}
+</div>
+<style>
+  div {
+    border-bottom: 1px solid var(--color-surface-0);
+    width: 100%;
+    padding: 16px;
+  }
+</style>
