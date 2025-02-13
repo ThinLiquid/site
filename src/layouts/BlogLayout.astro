@@ -1,7 +1,7 @@
 ---
 import Layout from "./Layout.astro";
 ---
-
+{/* @ts-ignore */}
 <Layout title={`${Astro.props.frontmatter.title} | blog`} description={Astro.props.frontmatter.description}>
   <article>
     <h1 transition:name="blog-title">{Astro.props.frontmatter.title}</h1>

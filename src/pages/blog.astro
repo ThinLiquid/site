@@ -3,6 +3,8 @@ import BlogPost from '../components/BlogPost.astro';
 import Layout from '../layouts/Layout.astro'
 const allPosts = Object.values(import.meta.glob('./posts/*.mdx', { eager: true }));
 ---
+
+{/* @ts-ignore */}
 <Layout title="blog">
   <h1>blog</h1>
   <p>just my little programming blog (i probably wont update this a lot)</p>
