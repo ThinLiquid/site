@@ -110,7 +110,10 @@ const allCommits = await fetchCommitsFromGitHub();
   
         <section>
           <aside>
+            
             {Astro.props.reactive !== false ? <MusicPlayer client:only transition:persist/> : null}
+            <h2>sponsored segment</h2>
+            <iframe width="320" height="320" style="border:none" src="https://rice.nekoweb.org/nekolink.html"></iframe>
             {Astro.props.reactive !== false ? (
               <h2>webrings</h2>
               <div transition:persist>

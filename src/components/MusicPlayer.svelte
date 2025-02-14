@@ -36,6 +36,12 @@
 
   $effect(() => {
     currentTime = audio.currentTime
+
+    document.addEventListener('astro:page-load', () => {
+      if (audio.paused === true) {
+        audio.play()
+      }
+    })
   })
 
   function playPause() {
@@ -73,10 +79,6 @@
     src={songs[currentSongIndex]}
 
     oncanplaythrough={async () => {
-      if (audio.paused === true) {
-        audio.play()
-      }
-
       const res = await fetch(songs[currentSongIndex] || '')
       const _metadata = await parseBlob(await res.blob())
 
