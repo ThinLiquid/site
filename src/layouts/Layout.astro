@@ -361,7 +361,7 @@ a {
   bottom: 32px;
   left: 48px;
   width: 25vw;
-  animation: 4s logo infinite;
+  animation: 2s logo infinite var(--bounce);
   transition: opacity .2s;
   opacity: 0.5;
   transform: scale(1.2) rotate(30deg);
@@ -369,9 +369,9 @@ a {
 }
 
 @keyframes logo {
-  0% { transform: scale(1.2) rotate(30deg); }
+  0% { transform: scale(1.2) rotate(10deg); }
   50% { transform: scale(1.5) rotate(0deg); }
-  100% { transform: scale(1.2) rotate(30deg); }
+  100% { transform: scale(1.2) rotate(10deg); }
 }
 
 @media screen and (max-width:1000px) {
