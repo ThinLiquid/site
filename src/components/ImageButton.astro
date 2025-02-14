@@ -13,5 +13,18 @@ const { url, href, alt, ...props } = Astro.props
 </a>
 
 <style>
-  a { text-decoration: none; padding: 0!important; background: none!important; display: inline-block; }
+  a {
+    text-decoration: none;
+    padding: 0!important;
+    background: none!important;
+    display: inline-block;
+
+    &:hover {
+      background: none!important;
+      
+      img {
+        filter: none!important;
+      }
+    }
+  }
 </style>

@@ -6,6 +6,8 @@ import twemoji from "@twemoji/api"
 
 import mdx from "@astrojs/mdx";
 
+import svelte from "@astrojs/svelte";
+
 const remarkTwemoji = (options?: {
   callback?: Function
   attributes?: Function
@@ -50,7 +52,7 @@ export default defineConfig({
     format: 'file'
   },
 
-  integrations: [mdx()],
+  integrations: [mdx(), svelte()],
 
   site: "https://thinliquid.dev"
 });

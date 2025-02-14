@@ -1,7 +1,7 @@
 {
   "name": "site",
   "type": "module",
-  "version": "7.0.0",
+  "version": "8.0.0",
   "scripts": {
     "dev": "astro dev --host",
     "start": "astro dev",
@@ -13,12 +13,15 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/mdx": "4.0.7",
     "@astrojs/rss": "4.0.11",
+    "@astrojs/svelte": "^7.0.4",
     "@types/bun": "^1.1.12",
     "astro": "5.1.9",
     "emoji-js": "^3.8.0",
     "eruda": "^3.4.0",
+    "music-metadata": "^10.9.0",
     "remark-twemoji": "^0.1.1",
-    "typescript": "^5.6.3"
+    "svelte": "^5.20.0",
+    "typescript": "^5.7.3"
   },
   "devDependencies": {
     "@twemoji/api": "^15.1.0",

@@ -5,7 +5,7 @@ const allPosts = Object.values(import.meta.glob('./posts/*.mdx', { eager: true }
 ---
 
 {/* @ts-ignore */}
-<Layout title="blog">
+<Layout title="blog" reactive={false}>
   <h1>blog</h1>
   <p>just my little programming blog (i probably wont update this a lot)</p>
   {allPosts.reverse().map((post: any) => <BlogPost post={post} />)}

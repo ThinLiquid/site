@@ -11,7 +11,7 @@ const { frontmatter } = post
 <div>
   <b>
     <a
-      transition:name="blog-title"
+      transition:name={date.toDateString()}
       href={post.url}
       data-tooltip={`
         <b>${frontmatter.title}</b><br/>
@@ -19,7 +19,7 @@ const { frontmatter } = post
       `}
     >{frontmatter.title}</a>
   </b><br/>
-  <b>{date.toDateString()}</b> • {frontmatter.description}
+  <b transition:name={date.toDateString() + 'date'}>{date.toDateString()}</b> • <span transition:name={date.toDateString() + 'desc'}>{frontmatter.description}</span>
 </div>
 <style>
   div {
