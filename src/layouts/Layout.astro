@@ -95,6 +95,7 @@ const allCommits = await fetchCommitsFromGitHub();
           <NavItem tooltip="check out my button database" color="sapphire" href="/buttons-galore">buttons galore</NavItem>
           <NavItem tooltip="cool stuff i use" color="sky" href="/resources">resources</NavItem>
           <NavItem tooltip="read my ramblings" color="teal" href="/blog">blog</NavItem>
+          <NavItem tooltip="commissions" color="yellow" href="/commissions" small={true}>commissions</NavItem>
           <NavItem tooltip="send me a message" color="green" href="https://thnlqd.atabook.org" small={true}>guestbook</NavItem>
           <NavItem tooltip="follow me on nekoweb" color="yellow" href="https://nekoweb.org/follow/thnlqd" small={true}>[+]</NavItem>
         </ul>
@@ -113,7 +114,7 @@ const allCommits = await fetchCommitsFromGitHub();
             
             {Astro.props.reactive !== false ? <MusicPlayer client:only transition:persist/> : null}
             <h2>sponsored segment</h2>
-            <iframe width="320" height="320" style="border:none" src="https://rice.nekoweb.org/nekolink.html"></iframe>
+            <iframe width="100%" style="border:none;aspect-ratio:1/1;" src="https://rice.nekoweb.org/nekolink.html"></iframe>
             {Astro.props.reactive !== false ? (
               <h2>webrings</h2>
               <div transition:persist>

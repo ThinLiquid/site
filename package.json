@@ -18,6 +18,7 @@
     "astro": "5.1.9",
     "emoji-js": "^3.8.0",
     "eruda": "^3.4.0",
+    "glob": "^11.0.1",
     "music-metadata": "^10.9.0",
     "remark-twemoji": "^0.1.1",
     "svelte": "^5.20.0",
