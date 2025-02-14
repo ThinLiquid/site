@@ -5,6 +5,7 @@ import ImageButton from '../components/ImageButton.astro';
 import { createButtonString } from '../util';
 import RootLayout, { type Props as RootProps } from './RootLayout.astro';
 import MusicPlayer from '../components/MusicPlayer.svelte'
+import { slide } from 'astro:transitions';
 
 interface Props extends RootProps {
   frontmatter: {
@@ -100,7 +101,7 @@ const allCommits = await fetchCommitsFromGitHub();
       </nav>
       
       <div class="some-shitty-class-name-here">
-        <main class="content" transition:animate="fade">
+        <main class="content" transition:animate={slide({ duration: '1s' })}>
           <div style={{
             maxWidth: '700px',
             margin: 'auto'
