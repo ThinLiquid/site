@@ -38,9 +38,7 @@
     currentTime = audio.currentTime
 
     document.addEventListener('astro:page-load', () => {
-      if (audio.paused === true) {
-        audio.play()
-      }
+      if (audio.paused) audio.play()
     })
   })
 
@@ -56,19 +54,13 @@
   function nextSong() {
     currentSongIndex = (currentSongIndex + 1) % songs.length;
     audio.src = songs[currentSongIndex] || '';
-    if (!isPlaying) {
-      audio.play();
-      isPlaying = true
-    }
+    audio.addEventListener('canplay', () => audio.play(), { once: true })
   }
 
   function prevSong() {
     currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
     audio.src = songs[currentSongIndex] || '';
-    if (!isPlaying) {
-      audio.play();
-      isPlaying = true
-    }
+    audio.addEventListener('canplay', () => audio.play(), { once: true })
   }
 </script>
 
