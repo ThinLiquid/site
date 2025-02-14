@@ -6,6 +6,8 @@ import RootLayout from "../layouts/RootLayout.astro";
     <div class="centered">
       <div class="show-later" style="text-align:right;animation-delay: 1s;">
         <small>note: this site is best viewed a Chromium-based browser</small>
+        <br/>
+        <small>there's also autoplaying music...</small>
       </div>
       <h1 style="margin:0;" transition:name="title">
         thinliquid's [studio]
@@ -15,7 +17,7 @@ import RootLayout from "../layouts/RootLayout.astro";
       </div>
     </div>
 
-    <img src="/logo.png" class="logo" transition:name="logo">
+    <img src="/logo.png" class="logo" transition:name="logo" draggable="false">
 </RootLayout>
 
 <style>
@@ -29,6 +31,7 @@ import RootLayout from "../layouts/RootLayout.astro";
     left: 50%;
     transform: translate(-50%, -50%);
     width: max-content;
+    user-select: none;
   }
 
   .logo {

@@ -110,6 +110,7 @@
     background: var(--color-base);
     padding: 8px;
     border-bottom: 1px solid var(--color-surface-0);
+    border-top: 1px solid var(--color-surface-0);
     display: flex;
     gap: 16px;
     overflow: hidden;

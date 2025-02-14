@@ -578,4 +578,29 @@ shake {
   display: inline-block;
   animation: tilt-n-move-shaking 0.15s infinite;
 }
+
+@media screen and (max-width: 640px) {
+  .some-shitty-class-name-here {
+    flex-direction: column;
+    overflow: scroll;
+  }
+  .content {
+    & > div {
+      max-width: none!important;
+      width: 100%;
+    }
+  }
+
+  nav {
+    flex-wrap: wrap;
+    position: static!important;
+    ul {
+      flex-wrap: wrap;
+    }
+  }
+
+  .some-shitty-class-name-here section {
+    min-width: unset!important;
+  }
+}
 </style>
