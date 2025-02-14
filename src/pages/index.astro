@@ -31,6 +31,8 @@ import RootLayout from "../layouts/RootLayout.astro";
     left: 50%;
     transform: translate(-50%, -50%);
     width: max-content;
+    max-width: 100%;
+    padding: 32px;
     user-select: none;
   }
 
@@ -44,7 +46,7 @@ import RootLayout from "../layouts/RootLayout.astro";
     opacity: 0;
     overflow: hidden;
 
-    animation: open 1s forwards;
+    animation: open .4s forwards var(--bounce);
   }
 
   @keyframes open {
