@@ -1,0 +1,135 @@
+---
+layout: ../../layouts/BlogLayout.astro
+title: How to "Grow" a Button Collection
+description: "Over the past week, I have been building what I believe is the largest button collection to date by scraping the IndieWeb. As of now, my database contains over 50,000 buttons; an achievement I’m truly proud of."
+pubDate: 2025-02-24
+---
+Over the past week, I have been building what I believe is the largest button collection to date by scraping the IndieWeb. As of now, my database contains over 50,000 buttons; an achievement I’m truly proud of.
+
+Along the way, I’ve also introduced some TypeScript concepts, making this project both a practical tool and a learning opportunity.
+
+---
+
+## Why Scrape the IndieWeb?
+The idea behind this project is to collect a diverse set of buttons across the web, with a focus on the IndieWeb space. The goal is to:
+- **Curate and Analyze:** Gather buttons that are commonly used on various websites.
+- **Metadata and Image Collection:** Scrape metadata and images to build a searchable database.
+- **Media Preservation:** Download each and every single button on the fucking web.
+---
+## Creating the Scraper
+While there were multiple iterations, I’ll focus on explaining the details of the current scraper implementation.
+
+### The `await crawl(urls)` Function
+The scraping process begins with an array of URLs. Three `Set` objects are initialized to manage URL processing:
+- **`pendingUrls`:** Stores URLs that still need to be scraped.
+- **`nextDepthUrls`:** Collects URLs found on the current batch of pages to be scraped in the next depth level.
+- **`seenUrls`:** Keeps track of URLs that have already been processed, avoiding duplicate work.
+
+Since `Set` objects only store unique values, this is an effective way to ensure each URL is processed only once.
+
+```ts
+let pendingUrls = new Set<[string, string[]?, number?, boolean?]>(
+  startingUrls.map(x => [x])
+);
+console.log(pendingUrls.entries());
+
+let nextDepthUrls = new Set<[string, string[]?, number?, boolean?]>();
+let seenUrls = new Set<string>();
+```
+
+The function then enters a `while` loop that continues under these conditions:
+
+1. There are still URLs in `pendingUrls`.
+2. The current depth has not exceeded the `MAX_DEPTH` (defined in `constants.ts`).
+
+Within each loop iteration, the scraper:
+
+- Processes all URLs in `pendingUrls`.
+- Extracts new links from the pages.
+- Adds these new URLs to `nextDepthUrls` using the `fetchPage` function from `fetcher.ts`.
+
+Before transferring URLs from `nextDepthUrls` to `pendingUrls`, the scraper checks against `seenUrls`. If a URL has already been seen, it is skipped, thereby improving efficiency.
+
+---
+## Inside `fetcher.ts`
+The scraper leverages `fetcher.ts` to handle page requests and extract relevant content. This module is responsible for:
+- Retrieving HTML content.
+- Parsing images and anchor tags.
+- Passing the extracted data to the database.
+
+### The `await fetchPage(...args)` Function
+The `fetchPage` function is defined with four arguments:
+- **`url`:** The URL to be scraped.
+- **`pathHistory`:** An array representing the navigation path taken to reach this URL.
+- **`depth`:** The current depth of the scrape.
+- **`didLastFindButton`:** A boolean indicating whether the previous page in the path contained a button.
+
+```ts
+export const fetchPage = async (
+  url: string,
+  pathHistory: string[] = [],
+  depth = 0,
+  didLastFindButton = false
+): Promise<Array<[string, string[]?, number?, boolean?]> | undefined> => {
+  // Function implementation...
+};
+```
+Inside the function:
+- The URL is normalized and checked against the `visitedUrls` cache (stored in `caches.ts`).
+- The current URL is added to `pathHistory`.
+- The page is fetched and parsed using the `node-html-parser` library.
+- Metadata such as `<meta name="description">`, `<meta name="keywords">`, and `<title>` are extracted and stored in the database under the corresponding domain.
+- All anchor (`<a>`) and image (`<img>`) tags are processed, with image tags handed off to the `processImage` function.
+---
+
+## Processing Images with `await processImage(...args)`
+The `processImage` function focuses on handling individual images. Its primary responsibilities include:
+- Deciding whether an image qualifies as a button.
+- Processing the image if it qualifies.
+- Updating the database accordingly.
+### Extracting and Normalizing the Image Source
+The function starts by retrieving the image’s `src` attribute. If no `src` exists, the function exits early. If present, the URL is normalized relative to the current page to ensure a fully qualified URL.
+```ts
+let src = img.getAttribute('src');
+if (!src) return;
+src = new URL(src, url).toString();
+```
+### Checking the Cache Early
+Before making a network request, `processImage` consults the `imageCache` to determine if the image has already been processed:
+- **Cached but invalid?** If the cache shows the image size as `false`, it is skipped.
+- **Cached and valid?** If a valid cached entry (with a stored hash) exists, the function updates the existing button record in the database. This smart merging adds any new information (e.g., extra URLs, alternative texts, titles) without duplicating work.
+### Fetching and Validating the Image
+If the image isn’t cached, the function:
+- Fetches the image using `smartFetch`.
+- Converts the response to an `ArrayBuffer`.
+- Calculates the image’s dimensions using the `image-size` library.
+
+Only images matching the expected `BUTTON_SIZE` pass validation. If the dimensions do not match, the image is marked as invalid in the cache, and processing stops.
+```ts
+const res = await smartFetch(src);
+if (!res) return;
+const buffer = await res.arrayBuffer(); 
+let size = sizeOf(new Uint8Array(buffer));
+
+if (!size || size.width !== BUTTON_SIZE.width || size.height !== BUTTON_SIZE.height) {
+  imageCache.set(src, { size: false });
+  return;
+}
+```
+Once validated, the function computes a unique hash for the image and updates the cache with both its size and hash. This ensures that repeated encounters with the same image can be quickly identified.
+### Updating the Database and Writing the Button File
+With a valid button image:
+- **New Button:** The image is saved to disk, and a new record is created with details such as its sources, alternative texts, hyperlinks, and a timestamp.
+- **Duplicate Button:** The new data is merged into the existing record, enriching the collection without duplication.
+### Linking the Button to Its Host
+For enhanced utility, `processImage` also updates host information:
+- It fetches the URL (using the `href` attribute if provided, or falling back to the page URL) to extract the host.
+- The host’s record is updated by associating the button’s hash, which later aids in searches and analysis.
+
+### Returning the Outcome
+Finally, the function returns a tuple:
+- A boolean flag indicating whether a valid button was found.
+- An array of additional URLs (if any) associated with the image, which might be queued for crawling.
+---
+## Foreword
+yeah, ill make a pt.2 about the search engine and the database later im tired of writing this, running instance at https://buttons.thinliquid.dev, code @ https://github.com/ThinLiquid/scraper. peace For now, this article focuses on the scraper and the mechanisms behind building a large, efficient button collection.
