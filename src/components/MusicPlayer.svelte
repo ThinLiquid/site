@@ -36,10 +36,6 @@
 
   $effect(() => {
     currentTime = audio.currentTime
-
-    document.addEventListener('astro:page-load', () => {
-      if (audio.paused) audio.play()
-    })
   })
 
   function playPause() {
