@@ -6,10 +6,10 @@ const date = new Date(Astro.props.frontmatter.pubDate)
 {/* @ts-ignore */}
 <Layout title={`${Astro.props.frontmatter.title} | blog`} description={Astro.props.frontmatter.description} reactive={false}>
   <article>
-    <h1 transition:name={date.toDateString()}>{Astro.props.frontmatter.title}</h1>
-    <p transition:name={date.toDateString() + 'desc'}>{Astro.props.frontmatter.description}</p>
+    <h1>{Astro.props.frontmatter.title}</h1>
+    <p>{Astro.props.frontmatter.description}</p>
     <small>
-      <span transition:name={date.toDateString() + 'date'}>Published {new Date(Astro.props.frontmatter.pubDate).toLocaleDateString('en-GB')}</span>
+      <span>Published {new Date(Astro.props.frontmatter.pubDate).toLocaleDateString('en-GB')}</span>
     </small>
     <hr/>
 

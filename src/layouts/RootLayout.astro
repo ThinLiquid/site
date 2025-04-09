@@ -19,16 +19,15 @@ const { title, description } = Astro.props
 		<meta name="generator" content={Astro.generator} />
 
 		<title>{(title ? title + ' @ ' : '') + 'thinliquid\'s [studio]'}</title>
-    <meta name="description" content={description ?? 'thinliquid\'s [studio]'} />
+        <meta name="description" content={description ?? 'thinliquid\'s [studio]'} />
 
-    <link rel="icon" type="image/png" href="/icon.png" />
+        <link rel="icon" type="image/png" href="/icon.png" />
 		<link rel="stylesheet" href="https://webring.nekoweb.org/onionring.css" />
 
-		<ClientRouter />
 	</head>
 	<body>
     <slot />
-    
+
     <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js" is:inline></script>
 		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
   </body>
@@ -38,55 +37,53 @@ const { title, description } = Astro.props
   @import url('https://raw.githubusercontent.com/iosevka-webfonts/iosevka-term/refs/heads/main/iosevka-term.css');
 
   :root {
-    /* Utility */
-    --color-dark: #0A0A0A;
-    --color-white: #FFFFFF;
+    --color-shade0: #00040a;
+    --color-shade1: #1c2229;
+    --color-shade2: #393f47;
+    --color-shade3: #555d66;
+    --color-shade4: #727b84;
+    --color-shade5: #8e99a3;
+    --color-shade6: #abb6c1;
+    --color-shade7: #c7d4e0;
+    --color-accent0: #ff3437;
+    --color-accent1: #ff8234;
+    --color-accent2: #ffd034;
+    --color-accent3: #6df95a;
+    --color-accent4: #31dcfa;
+    --color-accent5: #3760ee;
+    --color-accent6: #f95af7;
+    --color-accent7: #9c3aff;
 
-    /* Neutral */
-    --color-base: #141414;
-    --color-surface-0: #292929;
-    --color-surface-1: #525252;
-    --color-subtext-0: #828287;
-    --color-subtext-1: #9A9A9E;
-    --color-text: #CBCBCD;
-
-    /* Color */
-    --color-red: #F23F4F;
-    --color-orange: #EE6748;
-    --color-yellow: #FA9F50;
-    --color-green: #52EEA3;
-    --color-cyan: #51E1E9;
-    --color-blue: #437CF3;
-    --color-purple: #6F51F4;
-    --color-pink: #E54F9B;
-
-    --color-primary: var(--color-green);
-
-    --font-interface: 'IosevkaTerm Nerd Font', 'Iosevka Term Web', monospace;
-    --font-readable: 'Alte Haas Grotesk', 'Neue Haas Grotesk', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-
-    interpolate-size: allow-keywords;
+    --color-primary: var(--color-accent5);
+    --color-secondary: var(--color-accent4);
+    --color-tertiary: var(--color-accent6);
 
     --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.9);
+
+    --font-monospace: monospace;
+    --font-interface: 'IosevkaTerm Nerd Font', 'Iosevka Term Web', monospace;
+    --font-readable: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+
+    font-size: 18px;
   }
 
   * {
     box-sizing: border-box;
 
     &::selection {
-      background: var(--color-green);
-      color: var(--color-base);
+      background: var(--color-tertiary);
+      color: var(--color-shade0);
     }
   }
 
   html, body {
-    background: var(--color-base);
-    color: var(--color-text);
+    background: var(--color-shade0);
+    color: var(--color-shade7);
     font-family: var(--font-readable);
     scrollbar-width: none;
   }
 
   body {
-    margin: 16px;
+      margin: 16px;
   }
 </style>

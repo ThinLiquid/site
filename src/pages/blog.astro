@@ -1,6 +1,6 @@
 ---
-import BlogPost from '../components/BlogPost.astro';
 import Layout from '../layouts/Layout.astro'
+import Card from '../components/Card.astro'
 const allPosts = Object.values(import.meta.glob('./posts/*.mdx', { eager: true }));
 ---
 
@@ -8,5 +8,12 @@ const allPosts = Object.values(import.meta.glob('./posts/*.mdx', { eager: true }
 <Layout title="blog" reactive={false}>
   <h1>blog</h1>
   <p>just my little programming blog (i probably wont update this a lot)</p>
-  {allPosts.reverse().map((post: any) => <BlogPost post={post} />)}
+  <table>
+      {allPosts.reverse().map((post: any) => (
+      <Card href={post.url}>
+          <b>{post.frontmatter.title}</b><br/>
+          {new Date(post.frontmatter.pubDate).toDateString()} • {post.frontmatter.description}
+      </Card>
+      ))}
+  </table>
 </Layout>

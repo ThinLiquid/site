@@ -4,17 +4,13 @@ import RootLayout from "../layouts/RootLayout.astro";
 
 <RootLayout>
     <div class="centered">
-      <div class="show-later" style="text-align:right;animation-delay: 1s;">
-        <small>note: this site is best viewed a Chromium-based browser</small>
-        <br/>
-        <small>there's also autoplaying music...</small>
-      </div>
-      <h1 style="margin:0;" transition:name="title">
-        thinliquid's [studio]
-      </h1>
-      <div class="show-later" style="animation-delay: 2s;">
+        <div style="text-align:right;">
+            <small>i don't even know what to put here anymore fml</small>
+        </div>
+        <h1 style="margin:0;">
+            thinliquid's [studio]
+        </h1>
         <a href="/home">➤ enter the [studio]</a>
-      </div>
     </div>
 
     <img src="/logo.png" class="logo" transition:name="logo" draggable="false">
@@ -39,14 +35,6 @@ import RootLayout from "../layouts/RootLayout.astro";
   .logo {
     opacity: 0.05;
     z-index: -1;
-  }
-
-  .show-later {
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-
-    animation: open .4s forwards var(--bounce);
   }
 
   @keyframes open {
