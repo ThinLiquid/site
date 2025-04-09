@@ -60,16 +60,15 @@ import { createButtonString } from '../util';
 
 <style lang="scss">
 @keyframes up {
-    0% { transform: translateY(5px); text-decoration-color: var(--color-accent5); }
-    50% { transform: translateY(-5px) rotate(0deg) scale(0.9, 1.2); text-decoration-color: var(--color-accent3); }
-    100% { transform: translateY(5px); text-decoration-color: var(--color-accent5); }
+    0% { transform: translateY(0px); text-decoration-color: var(--color-accent5); }
+    50% { transform: translateY(-15px) rotate(0deg) scale(0.9, 1.2); text-decoration-color: var(--color-accent3); }
+    100% { transform: translateY(0px); text-decoration-color: var(--color-accent5); }
 }
 
 .name {
     @for $i from 1 through 10 {
       .letter:nth-child(#{$i}) {
         display: inline-block;
-        transform: translateY(5px);
         animation: 2s up infinite;
         animation-delay: calc(#{$i} * 100ms);
         text-decoration: var(--color-accent5) 5px underline;
