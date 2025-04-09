@@ -1,7 +1,5 @@
 ---
 import Layout from "./Layout.astro";
-
-const date = new Date(Astro.props.frontmatter.pubDate)
 ---
 {/* @ts-ignore */}
 <Layout title={`${Astro.props.frontmatter.title} | blog`} description={Astro.props.frontmatter.description} reactive={false}>
