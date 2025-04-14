@@ -17,11 +17,10 @@ const { title, description } = Astro.props
 		<meta name="generator" content={Astro.generator} />
 
 		<title>{(title ? title + ' @ ' : '') + 'thinliquid\'s [studio]'}</title>
-        <meta name="description" content={description ?? 'thinliquid\'s [studio]'} />
+    <meta name="description" content={description ?? 'thinliquid\'s [studio]'} />
 
-        <link rel="icon" type="image/png" href="/icon.png" />
+    <link rel="icon" type="image/png" href="/icon.png" />
 		<link rel="stylesheet" href="https://webring.nekoweb.org/onionring.css" />
-
 	</head>
 	<body>
     <slot />
@@ -35,20 +34,20 @@ const { title, description } = Astro.props
   @import url('https://raw.githubusercontent.com/iosevka-webfonts/iosevka-term/refs/heads/main/iosevka-term.css');
 
   :root {
-    --color-shade0: #00040a;
-    --color-shade1: #1c2229;
-    --color-shade2: #393f47;
-    --color-shade3: #555d66;
-    --color-shade4: #727b84;
-    --color-shade5: #8e99a3;
-    --color-shade6: #abb6c1;
-    --color-shade7: #c7d4e0;
+		--color-shade0: hsl(240deg, 100%, 2%);
+		--color-shade1: hsl(240deg, 50%, 10%);
+		--color-shade2: hsl(240deg, 15%, 18%);
+		--color-shade3: hsl(240deg, 12.5%, 26%);
+		--color-shade4: hsl(240deg, 10%, 48%);
+		--color-shade5: hsl(240deg, 9%, 64%);
+		--color-shade6: hsl(240deg, 8%, 80%);
+		--color-shade7: hsl(240deg, 0%, 96%);
     --color-accent0: #ff3437;
     --color-accent1: #ff8234;
     --color-accent2: #ffd034;
     --color-accent3: #6df95a;
-    --color-accent4: #31dcfa;
-    --color-accent5: #3760ee;
+		--color-accent4: hsl(200deg, 100%, 70%);
+		--color-accent5: hsl(240deg, 100%, 70%);
     --color-accent6: #f95af7;
     --color-accent7: #9c3aff;
 
@@ -82,6 +81,6 @@ const { title, description } = Astro.props
   }
 
   body {
-      margin: 16px;
+    margin: 16px;
   }
 </style>

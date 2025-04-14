@@ -5,7 +5,7 @@ import ImageButton from '../components/ImageButton.astro'
 import { createButtonString } from '../util';
 ---
 <Layout frontmatter={{ title: 'home' }}>
-    <h1>hiya, i'm <span class="name">{'thinliquid'.split('').map(x => <span class="letter">{x}</span>)}</span>.</h1>
+<h1>hiya, i'm <span class="name">{'thinliquid'.split('').map(x => <span class="letter">{x}</span>)}</span>.</h1>
     <p><code>he/him / thnlqd@nekodisk / en_GB.UTF-8 / Europe/Paris</code></p>
     <p>i'm a 15yo front-end developer. i make cool sh*t.<br/>might become one of those privacy enthusiasts or smthn.</p>
     <h2>buttons</h2>
@@ -65,7 +65,8 @@ import { createButtonString } from '../util';
     100% { transform: translateY(0px); text-decoration-color: var(--color-accent5); }
 }
 
-.name {
+			.name {
+				display: inline-flex;
     @for $i from 1 through 10 {
       .letter:nth-child(#{$i}) {
         display: inline-block;
