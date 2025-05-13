@@ -17,7 +17,7 @@ jobs:
         run: bun run build
 
       - name: deploy2nekoweb
-        uses: deploy2nekoweb/deploy2nekoweb@main
+        uses: deploy2nekoweb/deploy2nekoweb@dev
         with:
           nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
           nekoweb-cookie: ${{ secrets.NEKOWEB_TOKEN }}
