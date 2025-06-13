@@ -41,7 +41,7 @@ const commit = getGitInfo() // fein
     <div class="container">
       <nav>
         <div>
-          <a href="/" style={{
+          <a href="/" class="logo" style={{
             textDecoration: 'none',
             color: 'var(--color-text)',
             display: 'flex', gap: '16px', justifyContent: 'center'
@@ -70,7 +70,7 @@ const commit = getGitInfo() // fein
 
       <footer>
           <span><span>&copy; {new Date().getFullYear()} ThinLiquid</span></span>
-          <span><span>⣿ <a href={`https://github.com/ThinLiquid/site/commits/${commit.commitHash}`}>{commit.commitHash.slice(0, 7)}</a></span></span>
+          <span><span>➜ <a href={`https://github.com/ThinLiquid/site/commits/${commit.commitHash}`}>{commit.commitHash.slice(0, 7)}</a></span></span>
           <span><span>made with bun and astro, hosted on nekoweb</span></span>
       </footer>
     </div>
@@ -80,26 +80,41 @@ const commit = getGitInfo() // fein
 
 	a {
   	color: var(--color-primary);
-	}
+	} 
+
+  .content {
+    animation: show .75s var(--bounce);
+  }
+
+  @keyframes show {
+    0% { opacity: 0; transform: translateY(-40px) }
+    100% { opacity: 1; }
+  }
 
 	.content, nav {
 		a {
 			cursor: crosshair;
-			&:hover { color: var(--color-tertiary) }
-		}
+      &:hover { color: var(--color-tertiary) }
+      transition: outline .2s, color .2s, scale .2s var(--bounce);
+    }
 
-  	table a:hover {
-      outline: 1px solid var(--color-tertiary);
+    table a {
+      outline: 1px solid transparent;
       outline-offset: 8px;
+    }
+
+    table a:hover {
+      display: block;
+      outline: 1px solid var(--color-tertiary);
       text-decoration: underline;
 
       * { color: var(--color-tertiary);}
   	}
-	}
+  }
 
-	.container {
-  	border: 1px solid var(--color-shade2);
-  	scrollbar-width: none;
+  .container {
+    scrollbar-width: none;
+    border: 1px solid var(--color-shade2);
   	display: flex;
   	flex-direction: column;
 
@@ -113,24 +128,61 @@ const commit = getGitInfo() // fein
     	justify-content: space-between;
     	top: 16px;
     	z-index: 6969;
-    	border-bottom: 1px solid var(--color-shade2);
+    	outline: 1px solid var(--color-shade2);
     	padding: 16px 16px;
-    	top: 0;
     	left: 0;
     	gap: 16px;
     	height: max-content;
     	background: color-mix(in oklab, var(--color-shade0), transparent 25%);
-    	backdrop-filter: blur(20px) saturate(00%);
+      backdrop-filter: blur(20px) saturate(00%);
+
+      &::before {
+        content: '';
+        background: var(--color-shade0);
+        position: absolute;
+        top: -18px;
+        left: 0px;
+        height: 16px;
+        outline: 1px solid var(--color-shade0);
+        width: 100%;
+      }
 
     	justify-content: space-between;
-    	align-items: center;
+      align-items: center;
+
+      .logo {
+        opacity: 0;
+        --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.2);
+        animation: .35s pop forwards var(--bounce);
+        animation-delay: 1s;
+      }
+
+      @keyframes pop {
+        0% { scale: 0; opacity: 0; color: var(--color-primary); }
+        100% { scale: 1; opacity: 1; }
+      }
 
     	ul {
       	display: flex;
       	gap: 10px;
       	list-style: none;
       	padding: 0;
-      	margin: 0;
+        margin: 0;
+ 
+        @for $i from 1 through 10 {
+          li:nth-child(#{$i}) {
+            opacity: 0;
+            margin-top: -30px;
+            animation: down 1s forwards;
+            animation-delay: calc(#{$i} * 0.05s)
+          }
+        }
+
+        @keyframes down {
+          0% { margin-top: -30px; opacity: 0; scale: 0.4;  } 
+          75% { scale: 1.05; text-shadow: 0 3px 5px black; }
+          100% { margin-top: 0; opacity: 1; scale: 1; }
+        }
 
       	li {
         	white-space: nowrap;
@@ -143,7 +195,7 @@ const commit = getGitInfo() // fein
     	flex: 1;
     	scrollbar-width: none;
 
-    	.content {
+      .content {
         padding: 32px;
     	}
   	}
@@ -151,11 +203,19 @@ const commit = getGitInfo() // fein
 
 	del { color: var(--color-accent2); }
 	strong, b { color: var(--color-accent3); }
-	em, i { color: var(--color-accent4); }
+  em, i { color: var(--color-accent4); }
+
+  textarea, input {
+    background: var(--color-shade0);
+    color: var(--color-shade7);
+    border: 1px solid var(--color-shade3);
+    width: 100%;
+  }
 
 	footer {
     background: var(--color-shade1);
-  	font-family: var(--font-monospace);
+    font-family: var(--font-monospace);
+    font-size: 16px;
 
   	& > span {
       span {
@@ -174,7 +234,7 @@ const commit = getGitInfo() // fein
       }
 
       &::after {
-        content: '';
+        content: '▒';
         color: var(--bg);
         background: var(--next);
       }

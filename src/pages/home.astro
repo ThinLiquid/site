@@ -71,12 +71,22 @@ import { createButtonString } from '../util';
     @for $i from 1 through 10 {
       .letter:nth-child(#{$i}) {
         display: inline-block;
-        animation: 2s up infinite;
+        animation: 2s up infinite var(--bounce);
         animation-delay: calc(#{$i} * 100ms);
         text-decoration: var(--color-accent5) 5px underline;
         text-underline-offset: 10px;
         transform-origin: center;
       }
+    }
+
+    .letter {
+      transition: scale .5s var(--bounce), margin .25s var(--bounce);
+      cursor: zoom-in;
+    }
+
+    .letter:hover {
+      scale: 1.2;
+      margin: 0 1px;
     }
 }
 

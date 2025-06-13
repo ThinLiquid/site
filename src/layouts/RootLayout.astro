@@ -29,27 +29,27 @@ const { title, description } = Astro.props
 		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
   </body>
 </html>
-<style is:global>
-  @import url('https://fonts.cdnfonts.com/css/neue-haas-grotesk');
-  @import url('https://raw.githubusercontent.com/iosevka-webfonts/iosevka-term/refs/heads/main/iosevka-term.css');
+<style is:global> 
+  @import url('https://fonts.cdnfonts.com/css/switzer');
+  @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
 
   :root {
-		--color-shade0: hsl(240deg, 100%, 2%);
-		--color-shade1: hsl(240deg, 50%, 10%);
-		--color-shade2: hsl(240deg, 15%, 18%);
-		--color-shade3: hsl(240deg, 12.5%, 26%);
-		--color-shade4: hsl(240deg, 10%, 48%);
-		--color-shade5: hsl(240deg, 9%, 64%);
-		--color-shade6: hsl(240deg, 8%, 80%);
-		--color-shade7: hsl(240deg, 0%, 96%);
-    --color-accent0: #ff3437;
-    --color-accent1: #ff8234;
+		--color-shade0: #040A12;
+		--color-shade1: #1B222A;
+		--color-shade2: #363D44;
+		--color-shade3: #545A60;
+		--color-shade4: #73787E;
+		--color-shade5: #94989D;
+		--color-shade6: #B7B9BC;
+		--color-shade7: #DADCDD;
+    --color-accent0: #D6281E;
+    --color-accent1: #FF7920;
     --color-accent2: #ffd034;
-    --color-accent3: #6df95a;
-		--color-accent4: hsl(200deg, 100%, 70%);
-		--color-accent5: hsl(240deg, 100%, 70%);
-    --color-accent6: #f95af7;
-    --color-accent7: #9c3aff;
+    --color-accent3: #6DFFA7;
+		--color-accent4: #6DFFFD;
+		--color-accent5: #6DACFF;
+    --color-accent6: #FF6DAF;
+    --color-accent7: #A366D3;
 
     --color-primary: var(--color-accent5);
     --color-secondary: var(--color-accent4);
@@ -58,8 +58,8 @@ const { title, description } = Astro.props
     --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.9);
 
     --font-monospace: monospace;
-    --font-interface: 'IosevkaTerm Nerd Font', 'Iosevka Term Web', monospace;
-    --font-readable: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    --font-interface: 'Geist Mono', monospace;
+    --font-readable: 'Switzer', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 
     font-size: 18px;
   }

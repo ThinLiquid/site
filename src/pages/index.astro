@@ -5,7 +5,7 @@ import RootLayout from "../layouts/RootLayout.astro";
 <RootLayout>
     <div class="centered">
         <div style="text-align:right;">
-            <small>i don't even know what to put here anymore fml</small>
+            <small>this site contains a f*ck ton of css animations</small>
         </div>
         <h1 style="margin:0;">
             thinliquid's [studio]
@@ -35,6 +35,14 @@ import RootLayout from "../layouts/RootLayout.astro";
   .logo {
     opacity: 0.05;
     z-index: -1;
+    transform-origin: center center;
+    animation: rotate 2s infinite var(--bounce);
+  }
+
+  @keyframes rotate {
+    0% { transform: translate(-50%, -50%) scale(0.9) }
+    50% { transform: translate(-50%, -50%) scale(1) }
+    100%  { transform: translate(-50%, -50%) scale(0.9) }
   }
 
   @keyframes open {
