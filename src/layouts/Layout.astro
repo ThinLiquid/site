@@ -77,17 +77,16 @@ const commit = getGitInfo() // fein
 </RootLayout>
 
 <style is:global lang="scss">
-
 	a {
   	color: var(--color-primary);
 	} 
 
   .content {
-    animation: show .75s var(--bounce);
+    animation: show 2s var(--bounce);
   }
 
   @keyframes show {
-    0% { opacity: 0; transform: translateY(-40px) }
+    0% { opacity: 0; }
     100% { opacity: 1; }
   }
 
@@ -172,16 +171,15 @@ const commit = getGitInfo() // fein
         @for $i from 1 through 10 {
           li:nth-child(#{$i}) {
             opacity: 0;
-            margin-top: -30px;
             animation: down 1s forwards;
             animation-delay: calc(#{$i} * 0.05s)
           }
         }
 
         @keyframes down {
-          0% { margin-top: -30px; opacity: 0; scale: 0.4;  } 
+          0% { transform: translateY(-50px); opacity: 0; scale: 0.4;  } 
           75% { scale: 1.05; text-shadow: 0 3px 5px black; }
-          100% { margin-top: 0; opacity: 1; scale: 1; }
+          100% { transform: translateY(0); opacity: 1; scale: 1; }
         }
 
       	li {

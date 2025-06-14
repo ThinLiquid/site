@@ -49,14 +49,10 @@ import { createButtonString } from '../util';
         <script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
         <script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
     </div>
-    <webring-container>
-        <config key="type" value="catppuccin-mocha"></config>
-        <config key="font" value="Neue Haas Grotesk, Helvetica Neue, Helvetica, Arial, sans-serif"></config>
-        <config key="fill" value="true"></config>
-
-        <script is:inline type="text/javascript" src="https://palette.nekoweb.org/webring.js"></script>
-    </webring-container>
-    <iframe id="bucket-webring" style="height: 3rem; border: none;width:100%;" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
+    <div id="palettewebring">
+        <script is:inline type="text/javascript" src="https://palette.nekoweb.org/pmoring.js" data-type="catppuccin-mocha"></script>
+    </div>
+    <iframe id="bucketwebring" style="height: 3rem; border: none;width:100%;" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
 </Layout>
 
 <style lang="scss">
