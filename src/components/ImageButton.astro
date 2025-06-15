@@ -3,16 +3,18 @@ interface Props {
   url: string
   href?: string
   alt: string
+  style?: string
   [key: string]: any
 }
 
-const { url, href, alt, ...props } = Astro.props
+const { url, href, alt, style, ...props } = Astro.props
 ---
-<a href={href} {...props}>
-  <img src={url} alt={alt} data-tooltip={alt} />
+<a href={href} {...props} style={style}>
+  <img src={url} alt={alt} data-tooltip={alt} style={style} />
 </a>
 
 <style>
+  img { image-rendering: pixelated; }
   a {
     text-decoration: none;
     padding: 0!important;
@@ -23,10 +25,11 @@ const { url, href, alt, ...props } = Astro.props
     &:hover {
       background: none!important;
       scale: 1.2;
+      z-index: 1000;
       
       img {
         filter: none!important;
-        image-rendering: pixelated;
+        
       }
     }
   }

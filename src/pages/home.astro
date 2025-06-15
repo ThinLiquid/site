@@ -9,25 +9,50 @@ import { createButtonString } from '../util';
     <p><code>he/him - thnlqd@nekodisk - en_GB.UTF-8 - Europe/Paris</code></p>
     <p>i'm a 15yo front-end developer. i make cool sh*t.<br/>might become one of those privacy enthusiasts or smthn.</p>
     <h2>buttons</h2>
-    <fieldset>
-        <legend>my button</legend>
-        <div>
-            <ImageButton alt="my button" url="https://thinliquid.dev/thnlqd.png" /><br/>
-            <textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+    <span class="win7" style="display:flex;flex-direction:column;margin:auto;gap:8px;">
+      <div class="window active"> 
+        <div class="title-bar">
+          <div class="title-bar-text">add my button!!</div>
+          <div class="title-bar-controls">
+            <button aria-label="Minimize"></button>
+            <button aria-label="Maximize" disabled></button>
+            <button aria-label="Close"></button>
+          </div>
         </div>
-    </fieldset>
+        <div class="window-body has-space">
+          <div style="display:flex;gap:8px;">
+            <ImageButton alt="my button" url="https://thinliquid.dev/thnlqd.png" style="width:100%;aspect-ratio:88/31;" /> 
+            <ImageButton alt="my button" url="https://thinliquid.dev/thnlqd-old.png" style="width:100%;aspect-ratio:88/31;" /> 
+          </div>
+          <textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+          <textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd-old.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+        </div>
+      </div>
+      <div class="window active"> 
+        <div class="title-bar">
+          <div class="title-bar-text">other buttons</div>
+          <div class="title-bar-controls">
+            <button aria-label="Minimize"></button>
+            <button aria-label="Maximize" disabled></button>
+            <button aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="window-body has-space" style="height:max-content">
+          <ImageButton alt="nekoweb.org button" href="https://nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/nekoweb12.gif" />
+          <ImageButton alt="arch linux button" href="https://archlinux.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" />
+          <ImageButton alt="max's apartment button" href="https://max.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/maxpixels.gif" />
+          <ImageButton alt="giiki's lair button" href="https://giikis2.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/giikis2.png" />
+          <ImageButton alt="bomberfish.ca button" href="https://bomberfish.ca" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/bomberfish.gif" />
+          <ImageButton alt="joosh's button" href="https://joo.sh/" url="https://files.joo.sh/img/buttons/icon.gif" />
+          <ImageButton alt="eyeorb's button" href="https://eyeorb.net" url="https://eyeorb.net/site_button.gif" />
+          <ImageButton alt="rice's button" href="https://rice.place" url="https://rice.nekoweb.org/button/riceplace.png" />
+	        <ImageButton alt="madjikware's button" href="https://madjikware.com" url="https://madjikware.com/img/mj.png" />
+        </div>
+      </div>   
+    </span>
     <br/>
     <div class="padded">
-        <ImageButton alt="nekoweb.org button" href="https://nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/nekoweb12.gif" />
-        <ImageButton alt="arch linux button" href="https://archlinux.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" />
-        <ImageButton alt="max's apartment button" href="https://max.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/maxpixels.gif" />
-        <ImageButton alt="giiki's lair button" href="https://giikis2.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/giikis2.png" />
-        <ImageButton alt="bomberfish.ca button" href="https://bomberfish.ca" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/bomberfish.gif" />
-        <ImageButton alt="joosh's button" href="https://joo.sh/" url="https://files.joo.sh/img/buttons/icon.gif" />
-        <ImageButton alt="eyeorb's button" href="https://eyeorb.net" url="https://eyeorb.net/site_button.gif" />
-        <ImageButton alt="rice's button" href="https://rice.place" url="https://rice.nekoweb.org/button/riceplace.png" />
-	<ImageButton alt="madjikware's button" href="https://madjikware.com" url="https://madjikware.com/img/mj.png" />
-    </div>
+       </div>
     <h2>projects</h2>
     <table>
         <Card href="https://github.com/indiefellas/deploy2nekoweb">

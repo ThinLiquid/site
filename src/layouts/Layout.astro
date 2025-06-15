@@ -4,6 +4,8 @@ import NavItem from '../components/NavItem.astro';
 import RootLayout, { type Props as RootProps } from './RootLayout.astro';
 import { slide } from 'astro:transitions';
 
+import "7.css/dist/7.scoped.css"
+
 interface Props extends RootProps {
   frontmatter: {
     title?: string
@@ -83,6 +85,7 @@ const commit = getGitInfo() // fein
 
   .content {
     animation: show 2s var(--bounce);
+    overflow-x: hidden;
   }
 
   @keyframes show {
@@ -116,8 +119,7 @@ const commit = getGitInfo() // fein
     border: 1px solid var(--color-shade2);
   	display: flex;
   	flex-direction: column;
-
-  	max-width: 1000px;
+  	max-width: 900px;
   	min-height: 500px;
 		margin: auto;
 
@@ -125,7 +127,7 @@ const commit = getGitInfo() // fein
     	display: flex;
     	position: sticky;
     	justify-content: space-between;
-    	top: 16px;
+    	top: 0;
     	z-index: 6969;
     	outline: 1px solid var(--color-shade2);
     	padding: 16px 16px;
@@ -134,17 +136,6 @@ const commit = getGitInfo() // fein
     	height: max-content;
     	background: color-mix(in oklab, var(--color-shade0), transparent 25%);
       backdrop-filter: blur(20px) saturate(00%);
-
-      &::before {
-        content: '';
-        background: var(--color-shade0);
-        position: absolute;
-        top: -18px;
-        left: 0px;
-        height: 16px;
-        outline: 1px solid var(--color-shade0);
-        width: 100%;
-      }
 
     	justify-content: space-between;
       align-items: center;
@@ -369,5 +360,9 @@ const commit = getGitInfo() // fein
       	flex-wrap: wrap;
     	}
   	}
-	}
+  }
+
+  .win7 textarea {
+    color: black;
+  } 
 </style>
