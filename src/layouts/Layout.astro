@@ -66,7 +66,7 @@ const commit = getGitInfo() // fein
       </main>
     </div>
 
-    <footer>
+    <footer style={{ display: 'flex', flexWrap: 'wrap' }}>
       <span><span>&copy; {new Date().getFullYear()} ThinLiquid</span></span>
       <span><span>➜ <a href={`https://github.com/ThinLiquid/site/commits/${commit.commitHash}`}>{commit.commitHash.slice(0, 7)}</a></span></span>
       <span><span>made with bun and astro, hosted on nekoweb</span></span>
