@@ -7,11 +7,10 @@ import { slide } from 'astro:transitions';
 import "7.css/dist/7.scoped.css"
 
 interface Props extends RootProps {
-  frontmatter: {
+  frontmatter?: {
     title?: string
     description?: string
   }
-  reactive?: boolean
 }
 
 const { title, description } = Astro.props;
@@ -35,47 +34,47 @@ const getGitInfo = () => {
 
 const commit = getGitInfo() // fein
 ---
+<RootLayout title={title ?? _title ?? ''} description={description ?? _description ?? ''}>
+  <div class="tooltip" transition:persist></div>
 
-{/* @ts-ignore */}
-<RootLayout title={title ?? _title} description={description ?? _description}>
-    <div class="tooltip" transition:persist></div>
-
-    <div class="container">
-      <nav>
-        <div>
-          <a href="/" class="logo" style={{
-            textDecoration: 'none',
-            color: 'var(--color-text)',
-            display: 'flex', gap: '16px', justifyContent: 'center'
-          }}>
-              <img src="/icon.png" height="32" width="32" alt="thinliquid's logo">
-                <h2 style={{ fontFamily: 'var(--font-readable)', margin: '0', lineHeight: '32px' }} transition:name="title">
-                thinliquid's [studio]
-                </h2>
-          </a>
-        </div>
-        <ul>
-          <NavItem tooltip="home" color="sapphire" href="/home">home</NavItem>
-          <NavItem tooltip="cool stuff i use" color="sky" href="/resources">resources</NavItem>
-          <NavItem tooltip="read my ramblings" color="teal" href="/blog">blog</NavItem>
-          <NavItem tooltip="commissions" color="yellow" href="/commissions" small={true}>commissions</NavItem>
-          <NavItem tooltip="send me a message" color="green" href="https://thnlqd.atabook.org" small={true}>guestbook</NavItem>
-          <NavItem tooltip="follow me on nekoweb" color="yellow" href="https://nekoweb.org/follow/thnlqd" small={true}>[+]</NavItem>
-        </ul>
-      </nav>
-
-      <div class="some-shitty-class-name-here">
-        <main class="content" transition:animate={slide({ duration: '1s' })}>
-          <div><slot/></div>
-        </main>
+  <div class="container">
+    <nav>
+      <div>
+        <a href="/" class="logo" style={{
+          textDecoration: 'none',
+          color: 'var(--color-text)',
+          display: 'flex',
+          gap: '16px',
+          justifyContent: 'center'
+        }}>
+          <img src="/icon.png" height="32" width="32" alt="thinliquid's logo">
+          <h2 style={{ fontFamily: 'var(--font-readable)', margin: '0', lineHeight: '32px' }} transition:name="title">
+            thinliquid's [studio]
+          </h2>
+        </a>
       </div>
+      <ul>
+        <NavItem tooltip="home" color="sapphire" href="/home">home</NavItem>
+        <NavItem tooltip="cool stuff i use" color="sky" href="/resources">resources</NavItem>
+        <NavItem tooltip="read my ramblings" color="teal" href="/blog">blog</NavItem>
+        <NavItem tooltip="commissions" color="yellow" href="/commissions" small={true}>commissions</NavItem>
+        <NavItem tooltip="send me a message" color="green" href="https://thnlqd.atabook.org" small={true}>guestbook</NavItem>
+        <NavItem tooltip="follow me on nekoweb" color="yellow" href="https://nekoweb.org/follow/thnlqd" small={true}>[+]</NavItem>
+      </ul>
+    </nav>
 
-      <footer>
-          <span><span>&copy; {new Date().getFullYear()} ThinLiquid</span></span>
-          <span><span>➜ <a href={`https://github.com/ThinLiquid/site/commits/${commit.commitHash}`}>{commit.commitHash.slice(0, 7)}</a></span></span>
-          <span><span>made with bun and astro, hosted on nekoweb</span></span>
-      </footer>
+    <div class="some-shitty-class-name-here">
+      <main class="content">
+        <div><slot/></div>
+      </main>
     </div>
+
+    <footer>
+      <span><span>&copy; {new Date().getFullYear()} ThinLiquid</span></span>
+      <span><span>➜ <a href={`https://github.com/ThinLiquid/site/commits/${commit.commitHash}`}>{commit.commitHash.slice(0, 7)}</a></span></span>
+      <span><span>made with bun and astro, hosted on nekoweb</span></span>
+    </footer>
+  </div>
 </RootLayout>
 
 <style is:global lang="scss">

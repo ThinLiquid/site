@@ -1,23 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro'
+
 const allLogos = await Astro.glob('../../public/assets/logos/*.png');
 ---
-
-{/* @ts-ignore */}
-<Layout title="commissions" reactive={false}>
+<Layout title="commissions"> 
   <h1>commissions</h1>
+
   <p>i make cool logos <small>(they kind of speak for themselves)</small>.</p>
+
   <blockquote>
     expect them to arrive in around a week
   </blockquote>
+
   <p>i have some previews below:</p>
+
   {allLogos.map(x => <img src={x.default.src} width="200">)}
+
   <h2>contact me</h2>
+
   <p>you can contact me at:</p>
   <ul>
     <li>discord: @thnlqd</li>
     <li>email: thnlqd@gmail.com</li>
   </ul>
+
   <h2>payment methods</h2>
+
   <p>as of now, i can only take PayPal (Friends & Family)</p>
 </Layout>
