@@ -30,8 +30,8 @@ const { title, description, hue } = Astro.props
 	<body>
     <slot />
 
-    <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js" is:inline></script>
-		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+    <script data-collect-dnt="true" async src="https://anal.thinliquid.dev/latest.js"></script>
+    <noscript><img src="https://anal.thinliquid.dev/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
   </body>
 </html>
 <style is:global define:vars={{
