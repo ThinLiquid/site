@@ -1,17 +1,15 @@
 ---
 import { execSync } from 'child_process'
-import NavItem from '../components/NavItem.astro';
-import RootLayout, { type Props as RootProps } from './RootLayout.astro';
+import RootLayout from './RootLayout.astro';
+import { Icon } from 'astro-icon/components';
 
-interface Props extends RootProps {
-  frontmatter?: {
-    title?: string
-    description?: string
-  }
+interface Props {
+	title?: string
+	description?: string
+	hue: number
 }
 
-const { title, description } = Astro.props;
-const { title: _title, description: _description } = Astro.props.frontmatter ?? { title: null, description: null }
+const { title, description, hue } = Astro.props
 
 const getGitInfo = () => {
   try {
@@ -31,334 +29,66 @@ const getGitInfo = () => {
 
 const commit = getGitInfo() // fein
 ---
-<RootLayout title={title ?? _title ?? ''} description={description ?? _description ?? ''}>
-  <div class="tooltip" transition:persist></div>
+<RootLayout title={title} description={description} hue={hue}>
+	<div style={{
+		position: 'relative',
+		zIndex: 10,
+		margin: '0 auto',
+    maxWidth: '500px',
+    width: '100%',
+    padding: '0 16px',
+		display: 'flex',
+    flexDirection: 'column',
+    gap: '8px'
+	}}>
+		<div style={{ display: 'flex', gap: '8px', alignItems: 'center', margin: '16px 0' }}>
+			<img src="/icon.png" style={{ height: '1.5rem', width: 'auto', aspectRatio: '1/1', userSelect: 'none', filter: `hue-rotate(${hue + 180}deg)` }} draggable="false">
+			<h2 style={{ display: 'inline-block', margin: 0 }}>thinliquid's [studio]</h2>
+		</div>
+		<slot/>
+	</div>
 
-  <div class="container">
-    <nav>
-      <div>
-        <a href="/" class="logo" style={{
-          textDecoration: 'none',
-          color: 'var(--color-text)',
-          display: 'flex',
-          gap: '16px',
-          justifyContent: 'center'
-        }}>
-          <img src="/icon.png" height="32" width="32" alt="thinliquid's logo">
-          <h2 style={{ fontFamily: 'var(--font-readable)', margin: '0', lineHeight: '32px' }} transition:name="title">
-            thinliquid's [studio]
-          </h2>
-        </a>
-      </div>
-      <ul>
-        <NavItem tooltip="home" color="sapphire" href="/home">home</NavItem>
-        <NavItem tooltip="cool stuff i use" color="sky" href="/resources">resources</NavItem>
-        <NavItem tooltip="read my ramblings" color="teal" href="/blog">blog</NavItem>
-        <NavItem tooltip="commissions" color="yellow" href="/commissions" small={true}>commissions</NavItem>
-        <NavItem tooltip="send me a message" color="green" href="https://thnlqd.atabook.org" small={true}>guestbook</NavItem>
-        <NavItem tooltip="follow me on nekoweb" color="yellow" href="https://nekoweb.org/follow/thnlqd" small={true}>[+]</NavItem>
-      </ul>
-    </nav>
+	<div class="blur" />
 
-    <div class="some-shitty-class-name-here">
-      <main class="content">
-        <div><slot/></div>
-      </main>
-    </div>
-
-    <footer style={{ display: 'flex', flexWrap: 'wrap' }}>
-      <span><span>&copy; {new Date().getFullYear()} ThinLiquid</span></span>
-      <span><span>➜ <a href={`https://github.com/ThinLiquid/site/commits/${commit.commitHash}`}>{commit.commitHash.slice(0, 7)}</a></span></span>
-      <span><span>made with bun and astro, hosted on nekoweb</span></span>
-    </footer>
-  </div>
+	<div style={{
+		position: 'absolute',
+		right: '8px',
+		bottom: '8px'
+	}} class="meta">
+		<Icon name="pixelarticons:git-branch" /> <a href={`https://github.com/ThinLiquid/site/commits/${commit.commitHash}`}>{commit.commitHash.slice(0,7)}</a>
+	</div>
 </RootLayout>
 
-<style is:global lang="scss">
-	a {
-  	color: var(--color-primary);
-	} 
+<style lang="scss">
+	.meta {
+		opacity: 0.25;
+		transition: .4s opacity;
+		user-select: none;
 
-  .content {
-    animation: show 2s var(--bounce);
-    overflow-x: hidden;
-  }
-
-  @keyframes show {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-
-	.content, nav {
-		a {
-			cursor: crosshair;
-      &:hover { color: var(--color-tertiary) }
-      transition: outline .2s, color .2s, scale .2s var(--bounce);
-    }
-
-    table a {
-      outline: 1px solid transparent;
-      outline-offset: 8px;
-    }
-
-    table a:hover {
-      display: block;
-      outline: 1px solid var(--color-tertiary);
-      text-decoration: underline;
-
-      * { color: var(--color-tertiary);}
-  	}
-  }
-
-  .container {
-    scrollbar-width: none;
-    border: 1px solid var(--color-shade2);
-  	display: flex;
-  	flex-direction: column;
-  	max-width: 900px;
-  	min-height: 500px;
-		margin: auto;
-
-		nav {
-    	display: flex;
-    	position: sticky;
-    	justify-content: space-between;
-    	top: 0;
-    	z-index: 6969;
-    	outline: 1px solid var(--color-shade2);
-    	padding: 16px 16px;
-    	left: 0;
-    	gap: 16px;
-    	height: max-content;
-    	background: color-mix(in oklab, var(--color-shade0), transparent 25%);
-      backdrop-filter: blur(20px) saturate(00%);
-
-    	justify-content: space-between;
-      align-items: center;
-
-      .logo {
-        opacity: 0;
-        --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.2);
-        animation: .35s pop forwards var(--bounce);
-        animation-delay: 1s;
-      }
-
-      @keyframes pop {
-        0% { scale: 0; opacity: 0; color: var(--color-primary); }
-        100% { scale: 1; opacity: 1; }
-      }
-
-    	ul {
-      	display: flex;
-      	gap: 10px;
-      	list-style: none;
-      	padding: 0;
-        margin: 0;
- 
-        @for $i from 1 through 10 {
-          li:nth-child(#{$i}) {
-            opacity: 0;
-            animation: down 1s forwards;
-            animation-delay: calc(#{$i} * 0.05s)
-          }
-        }
-
-        @keyframes down {
-          0% { transform: translateY(-50px); opacity: 0; scale: 0.4;  } 
-          75% { scale: 1.05; text-shadow: 0 3px 5px black; }
-          100% { transform: translateY(0); opacity: 1; scale: 1; }
-        }
-
-      	li {
-        	white-space: nowrap;
-        	list-style: none;
-      	}
-    	}
-  	}
-
-  	.some-shitty-class-name-here {
-    	flex: 1;
-    	scrollbar-width: none;
-
-      .content {
-        padding: 32px;
-    	}
-  	}
-	}
-
-	del { color: var(--color-accent2); }
-	strong, b { color: var(--color-accent3); }
-  em, i { color: var(--color-accent4); }
-
-  textarea, input {
-    background: var(--color-shade0);
-    color: var(--color-shade7);
-    border: 1px solid var(--color-shade3);
-    width: 100%;
-  }
-
-	footer {
-    background: var(--color-shade1);
-    font-family: var(--font-monospace);
-    font-size: 16px;
-
-  	& > span {
-      span {
-        background: var(--bg);
-        color: var(--color);
-
-        &::after, &::before {
-          content: '\00a0 ';
-          background: var(--bg);
-        }
-
-        a {
-          color: var(--color);
-          text-decoration: underline;
-        }
-      }
-
-      &::after {
-        content: '▒';
-        color: var(--bg);
-        background: var(--next);
-      }
-  	}
-
-  	& > span:nth-child(1) {
-      --color: var(--color-shade0);
-    	--bg: var(--color-accent3);
-    	--next: var(--color-shade3);
-  	}
-
-  	& > span:nth-child(2) {
-    	--bg: var(--color-shade3);
-    	--next: var(--color-shade2);
-  	}
-
-  	& > span:nth-child(3) {
-    	--bg: var(--color-shade2);
-    	--next: var(--color-shade1);
-  	}
-	}
-
-
-	select {
-  	padding: 8px 8px 8px 16px;
-  	min-width: 96px;
-	}
-
-	fieldset {
-  	border: 1px solid var(--color-shade2);
-  	padding: 16px;
-  	padding-top: 8px;
-
-  	h2 {
-    	margin-top: 0;
-  	}
-
-  	legend {
-    	color: var(--color-subtext-1);
-  	}
-	}
-
-	hr { border: 1px solid var(--color-shade2); margin: 2rem 0; }
-
-	code:not(pre > code) {
-  	color: var(--color-shade5);
-	}
-
-	p, ul, ol {
-  	font-size: 16px;
-  	line-height: 24px;
-	}
-
-	h1 {
-  	font-size: 3rem;
-  	margin: 0;
-	}
-
-	h2 {
-  	font-size: 2rem;
-  	margin: 0;
-  	margin-top: 16px;
-		margin-bottom: 10px;
-	}
-
-	h3 {
-  	font-size: 1.5rem;
-  	margin: 0;
-  	margin-top: 16px;
-  	margin-bottom: 10px;
-	}
-
-	h4 {
-  	font-size: 1.25rem;
-  	margin: 0;
-  	margin-top: 16px;
-  	margin-bottom: 10px;
-	}
-
-	blockquote {
-  	border-left: 4px solid var(--color-green);
-  	margin: 0;
-		padding: 0 16px;
-	}
-
-	.astro-code {
-  	padding: 16px;
-  	border: 1px solid var(--color-shade2)
-	}
-
-	table {
-  	border-collapse: collapse;
-  	width: 100%;
-
-  	th, td {
-    	border: 1px solid var(--color-shade2);
-    	padding: 8px;
-  	}
-
-  	th { text-align: left; }
-	}
-
-	#nekowebring {
-  	padding: 0;
-
-  	table {
-    	background: transparent;
-    	border-width: 0px;
-  	}
-	}
-
-	@media screen and (max-width: 1000px) {
-		:root { font-size: 15px; }
-
-  	.some-shitty-class-name-here {
-    	flex-direction: column;
-    	overflow: scroll;
+		&:hover {
+			opacity: 0.5;
 		}
+	}
 
-  	.content {
-			padding: 16px;
+	.blur {
+		position: absolute;
+		background: var(--color-primary);
+		width: 75vw;
+		height: 50vh;
+		filter: blur(50px);
+		opacity: 0.1;
+		border-radius: 50%;
+		top: -25vh;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 0;
 
-    	& > div {
-      	max-width: none!important;
-      	width: 100%;
-    	}
-  	}
+		animation: modulate 10s infinite;
+	}
 
-  	nav {
-    	flex-wrap: wrap;
-			position: static!important;
-
-    	ul {
-      	flex-wrap: wrap;
-    	}
-  	}
-  }
-
-  .win7 textarea {
-    color: black;
-  } 
+	@keyframes modulate {
+		0% { filter: blur(50px); }
+		50% { filter: blur(100px); transform: translateX(-50%) scale3d(1.2, 2, 1.1); }
+		100% { filter: blur(50px); }
+	}
 </style>

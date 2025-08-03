@@ -20,17 +20,15 @@ const { url, href, alt, style, ...props } = Astro.props
     padding: 0!important;
     background: none!important;
     display: inline-block;
-    transition: scale .2s var(--bounce);
+    transition: transform .2s var(--bounce);
+    width: max-content;
+    font-size: 0;
 
     &:hover {
       background: none!important;
-      scale: 1.2;
+      transform: scale(1.2);
+      transform-origin: center;
       z-index: 1000;
-      
-      img {
-        filter: none!important;
-        
-      }
     }
   }
 </style>

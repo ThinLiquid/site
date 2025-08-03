@@ -17,15 +17,14 @@
     "@astrojs/svelte": "^7.0.4",
     "@types/bun": "^1.1.12",
     "astro": "5.1.9",
+    "astro-icon": "^1.1.5",
     "emoji-js": "^3.8.0",
-    "eruda": "^3.4.0",
-    "glob": "^11.0.1",
-    "music-metadata": "^10.9.0",
     "remark-twemoji": "^0.1.1",
     "svelte": "^5.20.0",
     "typescript": "^5.7.3"
   },
   "devDependencies": {
+    "@iconify-json/pixelarticons": "^1.2.2",
     "@twemoji/api": "^15.1.0",
     "sass-embedded": "^1.83.4"
   }

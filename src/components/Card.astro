@@ -1,8 +1,13 @@
-<tr><td><a href={Astro.props.href}><slot/></a></td></tr>
+<div class="card">
+  <slot/>
+</div>
 <style>
-    a {
-        color: unset;
-        text-decoration: unset;
-        display: block;
-    }
+  .card {
+    border: 1px solid var(--tint-shade7);
+    padding: 16px;
+    border-radius: 16px;
+    background: var(--tint-shade0);
+    backdrop-filter: blur(50px);
+    box-shadow: 0 5px 5px rgba(0,0,0,0.25);
+  }
 </style>

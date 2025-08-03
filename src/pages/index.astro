@@ -1,54 +1,42 @@
 ---
-import RootLayout from "../layouts/RootLayout.astro";
+import Card from "../components/Card.astro";
+import ImageButton from "../components/ImageButton.astro";
+import Layout from "../layouts/Layout.astro";
+import { Icon } from 'astro-icon/components'
 ---
-<RootLayout>
-  <div class="centered">
-    <div style="text-align:right;">
-      <small>this site contains a f*ck ton of css animations</small>
-    </div>
-    <h1 style="margin:0;">
-      thinliquid's [studio]
-    </h1>
-    <a href="/home">➤ enter the [studio]</a>
+
+<Layout hue={220}>
+  <Card>
+    <h1 style={{ margin: 0 }}>the end of an era</h1>
+    <p style={{ marginTop: 0, opacity: 0.5 }}>/ði ɛnd əv ən ˈɪərə/</p>
+    <div style={{ padding: '2px 0' }}></div>
+    <dl>
+      <dt style={{ opacity: 0.5 }}>phrase</dt>
+      <dd>
+        a time after which things are different from before in an important way.
+        <blockquote style={{ opacity: 0.5 }}>"The fall of the Berlin wall marked the end of an era."</blockquote>
+      </dd>
+    </dl>
+    <hr/>
+    <p>
+      <small><Icon name="pixelarticons:open" /> <a href="https://dictionary.cambridge.org/dictionary/english/end-of-an-era">Cambridge Dictionary</a></small>
+    </p>
+  </Card>
+  <p style={{ opacity: 0.5 }}>
+    <b>thinliquid's [studio]</b> will be closed for a while.<br/>
+    stay tuned, <i>something</i> is in the works.<a href="/era.txt" style={{ textDecoration: 'none', color: 'var(--color-primary)' }}>*</a>
+  </p>
+  <div style={{ display: 'flex', gap: '8px' }}>
+    <ImageButton href="https://thinliquid.dev" url="/thinlqd.webp" alt="thinliquid's button" />
+    <ImageButton href="https://thinliquid.dev" url="/thnlqd-old.png" alt="thinliquid's button" />
+    <ImageButton href="https://thinliquid.dev" url="/thnlqd.png" alt="thinliquid's button" />
+    <span style={{
+      width: '88px',
+      height: '31px',
+      display: 'inline-flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      background: 'linear-gradient(23deg, var(--color-primary) -300%, var(--tint-shade0))'
+    }}>?</span>
   </div>
-
-  <img src="/logo.png" class="logo" transition:name="logo" draggable="false">
-</RootLayout>
-
-<style>
-  a {
-    color: var(--color-primary);
-  }
-
-  .centered, .logo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: max-content;
-    max-width: 100%;
-    padding: 32px;
-    user-select: none;
-  }
-
-  .logo {
-    opacity: 0.05;
-    z-index: -1;
-    transform-origin: center center;
-    animation: rotate 2s infinite var(--bounce);
-  }
-
-  @keyframes rotate {
-    0% { transform: translate(-50%, -50%) scale(0.9) }
-    50% { transform: translate(-50%, -50%) scale(1) }
-    100%  { transform: translate(-50%, -50%) scale(0.9) }
-  }
-
-  @keyframes open {
-    from { height: 0; opacity: 0; }
-    to { height: auto; opacity: 1; }
-  }
-
-  h1 { font-size: 64px; }
-  small { color: var(--color-subtext-0)}
-</style>
+</Layout>

@@ -1,10 +1,11 @@
 ---
-export interface Props {
-	title?: string;
-	description?: string;
+interface Props {
+	title: string | undefined;
+	description: string | undefined;
+  hue: number
 }
 
-const { title, description } = Astro.props
+const { title, description, hue } = Astro.props
 ---
 <!doctype html>
 <html lang="en">
@@ -14,8 +15,14 @@ const { title, description } = Astro.props
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 
-		<title>{(title ? title + ' @ ' : '') + 'thinliquid\'s [studio]'}</title>
-    <meta name="description" content={description ?? 'thinliquid\'s [studio]'} />
+		<title>{(title != null ? title + ' @ ' : '') + 'thinliquid\'s [studio]'}</title>
+    <meta name="description" content={description || 'thinliquid\'s [studio]'} />
+    <meta name="theme-color" content={`hsl(${hue}, 30%, 50%)`} />
+
+    <meta property="og:title", content={title != null ? title : `thinliquid's [studio]`}>
+    <meta property="og:description" content={description != null ? description : null}>
+    <meta property="og:site_name" content="thinliquid.dev" />
+    <meta property="og:image" content="https://thinliquid.dev/logo.png" />
 
     <link rel="icon" type="image/png" href="/icon.png" />
 		<link rel="stylesheet" href="https://webring.nekoweb.org/onionring.css" />
@@ -27,58 +34,78 @@ const { title, description } = Astro.props
 		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
   </body>
 </html>
-<style is:global> 
+<style is:global define:vars={{
+  'color-shade0': `hsl(${hue}, 30%, 4%)`,
+  'color-shade6': `hsl(${hue}, 10%, 60%)`,
+  'color-shade7': `hsl(${hue}, 30%, 90%)`,
+  'color-primary': `hsl(${hue}, 30%, 50%)`,
+
+  'tint-shade0': `hsla(${hue}, 30%, 90%, 0.035)`,
+  'tint-shade7': `hsla(${hue}, 30%, 90%, 0.25)`
+}}> 
   @import url('https://fonts.cdnfonts.com/css/switzer');
-  @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Instrument+Serif:ital@0;1&display=swap');
 
   :root {
-		--color-shade0: #040A12;
-		--color-shade1: #1B222A;
-		--color-shade2: #363D44;
-		--color-shade3: #545A60;
-		--color-shade4: #73787E;
-		--color-shade5: #94989D;
-		--color-shade6: #B7B9BC;
-		--color-shade7: #DADCDD;
-    --color-accent0: #D6281E;
-    --color-accent1: #FF7920;
-    --color-accent2: #ffd034;
-    --color-accent3: #6DFFA7;
-		--color-accent4: #6DFFFD;
-		--color-accent5: #6DACFF;
-    --color-accent6: #FF6DAF;
-    --color-accent7: #A366D3;
-
-    --color-primary: var(--color-accent5);
-    --color-secondary: var(--color-accent4);
-    --color-tertiary: var(--color-accent6);
-
     --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.9);
 
-    --font-monospace: monospace;
-    --font-interface: 'Geist Mono', monospace;
+    --font-monospace: 'Geist Mono', monospace;
     --font-readable: 'Switzer', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-
-    font-size: 18px;
+    --font-display: 'Instrument Serif', 'Times New Roman', Times, serif;
   }
 
   * {
     box-sizing: border-box;
-
-    &::selection {
-      background: var(--color-tertiary);
-      color: var(--color-shade0);
-    }
   }
 
   html, body {
-    background: var(--color-shade0);
-    color: var(--color-shade7);
     font-family: var(--font-readable);
-    scrollbar-width: none;
+    background-color: var(--color-shade0);
+    color: var(--color-shade7);
+    text-shadow: 0 3px 3px rgba(0,0,0,0.5);
   }
 
-  body {
-    margin: 16px;
+  h1 {
+    font-family: var(--font-display);
+    font-weight: normal;
+    font-size: 3rem;
+    margin: 8px 0;
+  }
+
+  p, dl {
+    margin: 8px 0;
+  }
+
+  code {
+    font-family: var(--font-monospace);
+  }
+
+  dd {
+    margin: 8px 0;
+    margin-inline-start: 16px;
+  }
+
+  a {
+    color: var(--color-shade7);
+    cursor: crosshair;
+  }
+
+  [data-icon] {
+    vertical-align: middle;
+    color: inherit;
+    opacity: 0.75;
+    margin-top: -0.25em;
+  }
+
+  hr {
+    opacity: 0.125;
+    margin: 16px 0;
+    border-color: var(--color-shade7);
+  }
+
+  blockquote {
+    margin: 8px 0;
+    padding-left: calc(8px + 4px);
+    border-left: 2px solid var(--color-shade7);
   }
 </style>
