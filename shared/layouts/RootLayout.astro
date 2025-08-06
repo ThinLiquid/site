@@ -69,6 +69,11 @@ const { title, description, hue, site } = Astro.props
     <noscript><img src="https://anal.thinliquid.dev/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
   </body>
 </html>
+<style is:inline>
+  @import url('https://fonts.cdnfonts.com/css/switzer');
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+  @import url('https://iosevka-webfonts.github.io/iosevka/Iosevka.css');
+</style>
 <style is:global lang="scss" define:vars={{
   'color-shade0': `hsl(${hue}, 30%, 3%)`,
   'color-shade6': `hsl(${hue}, 30%, 60%)`,
@@ -79,10 +84,6 @@ const { title, description, hue, site } = Astro.props
   'tint-shade1': `hsla(${hue}, 30%, 90%, 0.06)`,
   'tint-shade7': `hsla(${hue}, 30%, 90%, 0.25)`
 }}> 
-  @import url('https://fonts.cdnfonts.com/css/switzer');
-  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
-  @import url('https://iosevka-webfonts.github.io/iosevka/Iosevka.css');
-
   :root {
     --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.9);
 
