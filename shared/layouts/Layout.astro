@@ -1,0 +1,31 @@
+---
+import RootLayout from './RootLayout.astro';
+import type { Site } from '../types';
+
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+	title?: string
+	description?: string
+	site: Site
+	hue: number
+}
+
+const { title, description, hue, site } = Astro.props
+---
+<RootLayout title={title} description={description} hue={hue} site={site}>
+	<Navigation hue={hue} site={site} />
+
+	<slot/>
+
+	<Footer />
+</RootLayout>
+<style lang="scss" is:inline>
+	.body {
+		max-width: 700px;
+		width: 100%;
+		margin: auto;
+		flex-direction: column;
+	}
+</style>

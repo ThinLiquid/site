@@ -1,0 +1,34 @@
+---
+import Layout from '../../shared/layouts/Layout.astro'
+import site from '../site';
+
+const allLogos = await import.meta.glob('../../public/assets/logos/*.png', {
+  query: '?url',
+  eager: true
+});
+---
+<Layout title="commissions" hue={300} site={site}> 
+  <h1 style={{ marginTop: 0 }}>commissions</h1>
+
+  <p>i make cool logos <small>(they kind of speak for themselves)</small>.</p>
+
+  <blockquote>
+    expect them to arrive in around a week
+  </blockquote>
+
+  <p>i have some previews below:</p>
+
+  {Object.values(allLogos).map(src => <img src={src.default.replace('/public', '')} width="200">)}
+
+  <h2>contact me</h2>
+
+  <p>you can contact me at:</p>
+  <ul>
+    <li>discord: @thnlqd</li>
+    <li>email: thnlqd@gmail.com</li>
+  </ul>
+
+  <h2>payment methods</h2>
+
+  <p>as of now, i can only take PayPal (Friends & Family)</p>
+</Layout>

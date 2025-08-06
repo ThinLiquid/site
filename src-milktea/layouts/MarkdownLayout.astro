@@ -1,0 +1,27 @@
+---
+import site from "../site"
+import Layout from "../../shared/layouts/Layout.astro";
+import Header from "../../shared/components/Header.astro";
+
+const { frontmatter } = Astro.props;
+
+const hue = frontmatter.hue ?? site.hue
+---
+<Layout title={frontmatter.title} description={frontmatter.description} hue={hue} site={site}>
+  <Header>
+    <h1>{frontmatter.title}</h1>
+    <p>Published on {new Date(frontmatter.pubDate).toLocaleString('en-GB', { dateStyle: 'full', timeStyle: 'medium' })}</p>
+  </Header>
+  
+  <main>
+    <slot/>
+  </main>
+</Layout>
+
+<style lang="scss" is:inline>
+  
+
+  header * {
+    margin: 0;
+  }
+</style>

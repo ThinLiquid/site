@@ -1,10 +1,11 @@
 ---
 import { Icon } from "astro-icon/components";
-import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
+import Layout from "../../shared/layouts/Layout.astro";
+import Card from "../../shared/components/Card.astro";
+import site from "../site";
 ---
 
-<Layout hue={360}>
+<Layout hue={360} site={site}>
   <Card>
     <h1 style={{ margin: 0 }}>HTTP 404</h1>
     <div style={{ padding: '2px 0' }}></div>
@@ -20,7 +21,7 @@ import Card from "../components/Card.astro";
       <small><Icon name="pixelarticons:open" /> <a href="https://en.wiktionary.org/wiki/404">Wiktionary</a></small>
     </p>
   </Card>
-  <p style={{ opacity: 0.5 }}>
-    have you lost your way? head <b><a href="/">home</a></b> or return to the <b><a href="javascript:void(0)" onclick="window.history.back()">previous page</a></b>.
+  <p>
+    have you lost your way? head <a href="/">home</a> or return to the <a href="javascript:void(0)" onclick="window.history.back()">previous page</a>.
   </p>
 </Layout>

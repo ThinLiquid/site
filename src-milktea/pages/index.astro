@@ -1,0 +1,54 @@
+---
+import { Icon } from "astro-icon/components";
+import Card from "../../shared/components/Card.astro";
+import site from "../site";
+import Layout from "../../shared/layouts/Layout.astro";
+import Header from "../../shared/components/Header.astro";
+
+const allPosts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
+---
+
+<Layout hue={site.hue} site={site}>
+  <Header style={{
+    background: 'linear-gradient(color-mix(in oklab, var(--color-shade0), transparent 20%), color-mix(in srgb, var(--color-shade0), transparent 20%)), url(/milktea.png)',
+    backgroundSize: 'cover',
+    backgroundPosition: '0 100%',
+    backgroundRepeat: 'no-repeat'
+  }}>
+    <h1>blog.</h1>
+    <p>head back to <a href="https://thinliquid.dev">thinliquid's [studio]</a>?</p>
+  </Header>
+
+  <main>
+    <div id="posts">
+      {allPosts.map(post => (
+        <Card href={post.url}>
+          <h2 style={{ fontStyle: 'italic', fontWeight: 'normal', fontFamily: 'Instrument Serif', fontSize: '2rem' }}>{post.frontmatter.title}</h2>
+          <hr style={{ margin: '8px 0' }} />
+          <p style={{ marginBottom: 0, opacity: 0.5 }}>{new Date(post.frontmatter.pubDate).toLocaleDateString('en-GB', { dateStyle: 'medium' })} • {post.frontmatter.description}</p>
+          <div style={{ display: 'flex', gap: '4px', marginTop: '8px', alignItems: 'center', flexWrap: 'wrap', flexGrow: 'none', alignContent: 'center' }}>
+            <span><Icon name="pixelarticons:label" /></span>
+            {post.frontmatter.tags.map(x => <span class="tag">{x}</span>)}
+            {post.frontmatter.tags.length < 1 && 'No tags'}
+          </div>
+        </Card>
+      ))}
+    </div>
+  </main>
+</Layout>
+<style lang="scss" is:inline>
+  .tag {
+    background: var(--color-primary);
+    color: black;
+    text-shadow: none;
+    font-size: 0.9rem;
+    padding: .1rem .25rem;
+    display: inline-block;
+  }
+
+  #posts {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+</style>

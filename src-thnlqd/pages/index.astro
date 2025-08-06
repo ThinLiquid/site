@@ -1,0 +1,148 @@
+---
+import { Icon } from "astro-icon/components";
+import ImageButton from "../../shared/components/ImageButton.astro";
+import Layout from "../../shared/layouts/Layout.astro";
+import site from "../site";
+import Card from "../../shared/components/Card.astro";
+import { createButtonString } from "../../shared/util";
+---
+
+<Layout hue={site.hue} site={site}>
+  <h1 style={{ margin: 0 }}>heyo, i'm <span class="name">{'thinliquid'.split('').map(x => <span class="letter">{x}</span>)}</span>.</h1>
+  <p  style={{ marginTop: 0, opacity: 0.5 }}>he/him - thnlqd@lake - en_US.UTF-8 - Europe/Paris</p>
+
+  <p>i'm a 16yo fullstack developer. i make cool sh*t.</p>
+
+  <h2>buttons</h2>
+  <ImageButton alt="nekoweb.org button" href="https://nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/nekoweb12.gif" />
+  <ImageButton alt="arch linux button" href="https://archlinux.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/archlinux.gif" />
+  <ImageButton alt="max's apartment button" href="https://max.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/maxpixels.gif" />
+  <ImageButton alt="giiki's lair button" href="https://giikis2.nekoweb.org" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/giikis2.png" />
+  <ImageButton alt="bomberfish.ca button" href="https://bomberfish.ca" url="https://raw.githubusercontent.com/ThinLiquid/buttons/main/img/bomberfish.gif" />
+  <ImageButton alt="joosh's button" href="https://joo.sh/" url="https://files.joo.sh/img/buttons/icon.gif" />
+  <ImageButton alt="eyeorb's button" href="https://eyeorb.net" url="https://eyeorb.net/site_button.gif" />
+  <ImageButton alt="rice's button" href="https://rice.place" url="https://rice.nekoweb.org/button/riceplace.png" />
+  <ImageButton alt="bilaii's button" href="https://bilaii.nekoweb.org" url="https://bilaii.nekoweb.org/assets/bilaii.gif" />
+
+  <h3>my buttons</h3>
+  <div style={{ display: 'flex', gap: '8px' }}>
+    <ImageButton href="https://thinliquid.dev" url="/thnlqd-very-old.webp" alt="thinliquid's button" />
+    <textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd-very-old.webp", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+  </div>
+  <br/>
+  <div style={{ display: 'flex', gap: '8px' }}>
+    <ImageButton href="https://thinliquid.dev" url="/thnlqd-old.png" alt="thinliquid's button" />
+    <textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd-old.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+  </div>
+  <br/>
+  <div style={{ display: 'flex', gap: '8px' }}>
+    <ImageButton href="https://thinliquid.dev" url="/thnlqd.png" alt="thinliquid's button" />
+    <textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+  </div>
+
+  <h2>projects</h2>
+
+  <div class="grid">
+    <Card href="https://deploy.nekoweb.org">
+      <b>deploy2nekoweb</b><br/>
+      a deploy script for nekoweb
+    </Card>
+  </div>
+
+  <h2>socials</h2>
+
+  <div class="grid socials">
+    <Card href="https://github.com/ThinLiquid">
+      <Icon name="simple-icons:github"/>
+      <span>GitHub <small style={{ opacity: 0.5 }}>(github.com)</small></span>
+    </Card>
+    <Card href="https://osu.ppy.sh/users/ThinLiquid">
+      <Icon name="simple-icons:osu"/>
+      <span>osu! <small style={{ opacity: 0.5 }}>(osu.ppy.sh)</small></span>
+    </Card>
+    <Card href="https://bsky.app/profile/thinliquid.dev">
+      <Icon name="simple-icons:bluesky"/>
+      <span>Bluesky <small style={{ opacity: 0.5 }}>(bsky.social)</small></span>
+    </Card>
+    <Card href="https://x.com/ThinLiquid">
+      <Icon name="simple-icons:x"/>
+      <span>X <small style={{ opacity: 0.5 }}>(x.com)</small></span>
+    </Card>
+    <Card href="https://wetdry.world/@thnlqd">
+      <Icon name="simple-icons:mastodon"/>
+      <span>Mastodon <small style={{ opacity: 0.5 }}>(wetdry.world)</small></span>
+    </Card>
+    <Card href="https://discord.com/users/620492146406981642">
+      <Icon name="simple-icons:discord"/>
+      <span>Discord <small style={{ opacity: 0.5 }}>(discord.com)</small></span>
+    </Card>
+    <Card href="https://thinliquid.dev/pgp.asc">
+      <Icon name="pixelarticons:lock" />
+      <span>PGP Public Key</span>
+    </Card>
+  </div>
+
+  <h2>webrings</h2>
+  <div id="nekowebring" style={{ color: 'var(--base)' }}>
+    <script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
+    <script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
+  </div>
+  <div id="palettewebring">
+    <script is:inline type="text/javascript" src="https://palette.nekoweb.org/pmoring.js" data-type="catppuccin-mocha"></script>
+  </div>
+  <iframe id="bucketwebring" style="height: 3rem; border: none;width:100%;" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
+</Layout>
+<style lang="scss" is:inline>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+  }
+
+  .socials .card {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+  .socials .card > span {
+    line-height: 16px;
+  }
+</style>
+<style lang="scss">
+  @keyframes up {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px) rotate(0deg) scale(0.9, 1.2); text-decoration-color: lightgreen; }
+    100% { transform: translateY(0px); }
+  }
+
+	.name {
+		display: inline-flex;
+    
+    @for $i from 1 through 10 {
+      .letter:nth-child(#{$i}) {
+        display: inline-block;
+        animation: 2s up infinite ease-in-out;
+        animation-delay: calc(#{$i} * 100ms);
+        text-decoration: 2px solid underline var(--color-primary);
+        text-underline-offset: 5px;
+        transform-origin: center;
+      }
+    }
+
+    .letter {
+      transition: scale .5s var(--bounce), margin .25s var(--bounce);
+      cursor: zoom-in;
+      user-select: none;
+
+      &:hover {
+        scale: 1.2;
+        margin: 0 3px;
+      }
+
+      &:active {
+        scale: 0.95;
+      }
+    }
+  }
+</style>

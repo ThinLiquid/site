@@ -1,0 +1,211 @@
+---
+import { Icon } from 'astro-icon/components';
+import { execSync } from 'child_process'
+import type { Site } from '../types';
+
+interface Props {
+	title?: string | undefined
+	description?: string | undefined
+  site: Site
+  hue: number
+}
+
+const getGitInfo = () => {
+  try {
+    const exec = (cmd: string) => execSync(cmd).toString().trim();
+    return {
+      commitHash: exec(`git rev-parse HEAD`),
+      commitBranch: exec(`git rev-parse --abbrev-ref HEAD`),
+      commitMessage: exec(`git log -1 --pretty=%B`),
+      commitDate: exec(`git log -1 --pretty=%cd`)
+    };
+  } catch (error) {
+    console.error("Error getting Git info:");
+    console.error(error);
+    return { commitHash: "", commitMessage: "", commitBranch: "", commitDate: "" };
+  }
+};
+
+const commit = getGitInfo()
+
+const { title, description, hue, site } = Astro.props
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{(title != null ? title + ' @ ' : '') + site.name}</title>
+    <meta name="description" content={description || site.name} />
+    <meta name="theme-color" content={`hsl(${hue}, 30%, 50%)`} />
+
+    <meta property="og:title", content={title != null ? title : site.name}>
+    <meta property="og:description" content={description != null ? description : null}>
+    <meta property="og:site_name" content={site.domain} />
+    <meta property="og:image" content="https://thinliquid.dev/logo.png" />
+
+    <link rel="icon" type="image/png" href="/icon.png" />
+	</head>
+	<body>
+    <div style={{ position: 'relative', zIndex: 2 }} class="body">
+      <slot />
+    </div>
+
+    <div class="blur"></div>
+
+    <div style={{
+      position: 'fixed',
+      right: '8px',
+      bottom: '8px',
+      lineHeight: '16px'
+    }} class="meta">
+		  <Icon name="pixelarticons:git-branch" /> <a href={`https://github.com/ThinLiquid/site/commit/${commit.commitHash}`}>{commit.commitHash.slice(0,7)}</a>
+	  </div>
+
+    <script data-collect-dnt="true" async src="https://anal.thinliquid.dev/latest.js"></script>
+    <noscript><img src="https://anal.thinliquid.dev/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </body>
+</html>
+<style is:global lang="scss" define:vars={{
+  'color-shade0': `hsl(${hue}, 30%, 3%)`,
+  'color-shade6': `hsl(${hue}, 30%, 60%)`,
+  'color-shade7': `hsl(${hue}, 14%, 76%)`,
+  'color-primary': `hsl(${hue}, 100%, 75%)`,
+
+  'tint-shade0': `hsla(${hue}, 30%, 90%, 0.035)`,
+  'tint-shade1': `hsla(${hue}, 30%, 90%, 0.06)`,
+  'tint-shade7': `hsla(${hue}, 30%, 90%, 0.25)`
+}}> 
+  @import url('https://fonts.cdnfonts.com/css/switzer');
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+  @import url('https://iosevka-webfonts.github.io/iosevka/Iosevka.css');
+
+  :root {
+    --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.9);
+
+    --font-monospace: 'Geist Mono', monospace;
+    --font-readable: 'Iosevka', 'Iosevka Web';
+    --font-helvetica: 'Switzer', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    --font-display: 'Instrument Serif', 'Times New Roman', Times, serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    image-rendering: pixelated;
+    scrollbar-width: none;
+  }
+
+  html, body {
+    font-family: var(--font-readable);
+    background-color: var(--color-shade0);
+    color: var(--color-shade7);
+    margin: 0 8px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: normal;
+    font-style: italic;
+    font-size: 3rem;
+  }
+
+  code {
+    font-family: var(--font-monospace);
+  }
+
+  dd {
+    margin: 8px 0;
+    margin-inline-start: 16px;
+  }
+
+  a {
+    color: var(--color-shade7);
+  }
+
+  a[href] {
+    cursor: crosshair;
+  }
+
+  [data-icon] {
+    color: var(--color-primary);
+    vertical-align: middle;
+    opacity: 0.5;
+  }
+
+  hr {
+    opacity: 0.125;
+    border-color: var(--color-shade7);
+    border-style: dotted;
+    margin: 16px 0;
+  }
+
+  blockquote {
+    padding-left: calc(8px + 4px);
+    border-left: 2px solid var(--color-shade7);
+    margin: 8px 0;
+  }
+
+  img {
+    image-rendering: pixelated;
+  }
+
+  p, h1, h2, h3, h4, h5, h6 {
+    margin: 16px 0;
+    margin-bottom: 8px;
+
+     &:nth-child(1) {
+      margin-top: 0;
+    }
+
+    &:nth-last-child(1) {
+      margin-bottom: 0;
+    }
+
+    &:only-child {
+      margin: 0;
+    }
+  }
+
+  h2, h3, h4, h5, h6 {
+    font-family: var(--font-helvetica);
+  }
+
+  a {
+    color: var(--color-primary);
+    text-decoration: 1px solid underline currentColor;
+    text-underline-offset: 3px;
+  }
+
+  *::selection {
+    background: var(--color-primary);
+    color: var(--color-shade0);
+  }
+
+  .blur {
+    position: absolute;
+    background: var(--color-primary);
+    width: 50%;
+    height: 100%;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: blur(10vh);
+    border-radius: 50%;
+    opacity: 0.03;
+    z-index: 0;
+  }
+
+  textarea {
+    resize: none;
+    width: 100%;
+    background: var(--tint-shade0);
+    border: 1px dashed var(--tint-shade7);
+    color: var(--color-shade7);
+    border-radius: 8px;
+    height: 31px;
+    scrollbar-width: none;
+  }
+</style>

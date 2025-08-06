@@ -8,16 +8,8 @@ import icon from 'astro-icon'
 
 export default defineConfig({
   output: 'static',
-
-  server: {
-    port: 5173
-  },
-
-  build: {
-    format: 'file'
-  },
+  server: { port: 5173 },
+  build: { format: 'file' },
 
   integrations: [mdx(), svelte(), icon()],
-
-  site: "https://thinliquid.dev"
-});
+})

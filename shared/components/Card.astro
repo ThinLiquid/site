@@ -1,0 +1,41 @@
+---
+interface Props {
+  style?: astroHTML.JSX.CSSProperties
+  href?: string
+}
+
+const { href } = Astro.props
+---
+
+<div class="card" style={Astro.props.style} onclick={href && `self.location.href="${href}"`}>
+  <slot/>
+</div>
+
+<style lang="scss">
+  .card {
+    display: block;
+    padding: 16px;
+    background: var(--tint-shade0);
+    border: 1px dashed var(--tint-shade7);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    position: relative;
+
+    &[onclick] {
+      cursor: crosshair;
+      transition: scale .25s var(--bounce);
+
+      &:hover {
+        scale: 1.1;
+      }
+
+      &:active {
+        scale: 0.95;
+      }
+    }
+
+    &:hover {
+      z-index: 2;
+    }
+  }
+</style>

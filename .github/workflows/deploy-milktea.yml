@@ -1,0 +1,29 @@
+name: deploy2nekoweb
+on:
+  push:
+    paths-ignore:
+      - 'src-thnlqd/**'
+jobs:
+  deployer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 'latest'
+
+      - name: installing dependencies
+        run: bun install --frozen-lockfile
+
+      - name: building code
+        run: bun run build-milktea
+
+      - name: deploy2nekoweb
+        uses: deploy2nekoweb/deploy2nekoweb@main
+        with:
+          nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
+          nekoweb-cookie: ${{ secrets.NEKOWEB_TOKEN }}
+          nekoweb-domain: 'milktea.coffee'
+          nekoweb-username: 'thnlqd'
+          directory: 'dist'

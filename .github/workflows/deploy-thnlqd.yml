@@ -1,5 +1,8 @@
 name: deploy2nekoweb
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - 'src-milktea/**'
 jobs:
   deployer:
     runs-on: ubuntu-latest
@@ -14,7 +17,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: building code
-        run: bun run build
+        run: bun run build-thnlqd
 
       - name: deploy2nekoweb
         uses: deploy2nekoweb/deploy2nekoweb@main

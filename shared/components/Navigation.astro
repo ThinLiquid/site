@@ -1,0 +1,34 @@
+---
+import type { Site } from '../types'
+
+interface Props {
+  hue: number
+  site: Site
+}
+
+const { hue, site } = Astro.props
+---
+<nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', marginBottom: '16px' }}>
+  <a style={{ display: 'inline-flex', gap: '8px', alignItems: 'center', margin: '16px 0', textDecoration: 'none', width: 'max-content', color: 'var(--color-shade7)' }} href="/">
+    <img alt="thinliquid's logo" src="/icon.png" style={{ height: '1.5rem', width: 'auto', aspectRatio: '1/1', userSelect: 'none', filter: `grayscale(0.75) hue-rotate(${hue + 180}deg)` }} draggable="false">
+    <h2 style={{ display: 'inline-block', margin: '0' }}>{site.name}</h2>
+  </a>
+  <span style={{ width: '16px' }}></span>
+  <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', fontSize: '0.9rem' }}>
+    <a href="/">home</a>
+    {site.domain === 'milktea.coffee' && <a href="https://thinliquid.dev">thinliquid.dev</a>}
+    {site.domain === 'thinliquid.dev' && (
+      <a href="/resources">resources</a>
+      <a href="/commissions">commissions</a>
+      <a href="https://milktea.coffee">blog</a>
+    )}
+    <a href="https://thnlqd.atabook.org">guestbook</a>
+    <a href="https://nekoweb.org/follow/thnlqd" class="glow">[+]</a>
+  </div>
+</nav>
+
+<style>
+  .glow {
+    text-shadow: 0 0 20px currentColor;
+  }
+</style>

@@ -1,12 +1,12 @@
 {
   "name": "site",
   "type": "module",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "scripts": {
-    "dev": "astro dev --host",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
+    "dev-thnlqd": "astro dev --host --config astro.config.thnlqd.ts",
+    "dev-milktea": "astro dev --host --config astro.config.milktea.ts",
+    "build-thnlqd": "astro check --config astro.config.thnlqd.ts && astro build --config astro.config.thnlqd.ts",
+    "build-milktea": "astro check --config astro.config.milktea.ts && astro build --config astro.config.milktea.ts",
     "astro": "astro"
   },
   "dependencies": {
@@ -14,18 +14,19 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/mdx": "4.0.7",
     "@astrojs/rss": "4.0.11",
-    "@astrojs/svelte": "^7.0.4",
-    "@types/bun": "^1.1.12",
+    "@astrojs/svelte": "^7.1.0",
+    "@types/bun": "^1.2.19",
     "astro": "5.1.9",
     "astro-icon": "^1.1.5",
-    "emoji-js": "^3.8.0",
+    "emoji-js": "^3.8.1",
     "remark-twemoji": "^0.1.1",
-    "svelte": "^5.20.0",
-    "typescript": "^5.7.3"
+    "svelte": "^5.37.3",
+    "typescript": "^5.9.2"
   },
   "devDependencies": {
     "@iconify-json/pixelarticons": "^1.2.2",
+    "@iconify-json/simple-icons": "^1.2.46",
     "@twemoji/api": "^15.1.0",
-    "sass-embedded": "^1.83.4"
+    "sass-embedded": "^1.89.2"
   }
 }

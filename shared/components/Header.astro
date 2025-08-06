@@ -1,0 +1,27 @@
+---
+interface Props {
+  style?: astroHTML.JSX.CSSProperties
+}
+---
+<header style={Astro.props.style}>
+  <slot />
+</header>
+
+<style lang="scss" is:inline>
+  header {
+    display: block;
+    padding: 32px 16px;
+    background: var(--tint-shade0);
+    backdrop-filter: blur(30px);
+    display: flex!important;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    gap: 8px;
+
+    * {
+      margin: 0;
+    }
+  }
+</style>
