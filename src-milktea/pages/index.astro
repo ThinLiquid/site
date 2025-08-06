@@ -8,7 +8,7 @@ import Header from "../../shared/components/Header.astro";
 const allPosts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
 ---
 
-<Layout hue={site.hue} site={site}>
+<Layout title="blog" description="ThinLiquid\'s blog" hue={site.hue} site={site}>
   <Header style={{
     background: 'linear-gradient(color-mix(in oklab, var(--color-shade0), transparent 20%), color-mix(in srgb, var(--color-shade0), transparent 20%)), url(/milktea.png)',
     backgroundSize: 'cover',
@@ -20,6 +20,8 @@ const allPosts = Object.values(import.meta.glob('./posts/*.md', { eager: true })
   </Header>
 
   <main>
+    <p>this blog supports <a href="/rss.xml">rss feeds</a>.</p>
+    
     <div id="posts">
       {allPosts.map((post: any) => (
         <Card href={post.url}>
