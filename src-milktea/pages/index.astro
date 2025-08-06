@@ -21,14 +21,14 @@ const allPosts = Object.values(import.meta.glob('./posts/*.md', { eager: true })
 
   <main>
     <div id="posts">
-      {allPosts.map(post => (
+      {allPosts.map((post: any) => (
         <Card href={post.url}>
           <h2 style={{ fontStyle: 'italic', fontWeight: 'normal', fontFamily: 'Instrument Serif', fontSize: '2rem' }}>{post.frontmatter.title}</h2>
           <hr style={{ margin: '8px 0' }} />
           <p style={{ marginBottom: 0, opacity: 0.5 }}>{new Date(post.frontmatter.pubDate).toLocaleDateString('en-GB', { dateStyle: 'medium' })} • {post.frontmatter.description}</p>
           <div style={{ display: 'flex', gap: '4px', marginTop: '8px', alignItems: 'center', flexWrap: 'wrap', flexGrow: 'none', alignContent: 'center' }}>
             <span><Icon name="pixelarticons:label" /></span>
-            {post.frontmatter.tags.map(x => <span class="tag">{x}</span>)}
+            {post.frontmatter.tags.map((x: string) => <span class="tag">{x}</span>)}
             {post.frontmatter.tags.length < 1 && 'No tags'}
           </div>
         </Card>

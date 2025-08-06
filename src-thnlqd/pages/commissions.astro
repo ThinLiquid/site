@@ -18,7 +18,7 @@ const allLogos = await import.meta.glob('../../public/assets/logos/*.png', {
 
   <p>i have some previews below:</p>
 
-  {Object.values(allLogos).map(src => <img src={src.default.replace('/public', '')} width="200">)}
+  {Object.values(allLogos).map((src: any) => <img src={src.default.replace('/public', '')} width="200">)}
 
   <h2>contact me</h2>
 
