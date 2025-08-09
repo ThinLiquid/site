@@ -1,4 +1,4 @@
-name: deploy2nekoweb
+name: deploy2nekoweb (milktea)
 on:
   push:
     paths-ignore:
