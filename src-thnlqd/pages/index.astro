@@ -9,7 +9,7 @@ import { createButtonString } from "../../shared/util";
 
 <Layout hue={site.hue} site={site}>
   <h1 style={{ margin: 0 }}>heyo, i'm <span class="name">{'thinliquid'.split('').map(x => <span class="letter">{x}</span>)}</span>.</h1>
-  <p  style={{ marginTop: 0, opacity: 0.5 }}>he/him - thnlqd@lake - en_US.UTF-8 - Europe/Paris</p>
+  <p  style={{ marginTop: 0, opacity: 0.75 }}>he/him - thnlqd@lake - en_US.UTF-8 - Europe/Paris</p>
 
   <p>i'm a 16yo fullstack developer. i make cool sh*t.</p>
 
@@ -27,17 +27,17 @@ import { createButtonString } from "../../shared/util";
   <h3>my buttons</h3>
   <div style={{ display: 'flex', gap: '8px' }}>
     <ImageButton href="https://thinliquid.dev" url="/thnlqd-very-old.webp" alt="thinliquid's button" />
-    <textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd-very-old.webp", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+    <textarea aria-label="click to copy" readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd-very-old.webp", "thinliquid's button", "https://thinliquid.dev")}</textarea>
   </div>
   <br/>
   <div style={{ display: 'flex', gap: '8px' }}>
     <ImageButton href="https://thinliquid.dev" url="/thnlqd-old.png" alt="thinliquid's button" />
-    <textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd-old.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+    <textarea aria-label="click to copy" readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd-old.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
   </div>
   <br/>
   <div style={{ display: 'flex', gap: '8px' }}>
     <ImageButton href="https://thinliquid.dev" url="/thnlqd.png" alt="thinliquid's button" />
-    <textarea readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
+    <textarea aria-label="click to copy" readonly onclick="this.select()">{createButtonString("https://thinliquid.dev/thnlqd.png", "thinliquid's button", "https://thinliquid.dev")}</textarea>
   </div>
 
   <h2>projects</h2>
@@ -54,27 +54,27 @@ import { createButtonString } from "../../shared/util";
   <div class="grid socials">
     <Card href="https://github.com/ThinLiquid">
       <Icon name="simple-icons:github"/>
-      <span>GitHub <small style={{ opacity: 0.5 }}>(github.com)</small></span>
+      <span>GitHub <small style={{ opacity: 0.75 }}>(github.com)</small></span>
     </Card>
     <Card href="https://osu.ppy.sh/users/ThinLiquid">
       <Icon name="simple-icons:osu"/>
-      <span>osu! <small style={{ opacity: 0.5 }}>(osu.ppy.sh)</small></span>
+      <span>osu! <small style={{ opacity: 0.75 }}>(osu.ppy.sh)</small></span>
     </Card>
     <Card href="https://bsky.app/profile/thinliquid.dev">
       <Icon name="simple-icons:bluesky"/>
-      <span>Bluesky <small style={{ opacity: 0.5 }}>(bsky.social)</small></span>
+      <span>Bluesky <small style={{ opacity: 0.75 }}>(bsky.social)</small></span>
     </Card>
     <Card href="https://x.com/ThinLiquid">
       <Icon name="simple-icons:x"/>
-      <span>X <small style={{ opacity: 0.5 }}>(x.com)</small></span>
+      <span>X <small style={{ opacity: 0.75 }}>(x.com)</small></span>
     </Card>
     <Card href="https://wetdry.world/@thnlqd">
       <Icon name="simple-icons:mastodon"/>
-      <span>Mastodon <small style={{ opacity: 0.5 }}>(wetdry.world)</small></span>
+      <span>Mastodon <small style={{ opacity: 0.75 }}>(wetdry.world)</small></span>
     </Card>
     <Card href="https://discord.com/users/620492146406981642">
       <Icon name="simple-icons:discord"/>
-      <span>Discord <small style={{ opacity: 0.5 }}>(discord.com)</small></span>
+      <span>Discord <small style={{ opacity: 0.75 }}>(discord.com)</small></span>
     </Card>
     <Card href="https://thinliquid.dev/pgp.asc">
       <Icon name="pixelarticons:lock" />
@@ -84,13 +84,13 @@ import { createButtonString } from "../../shared/util";
 
   <h2>webrings</h2>
   <div id="nekowebring" style={{ color: 'var(--base)' }}>
-    <script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
-    <script is:inline type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
+    <script is:inline defer type="text/javascript" src="https://webring.nekoweb.org/onionring-variables.js"></script>
+    <script is:inline defer type="text/javascript" src="https://webring.nekoweb.org/onionring-widget.js"></script>
   </div>
   <div id="palettewebring">
-    <script is:inline type="text/javascript" src="https://palette.nekoweb.org/pmoring.js" data-type="catppuccin-mocha"></script>
+    <script is:inline defer type="text/javascript" src="https://palette.nekoweb.org/pmoring.js" data-type="catppuccin-mocha"></script>
   </div>
-  <iframe id="bucketwebring" style="height: 3rem; border: none;width:100%;" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
+  <iframe title="bucket webring" id="bucketwebring" style="height: 3rem; border: none;width:100%;" src="https://webring.bucketfish.me/embed.html?name=ThinLiquid"></iframe>
 </Layout>
 <style lang="scss" is:inline>
   .grid {

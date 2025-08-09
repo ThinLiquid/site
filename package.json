@@ -17,6 +17,7 @@
     "@astrojs/svelte": "^7.1.0",
     "@types/bun": "^1.2.19",
     "astro": "5.1.9",
+    "astro-compressor": "^1.1.2",
     "astro-icon": "^1.1.5",
     "emoji-js": "^3.8.1",
     "remark-twemoji": "^0.1.1",

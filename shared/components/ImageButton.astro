@@ -10,11 +10,10 @@ interface Props {
 const { url, href, alt, style, ...props } = Astro.props
 ---
 <a href={href} {...props} style={style}>
-  <img src={url} alt={alt} data-tooltip={alt} style={style} />
+  <img width="88" height="31" src={url} alt={alt} data-tooltip={alt} style={style} />
 </a>
 
 <style>
-  img { image-rendering: pixelated; }
   a {
     text-decoration: none;
     padding: 0!important;
@@ -23,6 +22,8 @@ const { url, href, alt, style, ...props } = Astro.props
     transition: transform .2s var(--bounce);
     width: max-content;
     font-size: 0;
+    width: 88px;
+    height: 31px;
 
     &:hover {
       background: none!important;
