@@ -17,15 +17,64 @@ const { title, description, hue, site } = Astro.props
 <RootLayout title={title} description={description} hue={hue} site={site}>
 	<Navigation hue={hue} site={site} />
 
-	<slot/>
-
-	<Footer />
+	<main class="content" style={{ flex: '1' }}>
+		<slot/>
+		<Footer />
+	</main>
 </RootLayout>
+
 <style lang="scss" is:inline>
 	.body {
-		max-width: 700px;
+		display: flex;
+		gap: 32px;
+		max-width: 900px;
 		width: 100%;
 		margin: auto;
-		flex-direction: column;
+		margin-top: calc(16px + 8px);
+	}
+
+	nav {
+		flex: 0.35;
+	}
+
+	@media screen and (max-width:725px) {
+		.body {
+			flex-direction: column;
+			gap: 8px;
+		}
+		nav {
+			position: static!important;
+			border: none!important;
+			padding: 0!important;
+			
+			width: 100%!important;
+			margin: 32px auto;
+
+			.logo {
+				display: flex!important;
+				gap: 4px;
+				justify-content: end;
+				align-items: center;
+
+				img {
+					height: 1.5rem!important;
+				}
+			}
+			
+			
+			.links {
+				display: block!important;
+				
+				& > a {
+					&:hover {
+						padding: 5px 7.5px!important;
+						background: color-mix(in srgb, var(--color-primary), transparent 90%)!important;
+					}
+					&::before {
+						display: none;
+					}
+				}
+			}
+		}
 	}
 </style>

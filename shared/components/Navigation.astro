@@ -8,13 +8,16 @@ interface Props {
 
 const { hue, site } = Astro.props
 ---
-<nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', marginBottom: '16px' }}>
-  <a style={{ display: 'inline-flex', gap: '8px', alignItems: 'center', margin: '16px 0', textDecoration: 'none', width: 'max-content', color: 'var(--color-shade7)' }} href="/">
-    <img alt="thinliquid's logo" src="/icon.png" style={{ height: '1.5rem', width: 'auto', aspectRatio: '1/1', userSelect: 'none', filter: `grayscale(0.75) hue-rotate(${hue + 180}deg)` }} draggable="false">
-    <h2 style={{ display: 'inline-block', margin: '0' }}>{site.name}</h2>
-  </a>
-  <span style={{ width: '16px' }}></span>
-  <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', fontSize: '0.9rem' }}>
+<nav style={{ width: '400px', textAlign: 'right' }}>
+  <div class="logo">
+    <img alt="thinliquid's logo" src="/icon.png" style={{ height: '2rem', width: 'auto', aspectRatio: '1/1', userSelect: 'none', filter: `grayscale(0.75) hue-rotate(${hue + 180}deg)` }} draggable="false">
+    <br/>
+    <a style={{ color: 'var(--color-shade7)' }} href="/">
+      <h2 style={{ display: 'inline-block', margin: '0' }}>{site.name}</h2>
+    </a>
+  </div>
+  <p class="random" style={{ opacity: 0.75, margin: '8px 0', fontSize: '0.75rem' }}></p>
+  <div class='links' style={{ display: 'flex', flexDirection: 'column' }}>
     <a href="/">home</a>
     {site.domain === 'milktea.coffee' && <a href="https://thinliquid.dev">thinliquid.dev</a>}
     {site.domain === 'thinliquid.dev' && (
@@ -27,8 +30,63 @@ const { hue, site } = Astro.props
   </div>
 </nav>
 
+<script is:inline>
+  const stuff = [
+    'konnichiwa fine shyt',
+    'do you ever feel like a plastic bag',
+    '41 but i got 41 goals', 
+    'adrian explain our friend group',
+    'listen to chimera dragons',
+    '🛐',
+    'the life of an aspiring script kiddie'
+  ]
+
+  document.querySelector('.random').innerText = `"${stuff[Math.floor(Math.random() * stuff.length)]}"`
+</script>
+
 <style>
   .glow {
-    text-shadow: 0 0 20px currentColor;
+    text-shadow: 0 0 25px currentColor;
+  }
+
+  .links > a {
+    padding: 5px 0;
+    text-align: right;
+    transition: padding .2s var(--bounce);
+    position: relative;
+    border-radius: 5px;
+
+    &:before {
+      --space: -8px;
+      content: '';
+      position: absolute;
+      right: calc(var(--space) - 1px);
+      top: 0;
+      width: 1px;
+      height: 100%;
+      background: color-mix(in srgb, var(--color-primary), transparent 75%);
+      transition: background .1s;
+      border-radius: 1.5px;
+    }
+
+    &:hover {
+      padding: 5px 7.5px;
+      background: linear-gradient(to left, color-mix(in srgb, var(--color-primary), transparent 70%), transparent);
+      
+      &:before {
+        background: var(--color-primary);
+        width: 3px;
+        right: calc(var(--space) - 2px);
+      }
+    }
+  }
+
+  nav {
+    border-right: 1px solid color-mix(in srgb, var(--color-shade7), transparent 75%);
+    padding-right: 8px;
+    position: sticky;
+    top: 32px;
+    align-self: flex-start;
+    padding-bottom: 32px;
   }
 </style>

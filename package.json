@@ -15,19 +15,19 @@
     "@astrojs/mdx": "4.0.7",
     "@astrojs/rss": "4.0.11",
     "@astrojs/svelte": "^7.1.0",
-    "@types/bun": "^1.2.19",
-    "astro": "5.1.9",
+    "@types/bun": "^1.2.20",
+    "astro": "^5.13.2",
     "astro-compressor": "^1.1.2",
     "astro-icon": "^1.1.5",
     "emoji-js": "^3.8.1",
     "remark-twemoji": "^0.1.1",
-    "svelte": "^5.37.3",
+    "svelte": "^5.38.2",
     "typescript": "^5.9.2"
   },
   "devDependencies": {
     "@iconify-json/pixelarticons": "^1.2.2",
-    "@iconify-json/simple-icons": "^1.2.46",
+    "@iconify-json/simple-icons": "^1.2.48",
     "@twemoji/api": "^15.1.0",
-    "sass-embedded": "^1.89.2"
+    "sass-embedded": "^1.90.0"
   }
 }

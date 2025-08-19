@@ -10,7 +10,7 @@ const hue = frontmatter.hue ?? site.hue
 <Layout title={frontmatter.title} description={frontmatter.description} hue={hue} site={site}>
   <Header>
     <h1>{frontmatter.title}</h1>
-    <p>Published on {new Date(frontmatter.pubDate).toLocaleString('en-GB', { dateStyle: 'full', timeStyle: 'medium' })}</p>
+    <p style={{ opacity: 0.75 }}>Published on {new Date(frontmatter.pubDate).toLocaleString('en-GB', { dateStyle: 'full', timeStyle: 'medium' })}</p>
   </Header>
   
   <main>
@@ -23,5 +23,10 @@ const hue = frontmatter.hue ?? site.hue
 
   header * {
     margin: 0;
+  }
+
+  header {
+    padding: 32px;
+    margin-bottom: calc(16px + 8px);
   }
 </style>

@@ -23,7 +23,7 @@ const allPosts = Object.values(import.meta.glob('./posts/*.md', { eager: true })
     <p>this blog supports <a href="/rss.xml">rss feeds</a>.</p>
     
     <div id="posts">
-      {allPosts.map((post: any) => (
+      {allPosts.reverse().map((post: any) => (
         <Card href={post.url}>
           <h2 style={{ fontStyle: 'italic', fontWeight: 'normal', fontFamily: 'Instrument Serif', fontSize: '2rem' }}>{post.frontmatter.title}</h2>
           <hr style={{ margin: '8px 0' }} />
