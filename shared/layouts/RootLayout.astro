@@ -86,7 +86,7 @@ const { title, description, hue, site } = Astro.props
   @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
   @import url('https://iosevka-webfonts.github.io/iosevka/Iosevka.css');
 </style>
-<style is:global lang="scss" define:vars={{
+<style is:inline is:global lang="scss" define:vars={{
   'color-shade0': `hsl(${hue}, 30%, 3%)`,
   'color-shade6': `hsl(${hue}, 30%, 60%)`,
   'color-shade7': `hsl(${hue}, 14%, 76%)`,
